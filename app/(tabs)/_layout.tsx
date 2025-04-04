@@ -32,9 +32,9 @@ export default function TabLayout() {
                 }}
             />
             <Tabs.Screen
-                name="settings"
+                name="profile"
                 options={{
-                    title: "Settings",
+                    title: "Profile",
                     tabBarIcon: ({ focused }) => <UserIcon size={32} color={getIconColor(focused)} />,
                 }}
             />
