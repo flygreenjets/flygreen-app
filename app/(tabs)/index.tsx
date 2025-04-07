@@ -1,6 +1,8 @@
 import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import TripCard from "@/components/trips/TripCard";
+import useToggle from "@/hooks/toggle";
+import TripTabs from "@/components/trips/TripTabs";
 
 export default function MyTrips() {
     // trips data
@@ -95,14 +97,19 @@ export default function MyTrips() {
         },
     ];
 
+
+
     return (
-        <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.scrollView}>
-                {trips.map((trip) => (
-                    <TripCard trip={trip} key={trip.id} />
-                ))}
-            </ScrollView>
-        </SafeAreaView>
+        <SafeAreaProvider>
+            <SafeAreaView style={styles.container}>
+                <TripTabs/>
+                <ScrollView style={styles.scrollView}>
+                    {trips.map((trip) => (
+                        <TripCard trip={trip} key={trip.id} />
+                    ))}
+                </ScrollView>
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 
@@ -110,9 +117,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         paddingTop: 12,
+        paddingBottom: 0,
     },
     scrollView: {
         paddingHorizontal: 15,
-        paddingTop: 5
+        paddingTop: 5,
+        height: "100%"
     }
 });
