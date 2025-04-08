@@ -2,12 +2,16 @@ import {Button, StyleSheet, View, Text, Pressable} from "react-native";
 import { useState } from "react";
 import {Colors} from "@/utils/Colors";
 
-export default function TripTabs() {
-    const [tab, setTab] = useState(1);
+interface TripTabsProps {
+    tab: number;
+    setTab: (tab: number) => void;
+}
+
+export default function TripTabs({tab, setTab}: TripTabsProps) {
     return (
         <View style={styles.container}>
             <View style={styles.buttonContainer}>
-                <Pressable onPress={() => {alert('ALOO')}}>
+                <Pressable onPress={() => {setTab(1)}}>
                     <Text>Upcoming</Text>
                 </Pressable>
             </View>

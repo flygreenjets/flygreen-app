@@ -1,10 +1,13 @@
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import TripCard from "@/components/trips/TripCard";
-import useToggle from "@/hooks/toggle";
+import {StyleSheet, ScrollView} from 'react-native';
+import {SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import TripTabs from "@/components/trips/TripTabs";
+import UpcomingTrips from "@/components/trips/pages/UpcomingTrips";
+import {useState} from "react";
+import {switchCase} from "@babel/types";
+import PastTrips from "@/components/trips/pages/PastTrips";
+import RequestedTrips from "@/components/trips/pages/RequestedTrips";
 
-export default function MyTrips() {
+export default function Trips() {
     // trips data
     const trips = [
         {
@@ -13,7 +16,7 @@ export default function MyTrips() {
             description: "Description 1",
             departureDate: "Fri, Apr 4, 2025",
             departureAirport: {
-                code: "KTEB",
+                code: "Upcoming",
                 name: "Newark Liberty Intl. Airport, NJ",
             },
             destinationAirport: {
@@ -28,85 +31,30 @@ export default function MyTrips() {
             pax: 5,
             duration: "2h 30m",
             fuelStops: 2,
-        },
-        {
-            id: 2,
-            name: "Trip 1",
-            description: "Description 1",
-            departureDate: "Fri, Apr 4, 2025",
-            departureAirport: {
-                code: "KTEB",
-                name: "Newark Liberty Intl. Airport, NJ",
-            },
-            destinationAirport: {
-                code: "KTMB",
-                name: "Miami Executive Airport, FL",
-            },
-            aircraft: {
-                category: 'Light Jet',
-                model: 'Phenom 300',
-                registration: 'N12345',
-            },
-            pax: 5,
-            duration: "2h 30m",
-            fuelStops: 2,
-        },
-        {
-            id: 3,
-            name: "Trip 1",
-            description: "Description 1",
-            departureDate: "Fri, Apr 4, 2025",
-            departureAirport: {
-                code: "KTEB",
-                name: "Newark Liberty Intl. Airport, NJ",
-            },
-            destinationAirport: {
-                code: "KTMB",
-                name: "Miami Executive Airport, FL",
-            },
-            aircraft: {
-                category: 'Light Jet',
-                model: 'Phenom 300',
-                registration: 'N12345',
-            },
-            pax: 5,
-            duration: "2h 30m",
-            fuelStops: 2,
-        },
-        {
-            id: 4,
-            name: "Trip 1",
-            description: "Description 1",
-            departureDate: "Fri, Apr 4, 2025",
-            departureAirport: {
-                code: "KTEB",
-                name: "Newark Liberty Intl. Airport, NJ",
-            },
-            destinationAirport: {
-                code: "KTMB",
-                name: "Miami Executive Airport, FL",
-            },
-            aircraft: {
-                category: 'Light Jet',
-                model: 'Phenom 300',
-                registration: 'N12345',
-            },
-            pax: 5,
-            duration: "2h 30m",
-            fuelStops: 2,
-        },
+        }
     ];
 
-
+    const [tab, setTab] = useState(1);
+    const renderList = (tab: number) => {
+        switch (tab) {
+            case 1:
+                return <UpcomingTrips/>
+            case 2:
+                return <PastTrips/>
+            case 3:
+                return <RequestedTrips/>
+            default:
+                return null;
+        }
+    }
 
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
-                <TripTabs/>
+                <TripTabs tab={tab} setTab={setTab}/>
                 <ScrollView style={styles.scrollView}>
-                    {trips.map((trip) => (
-                        <TripCard trip={trip} key={trip.id} />
-                    ))}
+                    {renderList(tab)}
+                    {/*<UpcomingTrips/>*/}
                 </ScrollView>
             </SafeAreaView>
         </SafeAreaProvider>
