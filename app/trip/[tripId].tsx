@@ -1,10 +1,11 @@
 import {useLocalSearchParams} from "expo-router";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import TripView from "@/components/trips/TripView";
+import {Text} from "react-native";
 
 export default function TripPage() {
     const trip = {
-        id: 1,
+        id: 2,
         name: "Martin's Trip to Miami",
         description: "Description 1",
         departureDate: "Fri, Apr 4, 2025",

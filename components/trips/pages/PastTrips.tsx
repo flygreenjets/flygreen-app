@@ -37,7 +37,7 @@ export default function PastTrips() {
     return (
         <>
             {trips.map((trip) => (
-                <Pressable key={trip.id}  onPress={() => router.push(`/${trip.id}`)}>
+                <Pressable key={trip.id}  onPress={() => router.push(`/trip/${trip.id}`)}>
                     <TripCard trip={trip} key={trip.id} />
                 </Pressable>
             ))}

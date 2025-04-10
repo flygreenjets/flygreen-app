@@ -8,7 +8,7 @@ export default function RootLayout() {
                 options={{ headerShown: false }}
             />
             <Stack.Screen
-                name="[tripId]"
+                name="trip"
                 options={{headerShown: false}}
             />
         </Stack>
