@@ -1,8 +1,9 @@
-import {View, Text, StyleSheet, ScrollView} from 'react-native';
+import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import TripCard from "@/components/trips/TripCard";
 import useToggle from "@/hooks/toggle";
 import TripTabs from "@/components/trips/TripTabs";
+import {router} from "expo-router";
 
 export default function UpcomingTrips() {
     // trips data
@@ -13,7 +14,7 @@ export default function UpcomingTrips() {
             description: "Description 1",
             departureDate: "Fri, Apr 4, 2025",
             departureAirport: {
-                code: "Pish",
+                code: "Upcoming",
                 name: "Newark Liberty Intl. Airport, NJ",
             },
             destinationAirport: {
@@ -36,7 +37,9 @@ export default function UpcomingTrips() {
     return (
         <>
             {trips.map((trip) => (
-                <TripCard trip={trip} key={trip.id} />
+                <Pressable key={trip.id}  onPress={() => router.push(`/${trip.id}`)}>
+                    <TripCard trip={trip} />
+                </Pressable>
             ))}
         </>
     );

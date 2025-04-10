@@ -7,6 +7,10 @@ export default function RootLayout() {
                 name="(tabs)"
                 options={{ headerShown: false }}
             />
+            <Stack.Screen
+                name="[tripId]"
+                options={{headerShown: false}}
+            />
         </Stack>
     )
 }

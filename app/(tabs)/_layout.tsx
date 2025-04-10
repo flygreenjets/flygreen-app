@@ -30,6 +30,14 @@ export default function TabLayout() {
                     tabBarIcon: ({ color }) => <UserIcon size={32} color={color} />,
                 }}
             />
+            <Tabs.Screen
+                name="[tripId]"
+                options={{
+                    headerShown: false,
+                    title: "Trip",
+                    href: "/[tripId]",
+                }}
+            />
         </Tabs>
     );
 }

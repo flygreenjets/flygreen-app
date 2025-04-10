@@ -1,15 +1,19 @@
-import {StyleSheet, Text, View} from "react-native";
+import {Pressable, StyleSheet, Text, View} from "react-native";
 import {Trip} from "@/types/trips";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import {router} from "expo-router";
 
 
 interface TripCardProps {
-    trip: Trip
+    trip: Trip,
+    showAsCard?: boolean
 }
-export default function TripCard({trip}: TripCardProps) {
+export default function TripCard({trip, showAsCard = true}: TripCardProps) {
     return (
-        <View style={styles.card}>
+        <View
+            style={showAsCard && styles.card}
+        >
             <View>
                 <Text style={{
                     marginBottom: 8

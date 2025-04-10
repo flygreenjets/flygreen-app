@@ -54,7 +54,6 @@ export default function Trips() {
                 <TripTabs tab={tab} setTab={setTab}/>
                 <ScrollView style={styles.scrollView}>
                     {renderList(tab)}
-                    {/*<UpcomingTrips/>*/}
                 </ScrollView>
             </SafeAreaView>
         </SafeAreaProvider>
