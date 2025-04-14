@@ -3,6 +3,8 @@ import {Trip} from "@/types/trips";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {router} from "expo-router";
+import { ReactNode } from "react";
+import Card from "@/components/ui/Card";
 
 
 interface TripCardProps {
@@ -10,10 +12,20 @@ interface TripCardProps {
     showAsCard?: boolean
 }
 export default function TripCard({trip, showAsCard = true}: TripCardProps) {
-    return (
-        <View
-            style={showAsCard && styles.card}
-        >
+    const getContainer = (children: ReactNode) => {
+        return showAsCard ? (
+            <Card>
+                {children}
+            </Card>
+        ) : (
+            <View>
+                {children}
+            </View>
+        )
+    }
+
+    return getContainer(
+        <>
             <View>
                 <Text style={{
                     marginBottom: 8
@@ -57,8 +69,8 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                     <Text>{trip.fuelStops} stop{trip.fuelStops && trip.fuelStops > 1 && 's'}</Text>
                 </View>
             </View>
-        </View>
-    );
+        </>
+    )
 }
 
 const styles = StyleSheet.create({

@@ -8,12 +8,10 @@ export default function TripPageLayout() {
             screenOptions={{
                 headerBackVisible: false,
                 animationTypeForReplace: "pop",
-                contentStyle: {
-                    paddingHorizontal: 16,
-                    paddingTop: 16,
-                    backgroundColor: Colors.white,
-                },
                 title: "",
+                headerTitleStyle: {
+                    color: Colors.white,
+                },
                 headerLeft: () => (
                     <Pressable
                         onPress={() => router.back()}
