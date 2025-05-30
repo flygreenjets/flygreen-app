@@ -1,7 +1,7 @@
-import {useLocalSearchParams} from "expo-router";
+import {useNavigation} from "expo-router";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import TripView from "@/components/trips/TripView";
-import {Text} from "react-native";
+import {useEffect} from "react";
 
 export default function TripPage() {
     const trip = {
@@ -26,7 +26,15 @@ export default function TripPage() {
         duration: "2h 30m",
         fuelStops: 2,
     };
-    const {tripId} = useLocalSearchParams();
+
+    const navigation = useNavigation();
+
+    useEffect(() => {
+        navigation.setOptions({
+            title: `Your trip to ${trip.destinationAirport.name}`,
+        })
+    }, []);
+
     return (
         <SafeAreaProvider>
             <SafeAreaView>

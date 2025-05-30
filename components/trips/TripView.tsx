@@ -2,7 +2,6 @@ import {View, Text, StyleSheet, FlatList} from "react-native";
 import {Trip} from "@/types/trips";
 import TripCard from "@/components/trips/TripCard";
 import SegmentItem from "@/components/trips/ititnerary/SegmentItem";
-import {useNavigation} from "expo-router";
 
 interface TripViewProps {
     trip: Trip
@@ -10,6 +9,7 @@ interface TripViewProps {
 
 const data = [
     {
+        "id": "1",
         "departureAirportCode": "KTEB",
         "destinationAirportCode": "CYYZ",
         "departureDate": "2025-04-12 00:00:00",
@@ -27,6 +27,7 @@ const data = [
         "departureTimeTbd": true
     },
     {
+        "id": "2",
         "departureAirportCode": "CYYZ",
         "destinationAirportCode": "KTEB",
         "departureDate": "2025-04-30 00:00:00",
@@ -44,6 +45,7 @@ const data = [
         "departureTimeTbd": true
     },
     {
+        "id": "3",
         "departureAirportCode": "KTEB",
         "destinationAirportCode": "KOPF",
         "departureDate": "2025-05-27 00:00:00",
@@ -63,11 +65,6 @@ const data = [
 ];
 
 export default function TripView({trip}: TripViewProps) {
-    const navigation = useNavigation();
-    navigation.setOptions({
-        title: `Your trip to ${trip.destinationAirport.name}`,
-    })
-
     return (
         <>
             <View style={{
@@ -88,9 +85,10 @@ export default function TripView({trip}: TripViewProps) {
                     <Text style={styles.itineraryTitle}>Quotes</Text>
                     <FlatList
                         style={styles.verticalCardScroll}
+                        contentContainerStyle={{gap: 8}}
                         data={data}
                         horizontal={true}
-                        keyExtractor={(item) => item.departureDate}
+                        keyExtractor={(item) => item.id}
                         renderItem={({item}) => (
                             <SegmentItem segment={item} />
                         )}
@@ -116,7 +114,7 @@ const styles = StyleSheet.create({
     },
     verticalCardScroll: {
         paddingHorizontal: 16,
-        paddingBottom: 10
+        paddingBottom: 10,
     },
 
 });
