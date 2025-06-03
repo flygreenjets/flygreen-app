@@ -26,6 +26,7 @@ export default function PastTrips() {
                 model: 'Phenom 300',
                 registration: 'N12345',
             },
+            stage: "Closed Won",
             pax: 5,
             duration: "2h 30m",
             fuelStops: 2,

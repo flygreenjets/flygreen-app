@@ -3,6 +3,7 @@ export interface Trip {
     name: string;
     description: string;
     departureDate: string;
+    stage: string;
     departureAirport: {
         code: string;
         name: string;
@@ -22,6 +23,14 @@ export interface Trip {
 }
 
 export interface Segment {
+    departureAirport: {
+        code: string;
+        name: string;
+    };
+    destinationAirport: {
+        code: string;
+        name: string;
+    };
     departureAirportCode: string;
     destinationAirportCode: string;
     departureDate: string;

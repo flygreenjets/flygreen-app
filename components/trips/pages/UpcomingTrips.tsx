@@ -14,9 +14,10 @@ export default function UpcomingTrips() {
             description: "Description 1",
             departureDate: "Fri, Apr 4, 2025",
             departureAirport: {
-                code: "UPCO",
+                code: "KTEB",
                 name: "Newark Liberty Intl. Airport, NJ",
             },
+            stage: "Closed Won",
             destinationAirport: {
                 code: "KTMB",
                 name: "Miami Executive Airport, FL",

@@ -5,6 +5,7 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import {router} from "expo-router";
 import { ReactNode } from "react";
 import Card from "@/components/ui/Card";
+import ProgressBar from "@/components/ui/ProgressBar";
 
 
 interface TripCardProps {
@@ -49,26 +50,33 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                     <Text style={{...styles.airportName, textAlign: "right"}}>{trip.destinationAirport.name}</Text>
                 </View>
             </View>
-            <View style={{
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-                marginTop: 10,
-            }}>
-                <View style={{...styles.flightInfo}}>
-                    <MaterialIcons name="person" size={16} color="#205046" />
-                    <Text>{trip.pax}</Text>
+            {trip.stage === "Closed Won" ? (
+                <View style={{
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    marginTop: 10,
+                }}>
+                    <View style={{...styles.flightInfo}}>
+                        <MaterialIcons name="person" size={16} color="#205046" />
+                        <Text>{trip.pax}</Text>
+                    </View>
+                    <View style={{...styles.flightInfo, justifyContent: 'center'}}>
+                        <MaterialIcons name="access-time" size={16} color="#205046" />
+                        <Text style={{
+                            textAlign: "center"
+                        }}>{trip.duration}</Text>
+                    </View>
+                    <View style={{...styles.flightInfo, justifyContent: 'flex-end'}}>
+                        <MaterialIcons name="location-pin" size={16} color="#205046" />
+                        <Text>{trip.fuelStops} stop{trip.fuelStops && trip.fuelStops > 1 && 's'}</Text>
+                    </View>
                 </View>
-                <View style={{...styles.flightInfo, justifyContent: 'center'}}>
-                    <MaterialIcons name="access-time" size={16} color="#205046" />
-                    <Text style={{
-                        textAlign: "center"
-                    }}>{trip.duration}</Text>
+            ) : (
+                <View style={styles.progressView}>
+                    <Text style={styles.progressText}>We're looking for the best deals for this trip</Text>
+                    <ProgressBar progress={59} />
                 </View>
-                <View style={{...styles.flightInfo, justifyContent: 'flex-end'}}>
-                    <MaterialIcons name="location-pin" size={16} color="#205046" />
-                    <Text>{trip.fuelStops} stop{trip.fuelStops && trip.fuelStops > 1 && 's'}</Text>
-                </View>
-            </View>
+            )}
         </>
     )
 }
@@ -108,5 +116,13 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 5,
         flex: 1,
+    },
+    progressView: {
+        backgroundColor: "#fff",
+        paddingVertical: 10,
+    },
+    progressText: {
+        marginVertical: 10,
+        fontSize: 14,
     }
 });

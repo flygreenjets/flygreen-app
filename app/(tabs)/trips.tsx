@@ -16,7 +16,7 @@ export default function Trips() {
             description: "Description 1",
             departureDate: "Fri, Apr 4, 2025",
             departureAirport: {
-                code: "Upcoming",
+                code: "KTEB",
                 name: "Newark Liberty Intl. Airport, NJ",
             },
             destinationAirport: {
@@ -38,11 +38,11 @@ export default function Trips() {
     const renderList = (tab: number) => {
         switch (tab) {
             case 1:
-                return <UpcomingTrips/>
-            case 2:
-                return <PastTrips/>
-            case 3:
                 return <RequestedTrips/>
+            case 2:
+                return <UpcomingTrips/>
+            case 3:
+                return <PastTrips/>
             default:
                 return null;
         }

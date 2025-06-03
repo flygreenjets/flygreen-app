@@ -12,8 +12,9 @@ export default function RequestedTrips() {
             name: "Trip 1",
             description: "Description 1",
             departureDate: "Fri, Apr 4, 2025",
+            stage: "Requested",
             departureAirport: {
-                code: "REQUESTED",
+                code: "KTEB",
                 name: "Newark Liberty Intl. Airport, NJ",
             },
             destinationAirport: {

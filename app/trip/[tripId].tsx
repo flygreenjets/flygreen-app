@@ -10,7 +10,7 @@ export default function TripPage() {
         description: "Description 1",
         departureDate: "Fri, Apr 4, 2025",
         departureAirport: {
-            code: "Upcoming",
+            code: "KTEB",
             name: "Newark Liberty Intl. Airport, NJ",
         },
         destinationAirport: {
@@ -22,6 +22,7 @@ export default function TripPage() {
             model: 'Phenom 300',
             registration: 'N12345',
         },
+        stage: "Sourcing",
         pax: 5,
         duration: "2h 30m",
         fuelStops: 2,
