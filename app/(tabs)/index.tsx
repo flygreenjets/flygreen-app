@@ -5,7 +5,7 @@ export default function Home() {
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
-                <Text>Home</Text>
+                
             </SafeAreaView>
         </SafeAreaProvider>
     );

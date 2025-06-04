@@ -15,7 +15,6 @@ export default function ProgressBar({ progress }: { progress: number }) {
                 width: `${progress}%`,
                 backgroundColor: Colors.lightGreen,
                 borderRadius: 50,
-
             }} ></View>
         </View>
     );

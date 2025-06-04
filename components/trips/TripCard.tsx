@@ -73,8 +73,11 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                 </View>
             ) : (
                 <View style={styles.progressView}>
-                    <Text style={styles.progressText}>We're looking for the best deals for this trip</Text>
-                    <ProgressBar progress={59} />
+                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                        <Text style={styles.progressText}>We're looking for the best plane for this trip</Text>
+                        <Text style={styles.progressText}>19/48</Text>
+                    </View>
+                    <ProgressBar progress={39} />
                 </View>
             )}
         </>

@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, FlatList} from "react-native";
+import {View, Text, StyleSheet, FlatList, ScrollView} from "react-native";
 import {Trip} from "@/types/trips";
 import TripCard from "@/components/trips/TripCard";
 import SegmentItem from "@/components/trips/ititnerary/SegmentItem";
@@ -13,6 +13,8 @@ interface TripViewProps {
 const data = [
     {
         id: "1",
+        imageUrl: "https://flygreen.s3.us-east-2.amazonaws.com/aircraft-category-pictures/supermidsize-exterior.jpg",
+        cabinHeight: "5'9\"",
         departureDate: "Dec 23 2024",
         departureAirport: {
             code: "CYUL",
@@ -58,6 +60,8 @@ const data = [
     {
         id: "2",
         departureDate: "Dec 23 2024",
+        imageUrl: "https://flygreen.s3.us-east-2.amazonaws.com/aircraft-category-pictures/midsize-exterior.png",
+        cabinHeight: "4'11\"",
         departureAirport: {
             code: "CYHU",
             name: "Montreal Airport",
@@ -101,7 +105,9 @@ const data = [
     },
     {
         id: "3",
+        imageUrl: "https://flygreen.s3.us-east-2.amazonaws.com/aircraft-category-pictures/turboprop-exterior.jpg",
         departureDate: "Dec 23 2024",
+        cabinHeight: "6'1\"",
         departureAirport: {
             code: "CYHU",
             name: "Montreal Airport",
@@ -143,7 +149,7 @@ const data = [
 
 export default function TripView({trip}: TripViewProps) {
     return (
-        <>
+        <ScrollView>
             <View style={{
                 backgroundColor: "#fff",
                 paddingHorizontal: 16,
@@ -151,19 +157,13 @@ export default function TripView({trip}: TripViewProps) {
             }}>
                 <TripCard trip={trip} showAsCard={false}/>
             </View>
-            <View style={styles.container}>
-                <FlatList
-                    ListHeaderComponent={<Text style={styles.itineraryTitle}>Quotes</Text>}
-                    style={styles.quoteScroll}
-                    contentContainerStyle={{gap: 8}}
-                    data={data}
-                    keyExtractor={(item) => item.id}
-                    renderItem={({item}) => (
-                        <QuoteCard quote={item} flag={item.quoteFlag}/>
-                    )}
-                />
+            <View style={styles.quoteScroll}>
+                <Text style={styles.itineraryTitle}>Quotes</Text>
+                {data.map(quote => {
+                    return <QuoteCard key={quote.id} quote={quote} flag={quote.quoteFlag}/>
+                })}
             </View>
-        </>
+        </ScrollView>
     );
 }
 
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
     },
     quoteScroll: {
-        paddingHorizontal: 16,
+        paddingHorizontal: 20,
         paddingVertical: 10,
     },
 

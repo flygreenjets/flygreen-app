@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text} from "react-native";
+import {View, StyleSheet, Text, ImageBackground} from "react-native";
 import {Colors} from "@/utils/Colors";
 
 interface CardProps {
