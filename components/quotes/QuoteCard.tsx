@@ -5,30 +5,10 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import {Colors} from "@/utils/Colors";
 import {useState} from "react";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import {Quote} from "@/types/trips";
 
 interface QuoteCardProps {
-    quote: {
-        id: 1
-        cabinHeight: string;
-        departureDate: string;
-        departureAirport: {
-            code: string;
-            name: string;
-        };
-        destinationAirport: {
-            code: string;
-            name: string;
-        };
-        pax: number;
-        duration: string;
-        fuelStops: number;
-        price: number;
-        ratings: {
-            takeoffReliability: number;
-            cabin: number;
-        };
-        imageUrl: string;
-    },
+    quote: Quote,
     flag?: {
         label: string;
         color: string;
@@ -39,8 +19,13 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
     const [isOpen, setIsOpen] = useState(false);
     return (
         <Pressable key={quote.id}  onPress={() => setIsOpen(!isOpen)}>
-            <Card flag={flag} style={{padding: 0}} >
+            <Card style={{padding: 0}}>
                 <View style={styles.topRadius}>
+                    {flag && (
+                        <View style={{...styles.flag, backgroundColor: flag.color}}>
+                            <Text style={{color: Colors.white, fontWeight: "bold"}}>{flag.label}</Text>
+                        </View>
+                    )}
                     <Image
                         style={{...styles.image, ...styles.topRadius}}
                         source={quote.imageUrl}
@@ -51,15 +36,15 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                 <View style={{borderRadius: 10, padding: 20}}>
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", marginBottom: 5}}>
-                            <Text style={{fontSize: 16}}>Citation X</Text>
+                            <Text style={{fontSize: 16}}>{quote.aircraft.model}</Text>
                             <View style={{flexDirection: "row", gap: 5, alignItems: "center"}}>
                                 <MaterialCommunityIcons name="human-male-height-variant" size={16} color="black" />
-                                <Text style={{fontSize: 14}}>{quote.cabinHeight}</Text>
+                                <Text style={{fontSize: 14}}>{quote.aircraft.cabinHeight}</Text>
                             </View>
                         </View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
-                            <Text style={{color: 'gray', fontSize: 12}}>Super Midsize Jet</Text>
-                            <Text style={{color: 'gray', fontSize: 14}}>8 seats</Text>
+                            <Text style={{color: 'gray', fontSize: 12}}>{quote.aircraft.category}</Text>
+                            <Text style={{color: 'gray', fontSize: 14}}>{quote.aircraft.seats} seats</Text>
                         </View>
                     </View>
                     <View style={styles.separator}/>
@@ -70,21 +55,26 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         <View style={{...styles.flightInfo}}>
                             <Text>Takeoff reliability:</Text>
                             <View style={styles.rating}>
-                                <Text>{quote.ratings.takeoffReliability}</Text>
+                                <Text>{quote.aircraft.ratings.takeoffReliability}</Text>
                                 <MaterialIcons name="star" size={16} color={Colors.gold} />
                             </View>
                         </View>
                         <View style={{...styles.flightInfo, justifyContent: 'flex-end'}}>
                             <Text>Cabin:</Text>
                             <View style={styles.rating}>
-                                <Text>{quote.ratings.cabin}</Text>
+                                <Text>{quote.aircraft.ratings.cabin}</Text>
                                 <MaterialIcons name="star" size={16} color={Colors.gold} />
                             </View>
                         </View>
                     </View>
                     <View style={{height: isOpen ? 'auto' : 0, overflow: 'hidden'}}>
                         <View style={styles.separator}/>
-
+                        {quote.notes && (
+                            <>
+                                <Text>{quote.notes}</Text>
+                                <View style={styles.separator}/>
+                            </>
+                        )}
                         <Image
                             style={{...styles.image, ...styles.topRadius}}
                             source={"https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"}
@@ -123,6 +113,7 @@ const styles = StyleSheet.create({
         padding: 70,
         width: "100%",
         resizeMode: 'contain',
+        zIndex: 1
     },
     topRadius: {
         borderTopRightRadius: 10,
@@ -175,5 +166,15 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'right'
+    },
+    flag: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        padding: 5,
+        backgroundColor: Colors.flygreenGreen,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 8,
+        zIndex: 2
     }
 });

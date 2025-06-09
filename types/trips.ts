@@ -1,3 +1,5 @@
+import {Colors} from "@/utils/Colors";
+
 export interface Trip {
     id: number;
     name: string;
@@ -45,4 +47,57 @@ export interface Segment {
     sort: number;
     duration: string | null;
     departureTimeTBD: string | null;
+}
+
+export interface Quote {
+    id: string,
+    notes?: string,
+    imageUrl: string,
+    departureDate: string,
+    aircraft: {
+        category: string,
+        model: string,
+        seats: number,
+        cabinHeight: string,
+        ratings: {
+            takeoffReliability: number,
+            cabin: number,
+        },
+    }
+    departureAirport: {
+        code: string,
+        name: string,
+    },
+    destinationAirport: {
+        code: string,
+        name: string,
+    },
+    pax: number,
+    duration: string,
+    fuelStops: number,
+    quoteFlag?: {
+        label: string,
+        color: string,
+    },
+    price: number,
+    segments: {
+        departure: {
+            airport: {
+                code: string,
+                name: string,
+            },
+            date: string,
+            time:string,
+        },
+        arrival: {
+            airport: {
+                code: string,
+                name: string,
+            },
+            date: string,
+            time: string,
+        },
+        flightTime: string,
+        fuelStops: number,
+    }
 }

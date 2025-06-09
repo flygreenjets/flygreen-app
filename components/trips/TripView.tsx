@@ -1,8 +1,6 @@
 import {View, Text, StyleSheet, FlatList, ScrollView} from "react-native";
-import {Trip} from "@/types/trips";
+import {Quote, Trip} from "@/types/trips";
 import TripCard from "@/components/trips/TripCard";
-import SegmentItem from "@/components/trips/ititnerary/SegmentItem";
-import ProgressBar from "@/components/ui/ProgressBar";
 import QuoteCard from "@/components/quotes/QuoteCard";
 import {Colors} from "@/utils/Colors";
 
@@ -10,11 +8,20 @@ interface TripViewProps {
     trip: Trip
 }
 
-const data = [
+const data: Quote[] = [
     {
         id: "1",
         imageUrl: "https://flygreen.s3.us-east-2.amazonaws.com/aircraft-category-pictures/supermidsize-exterior.jpg",
-        cabinHeight: "5'9\"",
+        aircraft: {
+            category: "Super Midsize Jet",
+            model: "Citation X",
+            seats: 8,
+            cabinHeight: "5'9\"",
+            ratings: {
+                takeoffReliability: 4.7,
+                cabin: 3.9,
+            },
+        },
         departureDate: "Dec 23 2024",
         departureAirport: {
             code: "CYUL",
@@ -30,10 +37,6 @@ const data = [
         quoteFlag: {
             label: "Recommended",
             color: Colors.flygreenGreen,
-        },
-        ratings: {
-            takeoffReliability: 4.7,
-            cabin: 3.9,
         },
         price: 31030,
         segments: {
@@ -61,7 +64,22 @@ const data = [
         id: "2",
         departureDate: "Dec 23 2024",
         imageUrl: "https://flygreen.s3.us-east-2.amazonaws.com/aircraft-category-pictures/midsize-exterior.png",
-        cabinHeight: "4'11\"",
+        aircraft: {
+            category: "Super Midsize Jet",
+            model: "Citation X",
+            seats: 8,
+            cabinHeight: "4'11\"",
+            ratings: {
+                takeoffReliability: 3.1,
+                cabin: 4.0,
+            },
+        },
+        notes: "Pricing is subject to: continued aircraft availability at time of booking.\n" +
+            "YOM: 2011-2017\n" +
+            "YOR: 2019-2021\n" +
+            "Nonstop Option\n" +
+            "Catering Included\n" +
+            "Free International Wifi",
         departureAirport: {
             code: "CYHU",
             name: "Montreal Airport",
@@ -74,12 +92,8 @@ const data = [
         duration: "98",
         fuelStops: 1,
         quoteFlag: {
-            label: "Floating",
-            color: "#008886",
-        },
-        ratings: {
-            takeoffReliability: 3.1,
-            cabin: 4.0,
+            label: "Different Routing",
+            color: "#ff3131",
         },
         price: 26239,
         segments: {
@@ -107,7 +121,16 @@ const data = [
         id: "3",
         imageUrl: "https://flygreen.s3.us-east-2.amazonaws.com/aircraft-category-pictures/turboprop-exterior.jpg",
         departureDate: "Dec 23 2024",
-        cabinHeight: "6'1\"",
+        aircraft: {
+            category: "Super Midsize Jet",
+            model: "Citation X",
+            seats: 8,
+            cabinHeight: "6'1\"",
+            ratings: {
+                takeoffReliability: 3.1,
+                cabin: 4.0,
+            },
+        },
         departureAirport: {
             code: "CYHU",
             name: "Montreal Airport",
@@ -119,10 +142,6 @@ const data = [
         pax: 1,
         duration: "98",
         fuelStops: 1,
-        ratings: {
-            takeoffReliability: 3.1,
-            cabin: 4.0,
-        },
         price: 45226,
         segments: {
             departure: {

@@ -4,20 +4,11 @@ import {Colors} from "@/utils/Colors";
 interface CardProps {
     children?: React.ReactNode;
     style?: object;
-    flag?: {
-        label: string;
-        color: string;
-    }
 }
 
-export default function Card({children, style = {}, flag}: CardProps) {
+export default function Card({children, style = {}}: CardProps) {
     return (
         <View style={{...styles.card, ...style}}>
-            {flag && (
-                <View style={{...styles.flag, backgroundColor: flag.color}}>
-                    <Text style={{color: Colors.white, fontWeight: "bold"}}>{flag.label}</Text>
-                </View>
-            )}
             {children}
         </View>
     );
@@ -37,14 +28,5 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 5,
-    },
-    flag: {
-        position: 'absolute',
-        top: 0,
-        right: 0,
-        padding: 5,
-        backgroundColor: Colors.flygreenGreen,
-        borderTopRightRadius: 10,
-        borderBottomLeftRadius: 8,
     }
 });
