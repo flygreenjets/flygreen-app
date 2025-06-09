@@ -8,7 +8,7 @@ import {router} from "expo-router";
 export default function RequestedTrips() {
     const trips = [
         {
-            id: 3,
+            id: 1,
             name: "Trip 1",
             description: "Description 1",
             departureDate: "Fri, Apr 4, 2025",

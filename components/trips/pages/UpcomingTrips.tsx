@@ -9,28 +9,28 @@ export default function UpcomingTrips() {
     // trips data
     const trips = [
         {
-            id: 1,
-            name: "Trip 1",
+            id: 2,
+            name: "Trip to New York",
             description: "Description 1",
-            departureDate: "Fri, Apr 4, 2025",
+            departureDate: "Tue, June 10, 2025",
             departureAirport: {
+                code: "CYUL",
+                name: "Montreal Airport, QC",
+            },
+            destinationAirport: {
                 code: "KTEB",
                 name: "Newark Liberty Intl. Airport, NJ",
             },
-            stage: "Closed Won",
-            destinationAirport: {
-                code: "KTMB",
-                name: "Miami Executive Airport, FL",
-            },
             aircraft: {
-                category: 'Light Jet',
-                model: 'Phenom 300',
-                registration: 'N12345',
+                category: 'Super Midsize Jet',
+                model: 'Citation X',
+                registration: 'C-GREEN',
             },
-            pax: 5,
-            duration: "2h 30m",
-            fuelStops: 2,
-        }
+            stage: "Closed Won",
+            pax: 2,
+            duration: "1h 39m",
+            fuelStops: 0,
+        },
     ];
 
     return (

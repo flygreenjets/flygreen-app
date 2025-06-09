@@ -176,12 +176,15 @@ export default function TripView({trip}: TripViewProps) {
             }}>
                 <TripCard trip={trip} showAsCard={false}/>
             </View>
-            <View style={styles.quoteScroll}>
-                <Text style={styles.itineraryTitle}>Quotes</Text>
-                {data.map(quote => {
-                    return <QuoteCard key={quote.id} quote={quote} flag={quote.quoteFlag}/>
-                })}
-            </View>
+
+            {trip.stage === "Sourcing" && (
+                <View style={styles.quoteScroll}>
+                    <Text style={styles.itineraryTitle}>Quotes</Text>
+                    {data.map(quote => {
+                        return <QuoteCard key={quote.id} quote={quote} flag={quote.quoteFlag}/>
+                    })}
+                </View>
+            )}
         </ScrollView>
     );
 }
