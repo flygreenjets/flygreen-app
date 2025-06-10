@@ -4,4 +4,5 @@ export let Colors = {
     gold: '#ffbf00',
     white: '#FFFFFF',
     gray: '#808080',
+    separatorColor: "#E5E7EB"
 }

@@ -6,6 +6,7 @@ import {Colors} from "@/utils/Colors";
 import {useState} from "react";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {Quote} from "@/types/trips";
+import Separator from "@/components/ui/Separator";
 
 interface QuoteCardProps {
     quote: Quote,
@@ -47,7 +48,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                             <Text style={{color: 'gray', fontSize: 14}}>{quote.aircraft.seats} seats</Text>
                         </View>
                     </View>
-                    <View style={styles.separator}/>
+                    <Separator/>
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
@@ -68,11 +69,11 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         </View>
                     </View>
                     <View style={{height: isOpen ? 'auto' : 0, overflow: 'hidden'}}>
-                        <View style={styles.separator}/>
+                        <Separator/>
                         {quote.notes && (
                             <>
                                 <Text>{quote.notes}</Text>
-                                <View style={styles.separator}/>
+                                <Separator/>
                             </>
                         )}
                         <Image
@@ -82,7 +83,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                             transition={1000}
                         />
                     </View>
-                    <View style={styles.separator}/>
+                    <Separator/>
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", alignItems: "center"}}>
                             <Text style={styles.priceText}>$ {quote.price.toLocaleString()}</Text>
@@ -156,11 +157,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         gap: 5,
         flex: 1,
-    },
-    separator: {
-        height: 1,
-        backgroundColor: "#E5E7EB",
-        marginVertical: 10,
     },
     priceText: {
         fontSize: 20,

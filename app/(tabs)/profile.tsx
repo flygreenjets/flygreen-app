@@ -1,17 +1,28 @@
-import { View, Text, StyleSheet } from 'react-native';
+import ProfilePage from '@/components/pages/ProfilePage';
+import { StyleSheet } from 'react-native';
+import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
+import {Colors} from "@/utils/Colors";
 
 export default function Tab() {
     return (
-        <View style={styles.container}>
-            <Text>Profile Tabs</Text>
-        </View>
+        <SafeAreaProvider>
+            <SafeAreaView style={styles.container}>
+                <ProfilePage />
+            </SafeAreaView>
+        </SafeAreaProvider>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+        paddingTop: 12,
+        paddingBottom: 0,
+        backgroundColor: Colors.white
     },
+    scrollView: {
+        paddingHorizontal: 15,
+        paddingTop: 5,
+        height: "100%"
+    }
 });
