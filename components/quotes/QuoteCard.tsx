@@ -1,12 +1,15 @@
-import {View, StyleSheet, Text, Pressable, Button} from "react-native";
+import {View, StyleSheet, Text, Pressable} from "react-native";
 import {Image} from "expo-image";
 import Card from "@/components/ui/Card";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import {Colors} from "@/utils/Colors";
-import {useState} from "react";
+import * as Linking from "expo-linking";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {Quote} from "@/types/trips";
 import Separator from "@/components/ui/Separator";
+import Modal from "@/components/ui/Modal";
+import React, {useState} from "react";
+import ImageCarousel from "@/components/images/ImageCarousel";
 
 interface QuoteCardProps {
     quote: Quote,
@@ -17,22 +20,34 @@ interface QuoteCardProps {
 }
 
 export default function QuoteCard({quote, flag}: QuoteCardProps) {
-    const [isOpen, setIsOpen] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
     return (
-        <Pressable key={quote.id}  onPress={() => setIsOpen(!isOpen)}>
+        <Pressable key={quote.id}>
             <Card style={{padding: 0}}>
                 <View style={styles.topRadius}>
                     {flag && (
-                        <View style={{...styles.flag, backgroundColor: flag.color}}>
+                        <View style={[styles.flag, {backgroundColor: flag.color}]}>
                             <Text style={{color: Colors.white, fontWeight: "bold"}}>{flag.label}</Text>
                         </View>
                     )}
                     <Image
-                        style={{...styles.image, ...styles.topRadius}}
+                        style={[styles.image, styles.topRadius]}
                         source={quote.imageUrl}
                         contentFit="cover"
                         transition={1000}
                     />
+                    <Pressable
+                        onPress={() => {Linking.openURL('https://my.matterport.com/show/?m=S1B5pM6kxJk')}}
+                        style={[styles.imageIcons, {left: 0, borderTopRightRadius: 5}]}
+                    >
+                        <MaterialCommunityIcons name="video-3d" size={24} color={Colors.white} />
+                    </Pressable>
+                    <Pressable
+                        onPress={() => {setModalVisible(true)}}
+                           style={[styles.imageIcons, {right: 0, borderTopLeftRadius: 3}]}
+                    >
+                        <MaterialIcons name="image" size={24} color={Colors.white} />
+                    </Pressable>
                 </View>
                 <View style={{borderRadius: 10, padding: 20}}>
                     <View>
@@ -53,22 +68,28 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         flexDirection: 'row',
                         justifyContent: 'space-between',
                     }}>
-                        <View style={{...styles.flightInfo}}>
-                            <Text>Takeoff reliability:</Text>
-                            <View style={styles.rating}>
-                                <Text>{quote.aircraft.ratings.takeoffReliability}</Text>
-                                <MaterialIcons name="star" size={16} color={Colors.gold} />
-                            </View>
+                        <View style={styles.flightInfo}>
+                            {quote.aircraft ? (
+                                <View style={styles.rating}>
+                                    <Text>Floating</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
+                                </View>
+                            ) : (
+                                <>
+                                    <Text>Homebase:</Text>
+                                    <View style={styles.rating}>
+                                        <Text>Floating</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
+                                    </View>
+                                </>
+                            )}
                         </View>
-                        <View style={{...styles.flightInfo, justifyContent: 'flex-end'}}>
-                            <Text>Cabin:</Text>
+                        <View style={[styles.flightInfo, {justifyContent: 'flex-end'}]}>
+                            <Text>YOM:</Text>
                             <View style={styles.rating}>
-                                <Text>{quote.aircraft.ratings.cabin}</Text>
-                                <MaterialIcons name="star" size={16} color={Colors.gold} />
+                                <Text>2009 (2020)</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
                             </View>
                         </View>
                     </View>
-                    <View style={{height: isOpen ? 'auto' : 0, overflow: 'hidden'}}>
+                    <View>
                         <Separator/>
                         {quote.notes && (
                             <>
@@ -77,7 +98,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                             </>
                         )}
                         <Image
-                            style={{...styles.image, ...styles.topRadius}}
+                            style={[styles.image, styles.topRadius]}
                             source={"https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"}
                             contentFit="cover"
                             transition={1000}
@@ -93,6 +114,16 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         </View>
                     </View>
                 </View>
+                <Modal
+                    modalVisible={modalVisible}
+                    onClose={() => setModalVisible(false)}
+                >
+                   <ImageCarousel data={[
+                        {image: quote.imageUrl},
+                        {image: "https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"},
+                        {image: "https://cdn.flygreen.co/aircraft-category-pictures/turboprop-exterior.jpg"}
+                   ]}/>
+                </Modal>
             </Card>
         </Pressable>
     );
@@ -126,7 +157,8 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     rating: {
-      flexDirection: 'row',
+        flexDirection: 'row',
+        alignItems: "center",
     },
     card: {
         backgroundColor: '#fff',
@@ -172,5 +204,12 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 10,
         borderBottomLeftRadius: 8,
         zIndex: 2
+    },
+    imageIcons: {
+        zIndex: 3,
+        position: 'absolute',
+        bottom: 0,
+        padding: 5,
+        backgroundColor: Colors.black
     }
 });
