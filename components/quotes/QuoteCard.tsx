@@ -10,6 +10,7 @@ import Separator from "@/components/ui/Separator";
 import Modal from "@/components/ui/Modal";
 import React, {useState} from "react";
 import ImageCarousel from "@/components/images/ImageCarousel";
+import * as Sharing from "expo-sharing";
 
 interface QuoteCardProps {
     quote: Quote,
@@ -20,7 +21,8 @@ interface QuoteCardProps {
 }
 
 export default function QuoteCard({quote, flag}: QuoteCardProps) {
-    const [modalVisible, setModalVisible] = useState(false);
+    const [imageCarouselVisible, setImageCarouselVisible] = useState(false);
+    const [floatingInfoVisible, setFloatingInfoVisible] = useState(false);
     return (
         <Pressable key={quote.id}>
             <Card style={{padding: 0}}>
@@ -43,7 +45,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         <MaterialCommunityIcons name="video-3d" size={24} color={Colors.white} />
                     </Pressable>
                     <Pressable
-                        onPress={() => {setModalVisible(true)}}
+                        onPress={() => {setImageCarouselVisible(true)}}
                            style={[styles.imageIcons, {right: 0, borderTopLeftRadius: 3}]}
                     >
                         <MaterialIcons name="image" size={24} color={Colors.white} />
@@ -70,9 +72,11 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     }}>
                         <View style={styles.flightInfo}>
                             {quote.aircraft ? (
-                                <View style={styles.rating}>
-                                    <Text>Floating</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
-                                </View>
+                                <Pressable onPress={() => setFloatingInfoVisible(true)}>
+                                    <View style={styles.rating}>
+                                        <Text>Floating</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
+                                    </View>
+                                </Pressable>
                             ) : (
                                 <>
                                     <Text>Homebase:</Text>
@@ -108,21 +112,69 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", alignItems: "center"}}>
                             <Text style={styles.priceText}>$ {quote.price.toLocaleString()}</Text>
-                            <Pressable>
-                                <Text style={styles.bookButton}>Book</Text>
-                            </Pressable>
+                            <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
+                                <Pressable
+                                    onPress={() => {
+                                        Sharing.shareAsync(quote.imageUrl, {
+                                            dialogTitle: `Share Quote for ${quote.aircraft.model}`,
+                                            mimeType: 'image/jpeg',
+                                        }).catch((error) => {
+                                            console.error("Error sharing quote:", error);
+                                        });
+                                    }}
+                                >
+                                    <Text style={styles.shareButton}>Share</Text>
+                                </Pressable>
+                                <Pressable>
+                                    <Text style={styles.bookButton}>Book</Text>
+                                </Pressable>
+                            </View>
                         </View>
                     </View>
                 </View>
                 <Modal
-                    modalVisible={modalVisible}
-                    onClose={() => setModalVisible(false)}
+                    modalVisible={imageCarouselVisible}
+                    onClose={() => setImageCarouselVisible(false)}
+                    animationType="fade"
                 >
                    <ImageCarousel data={[
                         {image: quote.imageUrl},
                         {image: "https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"},
                         {image: "https://cdn.flygreen.co/aircraft-category-pictures/turboprop-exterior.jpg"}
                    ]}/>
+                </Modal>
+
+                {/*Floating Aircraft Info*/}
+                <Modal
+                    modalVisible={floatingInfoVisible}
+                    onClose={() => {setFloatingInfoVisible(false)}}
+                    animationType="fade"
+                >
+                    <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%"}}>
+                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Floating Aircraft</Text>
+                        <Text style={{marginTop: 10}}>
+                            Floating aircraft are those that are not based at a specific airport but are available for charter from various locations. This allows for greater flexibility in scheduling and can often lead to cost savings for the client.
+                            It can also lead to less
+                        </Text>
+                        <Pressable onPress={() => setFloatingInfoVisible(false)} style={{marginTop: 20}}>
+                            <Text style={{color: Colors.flygreenGreen, fontWeight: 'bold', textAlign: "right"}}>Close</Text>
+                        </Pressable>
+                    </View>
+                </Modal>
+
+                {/*YOM YOR*/}
+                <Modal
+                    modalVisible={floatingInfoVisible}
+                    onClose={() => {setFloatingInfoVisible(false)}}
+                    animationType="fade"
+                >
+                    <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%"}}>
+                        {/*<Text style={{fontSize: 18, fontWeight: 'bold'}}>Year of Manufacture (YOM) {quote.aircraft.yom}</Text>*/}
+                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Year of Registration (YOR)</Text>
+                        <Pressable onPress={() => setFloatingInfoVisible(false)} style={{marginTop: 20}}>
+                            <Text style={{color: Colors.flygreenGreen, fontWeight: 'bold', textAlign: "right"}}>Close</Text>
+                        </Pressable>
+                    </View>
                 </Modal>
             </Card>
         </Pressable>
@@ -135,7 +187,20 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         paddingVertical: 5,
         borderRadius: 5,
+        borderWidth: 1,
+        borderColor: Colors.flygreenGreen,
         color: '#fff',
+        fontWeight: "bold",
+        fontSize: 16,
+    },
+    shareButton: {
+        backgroundColor: Colors.white,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: Colors.flygreenGreen,
+        color: Colors.flygreenGreen,
         fontWeight: "bold",
         fontSize: 16,
     },
