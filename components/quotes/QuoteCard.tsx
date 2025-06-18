@@ -174,8 +174,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     animationType="fade"
                 >
                     <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%"}}>
-                        {/*<Text style={{fontSize: 18, fontWeight: 'bold'}}>Year of Manufacture (YOM) {quote.aircraft.yom}</Text>*/}
-                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Year of Registration (YOR)</Text>
+                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Aircraft Information</Text>
                         <Pressable onPress={() => setYomInfoIsVisible(false)} style={{marginTop: 20}}>
                             <Text style={{marginTop: 10}}>
                                 Year of make: {quote.aircraft.yom}
