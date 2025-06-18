@@ -23,6 +23,7 @@ interface QuoteCardProps {
 export default function QuoteCard({quote, flag}: QuoteCardProps) {
     const [imageCarouselVisible, setImageCarouselVisible] = useState(false);
     const [floatingInfoVisible, setFloatingInfoVisible] = useState(false);
+    const [yomInfoIsVisible, setYomInfoIsVisible] = useState(false);
     return (
         <Pressable key={quote.id}>
             <Card style={{padding: 0}}>
@@ -88,9 +89,13 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         </View>
                         <View style={[styles.flightInfo, {justifyContent: 'flex-end'}]}>
                             <Text>YOM:</Text>
-                            <View style={styles.rating}>
-                                <Text>2009 (2020)</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
-                            </View>
+                            <Pressable
+                                onPress={() => setYomInfoIsVisible(true)}
+                            >
+                                <View style={styles.rating}>
+                                    <Text>2009 (2020)</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
+                                </View>
+                            </Pressable>
                         </View>
                     </View>
                     <View>
@@ -164,14 +169,20 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
 
                 {/*YOM YOR*/}
                 <Modal
-                    modalVisible={floatingInfoVisible}
-                    onClose={() => {setFloatingInfoVisible(false)}}
+                    modalVisible={yomInfoIsVisible}
+                    onClose={() => {setYomInfoIsVisible(false)}}
                     animationType="fade"
                 >
                     <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%"}}>
                         {/*<Text style={{fontSize: 18, fontWeight: 'bold'}}>Year of Manufacture (YOM) {quote.aircraft.yom}</Text>*/}
                         <Text style={{fontSize: 18, fontWeight: 'bold'}}>Year of Registration (YOR)</Text>
-                        <Pressable onPress={() => setFloatingInfoVisible(false)} style={{marginTop: 20}}>
+                        <Pressable onPress={() => setYomInfoIsVisible(false)} style={{marginTop: 20}}>
+                            <Text style={{marginTop: 10}}>
+                                Year of make: {quote.aircraft.yom}
+                            </Text>
+                            <Text>
+                                Year of refurbishment: {quote.aircraft.yor}
+                            </Text>
                             <Text style={{color: Colors.flygreenGreen, fontWeight: 'bold', textAlign: "right"}}>Close</Text>
                         </Pressable>
                     </View>

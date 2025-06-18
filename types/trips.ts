@@ -59,6 +59,8 @@ export interface Quote {
         model: string,
         seats: number,
         cabinHeight: string,
+        yom: string,
+        yor: string,
         ratings: {
             takeoffReliability: number,
             cabin: number,
