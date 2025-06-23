@@ -3,6 +3,7 @@ import {Quote, Trip} from "@/types/trips";
 import TripCard from "@/components/trips/TripCard";
 import QuoteCard from "@/components/quotes/QuoteCard";
 import {Colors} from "@/utils/Colors";
+import QuoteSection from "@/components/trips/QuoteSection";
 
 interface TripViewProps {
     trip: Trip
@@ -17,10 +18,8 @@ const data: Quote[] = [
             model: "Citation X",
             seats: 8,
             cabinHeight: "5'9\"",
-            ratings: {
-                takeoffReliability: 4.7,
-                cabin: 3.9,
-            },
+            yom: "2001",
+            yor: "2018",
         },
         departureDate: "Dec 23 2024",
         departureAirport: {
@@ -69,10 +68,8 @@ const data: Quote[] = [
             model: "Citation X",
             seats: 8,
             cabinHeight: "4'11\"",
-            ratings: {
-                takeoffReliability: 3.1,
-                cabin: 4.0,
-            },
+            yom: "2023",
+            yor: "2024"
         },
         notes: "Pricing is subject to: continued aircraft availability at time of booking.\n" +
             "YOM: 2011-2017\n" +
@@ -126,10 +123,8 @@ const data: Quote[] = [
             model: "Citation X",
             seats: 8,
             cabinHeight: "6'1\"",
-            ratings: {
-                takeoffReliability: 3.1,
-                cabin: 4.0,
-            },
+            yom: "1976",
+            yor: "2013"
         },
         departureAirport: {
             code: "CYHU",
@@ -176,42 +171,9 @@ export default function TripView({trip}: TripViewProps) {
             }}>
                 <TripCard trip={trip} showAsCard={false}/>
             </View>
-
             {trip.stage === "Sourcing" && (
-                <View style={styles.quoteScroll}>
-                    <Text style={styles.itineraryTitle}>Quotes</Text>
-                    {data.map(quote => {
-                        return <QuoteCard key={quote.id} quote={quote} flag={quote.quoteFlag}/>
-                    })}
-                </View>
+                <QuoteSection quotes={data} />
             )}
         </ScrollView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        height: "100%",
-    },
-    quoteProgressView: {
-        paddingHorizontal: 15,
-        backgroundColor: "#fff",
-        paddingVertical: 15,
-    },
-    quoteProgressText: {
-        textAlign: "center",
-        marginBottom: 10
-    },
-    itineraryContainer: {
-        marginHorizontal: 16,
-    },
-    itineraryTitle: {
-        marginBottom: 10,
-        fontSize: 20,
-    },
-    quoteScroll: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-    },
-
-});

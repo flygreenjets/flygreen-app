@@ -60,11 +60,7 @@ export interface Quote {
         seats: number,
         cabinHeight: string,
         yom: string,
-        yor: string,
-        ratings: {
-            takeoffReliability: number,
-            cabin: number,
-        },
+        yor: string
     }
     departureAirport: {
         code: string,
