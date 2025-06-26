@@ -4,6 +4,7 @@ import TripCard from "@/components/trips/TripCard";
 import QuoteCard from "@/components/quotes/QuoteCard";
 import {Colors} from "@/utils/Colors";
 import QuoteSection from "@/components/trips/QuoteSection";
+import TripSheetSection from "@/components/trips/TripSheetSection";
 
 interface TripViewProps {
     trip: Trip
@@ -173,6 +174,10 @@ export default function TripView({trip}: TripViewProps) {
             </View>
             {trip.stage === "Sourcing" && (
                 <QuoteSection quotes={data} />
+            )}
+
+            {trip.stage === "Closed Won" && (
+                <TripSheetSection />
             )}
         </ScrollView>
     );
