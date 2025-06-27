@@ -1,7 +1,7 @@
 import {Dimensions, StyleSheet, View} from "react-native";
 import {Image} from "expo-image";
 
-const {width, height} = Dimensions.get('screen');
+const {width} = Dimensions.get('screen');
 
 export default function ImageCarouselItem({item, index}: {item: any, index: number}) {
     return (
