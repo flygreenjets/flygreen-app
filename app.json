@@ -4,7 +4,7 @@
     "slug": "flygreen-app",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/ios/AppIcon@3x.png",
+    "icon": "./assets/images/icons/ios/AppIcon@3x.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
