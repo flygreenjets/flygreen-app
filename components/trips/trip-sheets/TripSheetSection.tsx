@@ -1,5 +1,5 @@
 import {View, Text, FlatList} from "react-native";
-import TripSheetCard from "@/components/tripSheets/TripSheetCard";
+import TripSheetCard from "@/components/trips/trip-sheets/TripSheetCard";
 
 export default function TripSheetSection() {
     return (

@@ -1,6 +1,5 @@
-import TripSheetView from "@/components/tripSheets/TripSheetView";
+import TripSheetView from "@/components/trips/trip-sheets/TripSheetView";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
-import {Text, View} from "react-native";
 import { useNavigation } from "expo-router";
 import {useEffect} from "react";
 
