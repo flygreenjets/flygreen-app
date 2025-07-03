@@ -3,12 +3,17 @@ import {StyleSheet, View} from "react-native";
 interface DotPaginationProps {
     items: any[];
     paginationIndex: number;
+    activeDotColor: string;
+    inactiveDotColor: string;
 }
-export default function DotPagination({items, paginationIndex}: DotPaginationProps) {
+export default function DotPagination({items, paginationIndex, activeDotColor, inactiveDotColor}: DotPaginationProps) {
     return (
         <View style={styles.container}>
             {items.map((_, index) =>
-                <View key={index} style={paginationIndex === index ? styles.activeDot : styles.dot}/>
+                <View
+                    key={index}
+                    style={paginationIndex === index ? [styles.activeDot, {backgroundColor: activeDotColor}] : [styles.dot, {backgroundColor: inactiveDotColor}]}
+                />
             )}
         </View>
     );
@@ -22,13 +27,11 @@ const styles = StyleSheet.create({
         gap: 10,
     },
     dot: {
-        backgroundColor: "gray",
         width: 8,
         height: 8,
         borderRadius: 50,
     },
     activeDot: {
-        backgroundColor: "white",
         width: 10,
         height: 10,
         borderRadius: 50,

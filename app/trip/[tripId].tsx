@@ -69,7 +69,7 @@ export default function TripPage({}) {
     return (
         <SafeAreaProvider>
             <SafeAreaView>
-                <TripView trip={trip} />
+            <TripView trip={trip} />
             </SafeAreaView>
         </SafeAreaProvider>
     )

@@ -1,7 +1,6 @@
-import {View, Text, StyleSheet, FlatList, ScrollView} from "react-native";
+import {View, ScrollView} from "react-native";
 import {Quote, Trip} from "@/types/trips";
 import TripCard from "@/components/trips/TripCard";
-import QuoteCard from "@/components/quotes/QuoteCard";
 import {Colors} from "@/utils/Colors";
 import QuoteSection from "@/components/trips/QuoteSection";
 import TripSheetSection from "@/components/trips/TripSheetSection";

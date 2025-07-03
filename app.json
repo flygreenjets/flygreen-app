@@ -18,7 +18,8 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icons/android/play_store_512.png"
-      }
+      },
+      "package": "com.alexflygreen.flygreenapp"
     },
     "web": {
       "bundler": "metro",
@@ -37,7 +38,8 @@
         }
       ],
       "expo-font",
-      "expo-web-browser"
+      "expo-web-browser",
+      "react-native-map-link"
     ],
     "experiments": {
       "typedRoutes": true
