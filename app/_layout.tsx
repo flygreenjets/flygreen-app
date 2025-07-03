@@ -15,6 +15,10 @@ export default function RootLayout() {
                     name="trip"
                     options={{headerShown: false}}
                 />
+                <Stack.Screen
+                    name="trip-sheet"
+                    options={{headerShown: false}}
+                />
             </Stack>
         </>
     )

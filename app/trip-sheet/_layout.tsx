@@ -1,14 +1,14 @@
+import {StatusBar} from "expo-status-bar";
 import {router, Stack} from "expo-router";
 import {Colors} from "@/utils/Colors";
 import {Pressable} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import {StatusBar} from "expo-status-bar";
-export default function TripPageLayout() {
+
+export default function TripSheetPageLayout() {
     return (
         <>
             <StatusBar style="light" />
             <Stack
-                
                 screenOptions={{
                     headerBackVisible: false,
                     animationTypeForReplace: "pop",
@@ -25,7 +25,7 @@ export default function TripPageLayout() {
                     ),
                     headerStyle: {
                         backgroundColor: Colors.flygreenGreen,
-                    },
+                    }
                 }}
             />
         </>

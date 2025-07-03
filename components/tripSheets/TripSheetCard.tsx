@@ -2,12 +2,13 @@ import {Text, StyleSheet, View, Dimensions, Pressable, FlatList} from 'react-nat
 import Card from "@/components/ui/Card";
 import {Colors} from "@/utils/Colors";
 import {Image} from "expo-image";
-import * as Linking from "expo-linking";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React from "react";
 import {showLocation} from "react-native-map-link";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DotPagination from "@/components/ui/DotPagination";
+import {router} from "expo-router";
+import ShareButton from "@/components/ui/buttons/ShareButton";
 
 const {width} = Dimensions.get('screen');
 
@@ -16,6 +17,7 @@ const quote = {
 }
 
 const tripSheet = {
+    id: 1,
     departureDate: "Jun 14th, 10:00am",
     tailNumber: "N350HH",
     pilotInCommand: "William Chau",
@@ -114,10 +116,6 @@ const tripSheet = {
 }
 
 export default function TripSheetCard() {
-    let passengersChunk = [];
-    for (let i = 0; i < tripSheet.passengers.length; i+= 3) {
-        passengersChunk.push(tripSheet.passengers.slice(i, i+3));
-    }
     const [pagination, setPagination] = React.useState(0);
 
     return (
@@ -170,6 +168,7 @@ export default function TripSheetCard() {
                                             {segment.departureFbo ? (
                                                 <>
                                                     <Text style={styles.airportName}>{segment.departureFbo?.name}</Text>
+                                                    {/*// TODO: Make sure google maps appears in app list*/}
                                                     <Pressable
                                                         onPress={() => {
                                                             showLocation({
@@ -242,33 +241,17 @@ export default function TripSheetCard() {
                         </View>
                     </View>
                 </View>
-                {/*<View style={styles.itineraryContainer}>*/}
-                {/*    <Text style={styles.crewTitle}>Passengers</Text>*/}
-                {/*    {passengersChunk.map((chunk, id) => (*/}
-                {/*        <View style={styles.passengerContainer} key={id}>*/}
-                {/*            {*/}
-                {/*                chunk.map((passenger, idx) => (*/}
-                {/*                    <Text style={{flex: 1}} key={idx}>{passenger}</Text>*/}
-                {/*                ))*/}
-                {/*            }*/}
-                {/*        </View>*/}
-                {/*    ))}*/}
-                {/*    <View style={styles.passengerContainer}>*/}
-
-                {/*    </View>*/}
-                {/*</View>*/}
-                {/*<View>*/}
-                {/*    <Text style={[styles.crewTitle, {marginTop: 10}]}>Notes</Text>*/}
-                {/*    <RenderHtml*/}
-                {/*        contentWidth={width}*/}
-                {/*        source={{*/}
-                {/*            html: `${tripSheet.notes}`*/}
-                {/*        }}*/}
-                {/*    />*/}
-                {/*</View>*/}
-                <View style={{flexDirection: 'row', alignItems: 'center', marginTop: 10, justifyContent: 'flex-end', gap: 5}}>
-                    <Text style={{color: Colors.flygreenGreen}}>View More</Text>
-                    <MaterialCommunityIcons name="file-document-outline" size={20} color={Colors.flygreenGreen} />
+                <View style={styles.buttonsContainer}>
+                    <Pressable
+                        style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5}}
+                        onPress={() => {
+                            router.push(`/trip-sheet/${tripSheet.id}`);
+                        }}
+                    >
+                        <Text style={{color: Colors.flygreenGreen}}>View More</Text>
+                        <MaterialCommunityIcons name="file-document-outline" size={20} color={Colors.flygreenGreen} />
+                    </Pressable>
+                    <ShareButton shareUrl="http://www.flygreen.test/trip-sheet/1" dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />
                 </View>
             </View>
         </Card>
@@ -276,6 +259,13 @@ export default function TripSheetCard() {
 }
 
 const styles = StyleSheet.create({
+    buttonsContainer: {
+        marginTop: 15,
+        flexDirection: "row",
+        justifyContent: 'flex-end',
+        alignItems: 'center',
+        gap: 10,
+    },
     airportInfo: {
         flex: 2,
         gap: 5

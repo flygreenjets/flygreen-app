@@ -11,6 +11,7 @@ import Modal from "@/components/ui/Modal";
 import React, {useState} from "react";
 import ImageCarousel from "@/components/images/ImageCarousel";
 import * as Sharing from "expo-sharing";
+import ShareButton from "@/components/ui/buttons/ShareButton";
 
 interface QuoteCardProps {
     quote: Quote,
@@ -118,18 +119,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", alignItems: "center"}}>
                             <Text style={styles.priceText}>$ {quote.price.toLocaleString()}</Text>
                             <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
-                                <Pressable
-                                    onPress={() => {
-                                        Sharing.shareAsync(quote.imageUrl, {
-                                            dialogTitle: `Share Quote for ${quote.aircraft.model}`,
-                                            mimeType: 'image/jpeg',
-                                        }).catch((error) => {
-                                            console.error("Error sharing quote:", error);
-                                        });
-                                    }}
-                                >
-                                    <Text style={styles.shareButton}>Share</Text>
-                                </Pressable>
+                                <ShareButton shareUrl={quote.imageUrl}/>
                                 <Pressable>
                                     <Text style={styles.bookButton}>Book</Text>
                                 </Pressable>
@@ -200,17 +190,6 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: Colors.flygreenGreen,
         color: '#fff',
-        fontWeight: "bold",
-        fontSize: 16,
-    },
-    shareButton: {
-        backgroundColor: Colors.white,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        borderRadius: 5,
-        borderWidth: 1,
-        borderColor: Colors.flygreenGreen,
-        color: Colors.flygreenGreen,
         fontWeight: "bold",
         fontSize: 16,
     },
@@ -285,6 +264,6 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 0,
         padding: 5,
-        backgroundColor: Colors.black
+        backgroundColor: Colors.blackTransparent
     }
 });
