@@ -178,7 +178,7 @@ export default function TripView({trip}: TripViewProps) {
 
             {trip.stage === "Closed Won" && (
                 <>
-                    {/*<TripSheetSection />*/}
+                    <TripSheetSection />
                     <TripReportSection />
                 </>
             )}
