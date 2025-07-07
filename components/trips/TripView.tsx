@@ -4,6 +4,7 @@ import TripCard from "@/components/trips/TripCard";
 import {Colors} from "@/utils/Colors";
 import QuoteSection from "@/components/trips/QuoteSection";
 import TripSheetSection from "@/components/trips/trip-sheets/TripSheetSection";
+import TripReportSection from "@/components/trips/trip-reports/TripReportSection";
 
 interface TripViewProps {
     trip: Trip
@@ -177,8 +178,8 @@ export default function TripView({trip}: TripViewProps) {
 
             {trip.stage === "Closed Won" && (
                 <>
-                    <TripSheetSection />
-                    {/*<TripReportSection />*/}
+                    {/*<TripSheetSection />*/}
+                    <TripReportSection />
                 </>
             )}
         </ScrollView>
