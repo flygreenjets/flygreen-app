@@ -1,5 +1,5 @@
 import {ReactNode, useState} from 'react';
-import {Alert, Modal as ReactModal, StyleSheet, Text, Pressable, View} from 'react-native';
+import {Alert, Modal as RNModal, StyleSheet, Text, Pressable, View, TouchableWithoutFeedback} from 'react-native';
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 
@@ -16,17 +16,21 @@ export default function Modal({modalVisible, onClose, children, animationType = 
     return (
         <SafeAreaProvider>
             <SafeAreaView>
-                <ReactModal
+                <RNModal
                     animationType={animationType}
-                    transparent={transparent}
+                    transparent={true}
                     visible={modalVisible}
                     onRequestClose={() => {
                         onClose();
                     }}>
-                    <View style={styles.centeredView}>
+                    <TouchableWithoutFeedback onPress={onClose}>
+                        <View style={styles.modalOverlay} />
+                    </TouchableWithoutFeedback>
+
+                    <View style={styles.modalContent}>
                         <Pressable
-                            style={[styles.button, styles.buttonClose]}
                             onPress={() => onClose()}
+                            style={[styles.button, styles.buttonClose]}
                         >
                             <MaterialCommunityIcons
                                 name="close-circle-outline"
@@ -36,7 +40,7 @@ export default function Modal({modalVisible, onClose, children, animationType = 
                         </Pressable>
                         {children}
                     </View>
-                </ReactModal>
+                </RNModal>
             </SafeAreaView>
         </SafeAreaProvider>
     );
@@ -47,7 +51,10 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0,0,0,0.8)',
+    },
+    modalContent: {
+        flex: 1,
+        justifyContent: 'center',
     },
     button: {
         zIndex: 9999,
@@ -59,5 +66,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 50,
         right: 0
+    },
+    modalOverlay: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0.75)',
     },
 });

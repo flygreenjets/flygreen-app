@@ -34,12 +34,16 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                             <Text style={{color: Colors.white, fontWeight: "bold"}}>{flag.label}</Text>
                         </View>
                     )}
-                    <Image
-                        style={[styles.image, styles.topRadius]}
-                        source={quote.imageUrl}
-                        contentFit="cover"
-                        transition={1000}
-                    />
+                    <Pressable
+                        onPress={() => setImageCarouselVisible(true)}
+                    >
+                        <Image
+                            style={[styles.image, styles.topRadius]}
+                            source={quote.imageUrl}
+                            contentFit="cover"
+                            transition={1000}
+                        />
+                    </Pressable>
                     <Pressable
                         onPress={() => {Linking.openURL('https://my.matterport.com/show/?m=S1B5pM6kxJk')}}
                         style={[styles.imageIcons, {left: 0, borderTopRightRadius: 5}]}

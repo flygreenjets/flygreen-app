@@ -24,7 +24,7 @@ export default function ImageCarousel({data}: ImageCarouselProps) {
                 }}
             />
             <View style={{flex: 1, marginTop: 20}}>
-                <DotPagination items={data} paginationIndex={pagination}/>
+                <DotPagination activeDotColor="white" inactiveDotColor="gray" items={data} paginationIndex={pagination}/>
             </View>
         </View>
     );
