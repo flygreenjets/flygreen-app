@@ -9,6 +9,7 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import DotPagination from "@/components/ui/DotPagination";
 import {router} from "expo-router";
 import ShareButton from "@/components/ui/buttons/ShareButton";
+import * as Linking from "expo-linking";
 
 const {width} = Dimensions.get('screen');
 
@@ -32,7 +33,8 @@ const tripSheet = {
             departureAirport: {
                 "name": "Los Angeles Intl",
                 "code": "KLAX",
-                "city": "Los Angeles"
+                "city": "Los Angeles",
+                "phone": "+1 310-410-9605"
             },
             departureFbo: {
                 "name": "Signature Flight Support",
@@ -42,33 +44,8 @@ const tripSheet = {
             destinationAirport: {
                 "name": "Charlottetown",
                 "code": "CYYG",
-                "city": "Charlottetown"
-            },
-            destinationFbo: {
-                "name": "Main Terminal",
-                "address": "250 Maple Hills Ave, \nCharlottetown, PE, C1C 1N2",
-                "phone": "+1 902-566-7997"
-            }
-        },
-        {
-            from: "CYUL to CYYZ",
-            date: "05/14 10:00am",
-            duration: "2h 30m",
-            passengers: "5 PAX",
-            departureAirport: {
-                "name": "Los Angeles Intl",
-                "code": "KLAX",
-                "city": "Los Angeles"
-            },
-            departureFbo: {
-                "name": "Signature Flight Support",
-                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
+                "city": "Charlottetown",
                 "phone": "+1 310-410-9605"
-            },
-            destinationAirport: {
-                "name": "Charlottetown",
-                "code": "CYYG",
-                "city": "Charlottetown"
             },
             destinationFbo: {
                 "name": "Main Terminal",
@@ -85,7 +62,7 @@ const tripSheet = {
                 "name": "Los Angeles Intl",
                 "code": "KLAX",
                 "city": "Los Angeles",
-                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045"
+                "phone": "+1 310-410-9605"
             },
             departureFbo: {
                 "name": "Signature Flight Support",
@@ -96,7 +73,37 @@ const tripSheet = {
                 "name": "Charlottetown",
                 "code": "CYYG",
                 "city": "Charlottetown",
-                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045"
+                "phone": "+1 310-410-9605"
+            },
+            destinationFbo: {
+                "name": "Main Terminal",
+                "address": "250 Maple Hills Ave, \nCharlottetown, PE, C1C 1N2",
+                "phone": "+1 902-566-7997"
+            }
+        },
+        {
+            from: "CYUL to CYYZ",
+            date: "05/14 10:00am",
+            duration: "2h 30m",
+            passengers: "5 PAX",
+            departureAirport: {
+                "name": "Los Angeles Intl",
+                "code": "KLAX",
+                "city": "Los Angeles",
+                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
+                "phone": "+1 310-410-9605"
+            },
+            departureFbo: {
+                "name": "Signature Flight Support",
+                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
+                "phone": "+1 310-410-9605"
+            },
+            destinationAirport: {
+                "name": "Charlottetown",
+                "code": "CYYG",
+                "city": "Charlottetown",
+                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
+                "phone": "+1 310-410-9605"
             },
             destinationFbo: {
                 "name": "Main Terminal",
@@ -168,7 +175,6 @@ export default function TripSheetCard() {
                                             {segment.departureFbo ? (
                                                 <>
                                                     <Text style={styles.airportName}>{segment.departureFbo?.name}</Text>
-                                                    {/*// TODO: Make sure google maps appears in app list*/}
                                                     <Pressable
                                                         onPress={() => {
                                                             showLocation({
@@ -177,6 +183,9 @@ export default function TripSheetCard() {
                                                         }}
                                                     >
                                                         <Text>{segment.departureFbo.address}</Text>
+                                                    </Pressable>
+                                                    <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.departureFbo.phone}`);}}>
+                                                        <Text>{segment.departureFbo.phone}</Text>
                                                     </Pressable>
                                                 </>
                                             ) : (
@@ -190,6 +199,9 @@ export default function TripSheetCard() {
                                                         }}
                                                     >
                                                         <Text>{segment.departureAirport?.address}</Text>
+                                                    </Pressable>
+                                                    <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.departureAirport.phone}`);}}>
+                                                        <Text>{segment.departureAirport.phone}</Text>
                                                     </Pressable>
                                                 </>
                                             )}
@@ -211,6 +223,9 @@ export default function TripSheetCard() {
                                                     >
                                                         <Text style={styles.right}>{segment.destinationFbo.address}</Text>
                                                     </Pressable>
+                                                    <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.destinationFbo.phone}`);}}>
+                                                        <Text>{segment.destinationFbo.phone}</Text>
+                                                    </Pressable>
                                                 </>
                                             ) : (
                                                 <>
@@ -223,6 +238,9 @@ export default function TripSheetCard() {
                                                         }}
                                                     >
                                                         <Text>{segment.destinationAirport?.name}</Text>
+                                                    </Pressable>
+                                                    <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.destinationAirport.phone}`);}}>
+                                                        <Text>{segment.destinationAirport.phone}</Text>
                                                     </Pressable>
                                                 </>
                                             )}

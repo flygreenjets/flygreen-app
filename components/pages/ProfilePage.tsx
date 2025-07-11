@@ -45,7 +45,6 @@ export default function profilePage() {
             </View>
                 <View style={styles.yourBrokerContactInfo}>
                     <Pressable onPress={() => {
-                        console.log("press");
                         Linking.openURL(`telprompt:+1234567890`);
                     }} style={styles.yourBrokerContactButtons}>
                         <MaterialCommunityIcons name="phone-outline" size={30} color={Colors.white} />
@@ -57,6 +56,22 @@ export default function profilePage() {
                         <MaterialCommunityIcons name="email-outline" size={30} color={Colors.white} />
                         <Text style={styles.yourBrokerContactButtonText}>
                             Email Pascal
+                        </Text>
+                    </Pressable>
+                </View>
+                <View style={[styles.yourBrokerContactInfo, {marginTop: 10}]}>
+                    <Pressable onPress={() => {
+                        Linking.openURL(`telprompt:+1234567890`);
+                    }} style={styles.yourBrokerContactButtons}>
+                        <MaterialCommunityIcons name="message-outline" size={30} color={Colors.white} />
+                        <Text style={styles.yourBrokerContactButtonText}>
+                            Text Pascal
+                        </Text>
+                    </Pressable>
+                    <Pressable style={styles.yourBrokerContactButtons}>
+                        <MaterialCommunityIcons name="whatsapp" size={30} color={Colors.white} />
+                        <Text style={styles.yourBrokerContactButtonText}>
+                            Text Pascal
                         </Text>
                     </Pressable>
                 </View>
