@@ -2,9 +2,6 @@ import { Tabs } from 'expo-router';
 import { HomeIcon, UserIcon } from "react-native-heroicons/micro";
 import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Fontisto from '@expo/vector-icons/Fontisto';
-
-
 
 export default function TabLayout() {
     return (

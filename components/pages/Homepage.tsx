@@ -1,5 +1,7 @@
-import {View, Text, StyleSheet} from "react-native";
+import {View, Text, StyleSheet, Button} from "react-native";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+import {useAuth} from "@/providers/AuthProvider";
+
 export default function Homepage() {
     return (
         <View style={styles.container}>
