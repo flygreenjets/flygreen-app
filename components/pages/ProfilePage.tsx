@@ -10,7 +10,6 @@ const account = {
     points: 1200,
     progressTowardNextTier: 83, // percentage
     flightsBooked: 10,
-
 }
 
 export default function profilePage() {
@@ -30,7 +29,7 @@ export default function profilePage() {
                     {"\n"}
                     Points
                 </Text>
-                <Text style={styles.loyaltyInfo}>
+                <Text style={[styles.loyaltyInfo]}>
                     <Text style={{fontWeight: "bold"}}>87%</Text>
                     {"\n"}
                     to next tier
@@ -61,7 +60,7 @@ export default function profilePage() {
                 </View>
                 <View style={[styles.yourBrokerContactInfo, {marginTop: 10}]}>
                     <Pressable onPress={() => {
-                        Linking.openURL(`telprompt:+1234567890`);
+                        Linking.openURL(`sms:+1234567890`);
                     }} style={styles.yourBrokerContactButtons}>
                         <MaterialCommunityIcons name="message-outline" size={30} color={Colors.white} />
                         <Text style={styles.yourBrokerContactButtonText}>
