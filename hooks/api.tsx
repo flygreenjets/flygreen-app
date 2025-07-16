@@ -20,7 +20,7 @@ interface UseApiQueryResult<T> {
     error: any;
 }
 
-export default function useApi<T = any>(endpoint: string, body: any): UseApiQueryResult<T> {
+export default function useApi<T = any>(endpoint: string, body?: any): UseApiQueryResult<T> {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<any>(null);
