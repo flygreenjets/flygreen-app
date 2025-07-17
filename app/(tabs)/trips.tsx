@@ -6,13 +6,18 @@ import {useState} from "react";
 import {switchCase} from "@babel/types";
 import PastTrips from "@/components/trips/pages/PastTrips";
 import RequestedTrips from "@/components/trips/pages/RequestedTrips";
+import useApi from "@/hooks/api";
+import {Trip} from "@/types/trips";
 
 export default function Trips() {
+    // const {data, loading, error} = useApi<Trip[]>('/trips/1214');
+    // console.log(data);
+
     const [tab, setTab] = useState(1);
     const renderList = (tab: number) => {
         switch (tab) {
             case 1:
-                return <RequestedTrips/>
+                return <RequestedTrips />
             case 2:
                 return <UpcomingTrips/>
             case 3:

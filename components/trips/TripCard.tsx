@@ -6,6 +6,7 @@ import {router} from "expo-router";
 import { ReactNode } from "react";
 import Card from "@/components/ui/Card";
 import ProgressBar from "@/components/ui/ProgressBar";
+import SpinnerLoading from "@/components/animations/SpinnerLoading";
 
 
 interface TripCardProps {
@@ -75,8 +76,9 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                 <View style={styles.progressView}>
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <Text style={styles.progressText}>Confirming aircraft availability and pricing</Text>
+                        <SpinnerLoading/>
                     </View>
-                    <ProgressBar progress={39} />
+                    <ProgressBar progress={50} />
                 </View>
             )}
         </>

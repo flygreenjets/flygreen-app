@@ -1,9 +1,7 @@
-import {View, Text, StyleSheet, ScrollView, Pressable} from 'react-native';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+import {StyleSheet, Pressable} from 'react-native';
 import TripCard from "@/components/trips/TripCard";
-import useToggle from "@/hooks/toggle";
-import TripTabs from "@/components/trips/TripTabs";
 import {router} from "expo-router";
+import {Trip} from "@/types/trips";
 
 export default function RequestedTrips() {
     const trips = [
