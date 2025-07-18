@@ -17,7 +17,12 @@ export default class RemoteApi extends BaseApi {
     }
 
     async fetchData(endpoint: string, method: 'GET' | 'POST' = 'GET', data?: any) {
-        const response = await this.axiosInstance.get(endpoint);
+        const response = await this.axiosInstance.request({
+            url: endpoint,
+            method: method,
+            data: data,
+            ...(method === 'POST' && { data })
+        });
         return response.data;
     }
 
