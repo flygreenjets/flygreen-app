@@ -6,7 +6,7 @@ import {useState} from "react";
 import {switchCase} from "@babel/types";
 import PastTrips from "@/components/trips/pages/PastTrips";
 import RequestedTrips from "@/components/trips/pages/RequestedTrips";
-import useApi from "@/hooks/api";
+import useQuery from "@/hooks/query";
 import {Trip} from "@/types/trips";
 
 export default function Trips() {

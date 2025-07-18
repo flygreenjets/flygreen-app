@@ -16,7 +16,7 @@ export default class RemoteApi extends BaseApi {
         this.axiosInstance.defaults.headers.common['X-XSRF-TOKEN'] = xsrfToken;
     }
 
-    async fetchData(endpoint: string) {
+    async fetchData(endpoint: string, method: 'GET' | 'POST' = 'GET', data?: any) {
         const response = await this.axiosInstance.get(endpoint);
         return response.data;
     }

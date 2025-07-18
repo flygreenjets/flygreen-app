@@ -20,7 +20,7 @@ interface UseApiQueryResult<T> {
     error: any;
 }
 
-export default function useApi<T = any>(endpoint: string, body?: any): UseApiQueryResult<T> {
+export default function useQuery<T = any>(endpoint: string, method: "GET" | "POST" = "GET", body: any = {}): UseApiQueryResult<T> {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<any>(null);
@@ -33,7 +33,7 @@ export default function useApi<T = any>(endpoint: string, body?: any): UseApiQue
             setLoading(true);
             try {
                 const api = await getApi(token);
-                const result = await api.fetchData(endpoint);
+                const result = await api.fetchData(endpoint, method, body);
                 if (isMounted) {
                     setData(result);
                     setError(null);
