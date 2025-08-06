@@ -13,6 +13,7 @@ export default function TabLayout() {
                 tabBarShowLabel: false,
                 headerShown: false,
                 tabBarStyle: {
+                    borderStyle: 'dashed',
                     backgroundColor: Colors.flygreenGreen,
                     paddingTop: 18,
                     height: 80,
