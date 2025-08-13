@@ -173,7 +173,7 @@ export default function TripView({trip}: TripViewProps) {
             }}>
                 <TripCard trip={trip} showAsCard={false}/>
             </View>
-            {trip.stage === "Sourcing" &&
+            {trip.stage === "Sourcing" ?
                 data.length > 0 ? (
                     <QuoteSection quotes={data} />
                 ) : (
@@ -182,7 +182,7 @@ export default function TripView({trip}: TripViewProps) {
                             Pascal is currently sourcing quotes for this trip. Please check back later.
                         </Text>
                     </View>
-                )
+                ) : null
             }
 
             {trip.stage === "Closed Won" && (

@@ -1,5 +1,6 @@
 export let Colors = {
     flygreenGreen: '#205046',
+    flygreenGreenOpacity: 'rgba(32,80,70,0.8)',
     lightGreen: '#2d7569',
     gold: '#ffbf00',
     white: '#FFFFFF',

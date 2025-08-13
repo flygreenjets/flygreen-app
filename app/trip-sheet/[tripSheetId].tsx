@@ -7,7 +7,7 @@ export default function TripSheetPage() {
     const navigation = useNavigation();
     useEffect(() => {
         navigation.setOptions({
-            title: `Your trip to there`,
+            title: `Your trip to [there]`,
         })
     }, []);
 

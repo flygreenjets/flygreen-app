@@ -1,6 +1,7 @@
-import {StyleSheet, View, Text, Dimensions} from "react-native";
+import {StyleSheet, View, Text, Dimensions, ScrollView} from "react-native";
 import RenderHtml from 'react-native-render-html';
 import {Colors} from "@/utils/Colors";
+import Card from "@/components/ui/Card";
 
 const tripSheet = {
     id: 1,
@@ -109,39 +110,52 @@ export default function TripSheetView() {
         passengersChunk.push(tripSheet.passengers.slice(i, i+3));
     }
     return (
-        <View style={styles.viewContainer}>
-            <View style={styles.crewContainer}>
-                <View>
-                    <Text style={styles.crewTitle}>First Departure Date</Text>
-                    <Text style={styles.departureDate}>{tripSheet.departureDate}</Text>
+        <ScrollView style={styles.viewContainer}>
+            <Card>
+                <Text style={styles.cardTitle}>Trip</Text>
+                <View style={styles.crewContainer}>
+                    <View>
+                        <Text style={styles.crewTitle}>Departure</Text>
+                        <Text style={styles.departureDate}>{tripSheet.departureDate}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.crewTitle}># Passengers</Text>
+                        <Text style={styles.departureDate}>5</Text>
+                    </View>
                 </View>
-            </View>
-            <View style={styles.crewContainer}>
-                <View>
-                    <Text style={styles.crewTitle}>Tail Number</Text>
-                    <Text style={styles.tailNumber}>{tripSheet.tailNumber}</Text>
+            </Card>
+            <Card>
+                <Text style={styles.cardTitle}>Aircraft</Text>
+                <View style={styles.crewContainer}>
+                    <View>
+                        <Text style={styles.crewTitle}>Tail Number</Text>
+                        <Text style={styles.tailNumber}>{tripSheet.tailNumber}</Text>
+                    </View>
+                    <View>
+                        <Text style={styles.crewTitle}>Model</Text>
+                        <Text style={styles.tailNumber}>Cessna Citation XLS</Text>
+                    </View>
                 </View>
-                <View>
-                    <Text style={styles.crewTitle}>Aircraft Model</Text>
-                    <Text style={styles.tailNumber}>Cessna Citation XLS</Text>
+            </Card>
+            <Card>
+                <Text style={styles.cardTitle}>Crew</Text>
+                <View style={styles.crewContainer}>
+                    <View style={styles.segment}>
+                        <Text style={[styles.crewTitle, styles.middle]}>Pilot in Command</Text>
+                        <Text style={[styles.crewName, styles.middle]}>{tripSheet.pilotInCommand}</Text>
+                    </View>
+                    <View style={styles.segment}>
+                        <Text style={[styles.crewTitle, styles.middle]}>Second In Command</Text>
+                        <Text style={[styles.crewName, styles.middle]}>{tripSheet.secondInCommand}</Text>
+                    </View>
+                    <View style={styles.segment}>
+                        <Text style={[styles.crewTitle, styles.middle]}>Cabin Attendant</Text>
+                        <Text style={[styles.crewName, styles.middle]}>{tripSheet.cabinAttendant}</Text>
+                    </View>
                 </View>
-            </View>
-            <View style={styles.crewContainer}>
-                <View style={styles.segment}>
-                    <Text style={[styles.crewTitle, styles.middle]}>Pilot in Command</Text>
-                    <Text style={[styles.crewName, styles.middle]}>{tripSheet.pilotInCommand}</Text>
-                </View>
-                <View style={styles.segment}>
-                    <Text style={[styles.crewTitle, styles.middle]}>Second In Command</Text>
-                    <Text style={[styles.crewName, styles.middle]}>{tripSheet.secondInCommand}</Text>
-                </View>
-                <View style={styles.segment}>
-                    <Text style={[styles.crewTitle, styles.middle]}>Cabin Attendant</Text>
-                    <Text style={[styles.crewName, styles.middle]}>{tripSheet.cabinAttendant}</Text>
-                </View>
-            </View>
-            <View style={styles.itineraryContainer}>
-                <Text style={styles.crewTitle}>Passengers</Text>
+            </Card>
+            <Card>
+                <Text style={styles.cardTitle}>Passengers</Text>
                 {passengersChunk.map((chunk, id) => (
                     <View style={styles.passengerContainer} key={id}>
                         {
@@ -154,17 +168,17 @@ export default function TripSheetView() {
                 <View style={styles.passengerContainer}>
 
                 </View>
-            </View>
-            <View>
-                <Text style={[styles.crewTitle, {marginTop: 10}]}>Notes</Text>
+            </Card>
+            <Card>
+                <Text style={styles.cardTitle}>Notes</Text>
                 <RenderHtml
                     contentWidth={width}
                     source={{
                         html: `${tripSheet.notes}`
                     }}
                 />
-            </View>
-        </View>
+            </Card>
+        </ScrollView>
     );
 }
 
@@ -221,13 +235,15 @@ const styles = StyleSheet.create({
     right: {
         textAlign: 'right',
     },
-    itineraryContainer: {
-        marginTop: 5
-    },
     passengerContainer: {
         marginTop: 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-    }
+    },
+    cardTitle: {
+        fontSize: 18,
+        marginBottom: 5,
+        fontWeight: "bold"
+    },
 });

@@ -21,7 +21,6 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     const login = (username: string, password: string) => {
         //@todo implement actual login logic
         setToken("mocked-token"); // Replace with actual token from login response
-        setIsAuthenticated(true); // Set authentication status
         return "mocked-token"; // Replace with actual login logic
     }
 
