@@ -8,7 +8,6 @@ export default function TripPageLayout() {
         <>
             <StatusBar style="light" />
             <Stack
-                
                 screenOptions={{
                     headerBackVisible: false,
                     animationTypeForReplace: "pop",

@@ -12,6 +12,7 @@ import React, {useState} from "react";
 import ImageCarousel from "@/components/images/ImageCarousel";
 import * as Sharing from "expo-sharing";
 import ShareButton from "@/components/ui/buttons/ShareButton";
+import {router} from "expo-router";
 
 interface QuoteCardProps {
     quote: Quote,
@@ -45,7 +46,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         />
                     </Pressable>
                     <Pressable
-                        onPress={() => {Linking.openURL('https://my.matterport.com/show/?m=S1B5pM6kxJk')}}
+                        onPress={() => {router.push(`/trip/1/cabin-view`)}}
                         style={[styles.imageIcons, {left: 0, borderTopRightRadius: 5}]}
                     >
                         <MaterialCommunityIcons name="video-3d" size={24} color={Colors.white} />
