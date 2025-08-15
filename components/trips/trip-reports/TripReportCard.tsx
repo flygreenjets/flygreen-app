@@ -159,22 +159,24 @@ export default function TripSheetCard() {
             </View>
             <View style={{padding: 15}}>
                 <View style={styles.itineraryContainer}>
-                    <View style={styles.segment}>
+                    <View style={styles.tripInfoGrid}>
                         <View>
                             <Text style={styles.tripInfoValue}>695,900</Text>
-                            <Text>Tier Points</Text>
+                            <Text style={styles.tripInfoLabel}>Tier Points</Text>
                         </View>
-                        <View>
-                            <Text>304,100</Text>
-                            <Text>Points To Access Elite Tier</Text>
+                        <View style={{alignItems: 'flex-end'}}>
+                            <Text style={styles.tripInfoValue}>304,100</Text>
+                            <Text style={styles.tripInfoLabel}>Points To Access Elite Tier</Text>
                         </View>
+                    </View>
+                    <View style={styles.tripInfoGrid}>
                         <View>
-                            <Text>933,400</Text>
-                            <Text>Redeemable Points</Text>
+                            <Text style={styles.tripInfoValue}>933,400</Text>
+                            <Text style={styles.tripInfoLabel}>Redeemable Points</Text>
                         </View>
-                        <View>
-                            <Text>$9,334</Text>
-                            <Text>Available Cash</Text>
+                        <View style={{alignItems: 'flex-end'}}>
+                            <Text style={styles.tripInfoValue}>$9,334</Text>
+                            <Text style={styles.tripInfoLabel}>Available Cash</Text>
                         </View>
                     </View>
                 </View>
@@ -196,6 +198,11 @@ export default function TripSheetCard() {
 }
 
 const styles = StyleSheet.create({
+    tripInfoGrid: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        marginBottom: 10,
+    },
     buttonsContainer: {
         marginTop: 15,
         flexDirection: "row",
@@ -283,6 +290,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     tripInfoValue: {
-
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    tripInfoLabel: {
+        fontSize: 12,
+        color: '#888',
     }
 });
