@@ -2,6 +2,7 @@ import {useLocalSearchParams, useNavigation, useRouter} from "expo-router";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import TripView from "@/components/trips/TripView";
 import {useEffect} from "react";
+import {GestureHandlerRootView} from "react-native-gesture-handler";
 
 export default function TripPage({}) {
     const {tripId} = useLocalSearchParams();
@@ -67,10 +68,12 @@ export default function TripPage({}) {
     }, []);
 
     return (
-        <SafeAreaProvider>
-            <SafeAreaView>
-                <TripView trip={trip} />
-            </SafeAreaView>
-        </SafeAreaProvider>
+        <GestureHandlerRootView>
+            <SafeAreaProvider>
+                <SafeAreaView>
+                    <TripView trip={trip} />
+                </SafeAreaView>
+            </SafeAreaProvider>
+        </GestureHandlerRootView>
     )
 }

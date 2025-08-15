@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text, Pressable} from "react-native";
+import {View, StyleSheet, Text, Pressable, Animated} from "react-native";
 import {Image} from "expo-image";
 import Card from "@/components/ui/Card";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
@@ -24,6 +24,7 @@ interface QuoteCardProps {
 
 export default function QuoteCard({quote, flag}: QuoteCardProps) {
     const [imageCarouselVisible, setImageCarouselVisible] = useState(false);
+    const [floorPlanModalVisible, setFloorPlanModalVisible] = useState(false);
     const [floatingInfoVisible, setFloatingInfoVisible] = useState(false);
     const [yomInfoIsVisible, setYomInfoIsVisible] = useState(false);
     return (
@@ -112,13 +113,19 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                                 <Separator/>
                             </>
                         )}
-                        <Image
-                            style={[styles.image, styles.topRadius]}
-                            source={"https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"}
-                            contentFit="cover"
-                            transition={1000}
-                        />
                     </View>
+                    <Animated.View>
+                        <Pressable onPress={() => {
+                            setFloorPlanModalVisible(true)
+                        }}>
+                            <Image
+                                style={styles.image}
+                                source={"https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"}
+                                contentFit="cover"
+                                transition={1000}
+                            />
+                        </Pressable>
+                    </Animated.View>
                     <Separator/>
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", alignItems: "center"}}>
@@ -142,6 +149,16 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                         {image: "https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"},
                         {image: "https://cdn.flygreen.co/aircraft-category-pictures/turboprop-exterior.jpg"}
                    ]}/>
+                </Modal>
+
+                <Modal
+                    modalVisible={floorPlanModalVisible}
+                    onClose={() => setFloorPlanModalVisible(false)}
+                    animationType="fade"
+                >
+                    <ImageCarousel data={[
+                        {image: "https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"},
+                    ]}/>
                 </Modal>
 
                 {/*Floating Aircraft Info*/}
