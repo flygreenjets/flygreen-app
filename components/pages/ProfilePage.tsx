@@ -2,8 +2,8 @@ import {View, Text, StyleSheet, Pressable} from "react-native";
 import * as Linking from "expo-linking";
 import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import Separator from "@/components/ui/Separator";
 import Card from "@/components/ui/Card";
+import React from "react";
 
 const contact = {
     firstName: "Paul",
@@ -53,6 +53,15 @@ export default function profilePage() {
                         to next tier
                     </Text>
                 </View>
+                <Pressable
+                    style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5}}
+                    onPress={() => {
+
+                    }}
+                >
+                    <Text style={{color: Colors.flygreenGreen}}>View Rewards History</Text>
+                    <MaterialCommunityIcons name="file-document-outline" size={20} color={Colors.flygreenGreen} />
+                </Pressable>
             </Card>
             <Card>
                 <View style={styles.yourBrokerContainer}>
