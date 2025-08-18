@@ -1,5 +1,4 @@
 import { Tabs } from 'expo-router';
-import { HomeIcon, UserIcon } from "react-native-heroicons/micro";
 import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
@@ -24,7 +23,7 @@ export default function TabLayout() {
                 name="index"
                 options={{
                     title: "Home",
-                    tabBarIcon: ({ color }) => <HomeIcon size={32} color={color} />,
+                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" size={32} color={color} />,
                 }}
             />
             <Tabs.Screen
@@ -38,7 +37,7 @@ export default function TabLayout() {
                 name="profile"
                 options={{
                     title: "Profile",
-                    tabBarIcon: ({ color }) => <UserIcon size={32} color={color} />,
+                    tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account" size={32} color={color} />,
                 }}
             />
         </Tabs>
