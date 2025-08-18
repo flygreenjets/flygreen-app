@@ -18,7 +18,6 @@ const styles = StyleSheet.create({
         flex: 1,
         paddingTop: 12,
         paddingBottom: 0,
-        backgroundColor: Colors.white
     },
     scrollView: {
         paddingHorizontal: 15,
