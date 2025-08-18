@@ -8,6 +8,6 @@ async function isConnected(): Promise<boolean> {
     return status.isConnected ? status.isInternetReachable === true : false;
 }
 
-export async function getApi(xsrfToken: string) {
+export async function getApi(xsrfToken?: string) {
     return (await isConnected()) ? new RemoteApi(xsrfToken) : new LocalApi();
 }

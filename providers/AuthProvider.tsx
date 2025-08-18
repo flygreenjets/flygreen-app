@@ -1,4 +1,5 @@
 import {createContext, useContext, useMemo, useState} from 'react';
+import {getApi} from "@/lib/api/ApiFactory";
 
 interface AuthContextProps {
     token: string;
@@ -18,10 +19,22 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     const [token, setToken] = useState("");
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    const login = (username: string, password: string) => {
-        //@todo implement actual login logic
-        setToken("mocked-token"); // Replace with actual token from login response
-        return "mocked-token"; // Replace with actual login logic
+    const login = (email: string, password: string) => {
+        getApi().then(api => {
+            api.fetchData('/app/auth/login', 'POST', {
+                email, password
+            }).then(response => {
+                setToken(response.token); // Use actual token from response
+                setIsAuthenticated(true); // Set authentication status
+                console.log(response);
+            }).catch(error => {
+                console.error("Login failed", error);
+            });
+        });
+        // setToken("mocked-token"); // Replace with actual token from login response
+        // setIsAuthenticated(true); // Set authentication status
+        // return "mocked-token"; // Replace with actual login logic
+        return token;
     }
 
     const logout = () => {
