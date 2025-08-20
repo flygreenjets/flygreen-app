@@ -4,7 +4,7 @@ export default function TripReportSection() {
     return (
         <View>
             <View style={{padding: 15}}>
-                <Text style={{fontSize: 20}}>Trip Report</Text>
+                <Text style={{fontSize: 20, fontWeight: 'bold'}}>Trip Report</Text>
             </View>
             <TripReportCard />
         </View>

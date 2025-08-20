@@ -74,7 +74,7 @@ export default function Homepage() {
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 30}}>
-            <View style={{paddingHorizontal: 20}}>
+            <View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
                     <Text style={styles.title}>Ero Copper Corp.</Text>
                     <MaterialIcons name="notifications" size={24} color="black" />
@@ -104,9 +104,8 @@ export default function Homepage() {
                 </View>
             </View>
             <View>
-                <Text style={[styles.title, {fontSize: 16, paddingHorizontal: 20}]}>Recently viewd</Text>
+                <Text style={[styles.title, {fontSize: 16}]}>Recently viewd</Text>
                 <FlatList
-                    contentInset={{top: 0, left: 20, bottom: 0, right: 20}}
                     style={{marginTop: 5}}
                     data={[
                         ...recentDocs
@@ -127,9 +126,8 @@ export default function Homepage() {
                 />
             </View>
             <View style={{marginTop: 15}}>
-                <Text style={[styles.title, {fontSize: 16, paddingHorizontal: 20}]}>Recently shared with you</Text>
+                <Text style={[styles.title, {fontSize: 16}]}>Recently shared with you</Text>
                 <FlatList
-                    contentInset={{top: 0, left: 20, bottom: 0, right: 20}}
                     style={{marginTop: 5}}
                     data={[
                         ...recentDocs
@@ -155,7 +153,7 @@ export default function Homepage() {
 
 const styles = StyleSheet.create({
     container: {
-        paddingVertical: 20,
+        padding: 20,
     },
     title: {
         fontSize: 20,

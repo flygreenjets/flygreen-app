@@ -5,6 +5,7 @@ import {Colors} from "@/utils/Colors";
 import QuoteSection from "@/components/trips/QuoteSection";
 import TripSheetSection from "@/components/trips/trip-sheets/TripSheetSection";
 import TripReportSection from "@/components/trips/trip-reports/TripReportSection";
+import TripDocumentSection from "./trip-documents/TripDocumentSection";
 
 interface TripViewProps {
     trip: Trip
@@ -191,6 +192,7 @@ export default function TripView({trip}: TripViewProps) {
                     <TripReportSection />
                 </>
             )}
+            <TripDocumentSection />
         </ScrollView>
     );
 }
