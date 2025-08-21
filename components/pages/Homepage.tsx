@@ -2,20 +2,15 @@ import {
     View,
     Text,
     StyleSheet,
-    Button,
     Pressable,
     FlatList,
-    Dimensions,
     ImageBackground,
     ScrollView
 } from "react-native";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import {useAuth} from "@/providers/AuthProvider";
 import TripCard from "@/components/trips/TripCard";
 import {router} from "expo-router";
 import {Colors} from "@/utils/Colors";
-
-const {width} = Dimensions.get("window");
+import Ionicons from "@expo/vector-icons/Ionicons";
 
 export default function Homepage() {
     const nextTrip = {
@@ -77,7 +72,12 @@ export default function Homepage() {
             <View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
                     <Text style={styles.title}>Ero Copper Corp.</Text>
-                    <MaterialIcons name="notifications" size={24} color="black" />
+                    <Pressable onPress={() => router.push('/notifications')}>
+                        <View>
+                            <Ionicons name="notifications-outline" size={30} color="black" />
+                            <Text style={styles.notificationBadge}>1</Text>
+                        </View>
+                    </Pressable>
                 </View>
                 <ImageBackground
                     source={{uri: 'https://flygreen.s3.us-east-2.amazonaws.com/pdf-assets/rewards/gold.jpg'}}
@@ -185,5 +185,21 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         borderColor: Colors.lightGray,
         padding: 10,
+    },
+    notificationBadge: {
+        backgroundColor: Colors.red,
+        position: 'absolute',
+        top: -2,
+        right: -2,
+        elevation: 1,
+        borderRadius: 50,
+        paddingHorizontal: 5,
+        paddingVertical: 1,
+        color: Colors.white,
+        fontWeight: 'bold',
+        fontSize: 12,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 });

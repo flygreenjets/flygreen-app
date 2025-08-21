@@ -20,6 +20,10 @@ export default function RootLayout() {
                     options={{headerShown: false}}
                 />
                 <Stack.Screen
+                    name="notifications"
+                    options={{headerShown: false}}
+                />
+                <Stack.Screen
                     name="trip-sheet"
                     options={{headerShown: false}}
                 />

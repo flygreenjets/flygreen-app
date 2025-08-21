@@ -9,4 +9,5 @@ export let Colors = {
     black: 'rgba(0,0,0)',
     blackTransparent: 'rgba(0,0,0,0.35)',
     lightGray: '#CCC',
+    red: 'red'
 }
