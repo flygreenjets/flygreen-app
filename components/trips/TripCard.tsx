@@ -76,7 +76,6 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                 <View style={styles.progressView}>
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <Text style={styles.progressText}>Confirming aircraft availability and pricing</Text>
-                        <SpinnerLoading/>
                     </View>
                     <ProgressBar progress={50} />
                 </View>
