@@ -1,8 +1,9 @@
 import {Stack} from "expo-router";
 import { StatusBar } from 'expo-status-bar';
-import {AuthProvider} from "@/providers/AuthProvider";
+import {AuthProvider, useAuth} from "@/providers/AuthProvider";
 
 export default function RootLayout() {
+    const {isAuthenticated} = useAuth();
     return (
         <AuthProvider>
             <StatusBar style="dark" />

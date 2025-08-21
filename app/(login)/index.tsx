@@ -8,17 +8,20 @@ export default function LoginPage() {
     const {login} = useAuth();
 
     function submit(values: {email: string, password: string}) {
-        login(values.email, values.password);
+        const success = login(values.email, values.password)
+        if (success) {
+            router.replace('/(tabs)');
+        }
     }
 
     return (
         <SafeAreaProvider>
             <SafeAreaView>
-                <Text>Login Page wow</Text>
+                <Text>Login Page</Text>
                 <Formik initialValues={{email: '', password: ''}} onSubmit={submit}>
                     {({handleChange, handleBlur, handleSubmit, values}) => (
                         <>
-                            <TextInput placeholder="Email" onChangeText={handleChange('email')} onBlur={handleBlur('email')} value={values.email} keyboardType="email-address" autoCapitalize="none" />
+                            <TextInput placeholder="Email" onChangeText={handleChange('email')} onBlur={handleBlur('email')} value={values.email} keyboardType="email-address" autoCapitalize="none" autoCorrect={false} />
                             <TextInput placeholder="Password" secureTextEntry onChangeText={handleChange('password')} onBlur={handleBlur('password')} value={values.password} />
                             <Pressable onPress={() => {handleSubmit()}} style={{backgroundColor: '#007AFF', padding: 10, borderRadius: 5, marginTop: 10}}>
                                 <Text style={{color: '#fff', textAlign: 'center'}}>Login</Text>
