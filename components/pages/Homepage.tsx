@@ -104,7 +104,7 @@ export default function Homepage() {
                 </View>
             </View>
             <View>
-                <Text style={[styles.title, {fontSize: 16}]}>Recently viewd</Text>
+                <Text style={[styles.title, {fontSize: 16}]}>Recently viewed</Text>
                 <FlatList
                     style={{marginTop: 5}}
                     data={[

@@ -5,10 +5,10 @@ import Animated, {
     useAnimatedStyle,
     withTiming,
 } from 'react-native-reanimated';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector, GestureHandlerRootView } from 'react-native-gesture-handler';
 
 const { width } = Dimensions.get('screen');
-const height = 300;
+const height = 400;
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
