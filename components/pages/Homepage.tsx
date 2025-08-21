@@ -183,6 +183,7 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.white,
         borderRadius: 5,
         borderWidth: 0.5,
+        borderColor: Colors.lightGray,
         padding: 10,
     }
 });
