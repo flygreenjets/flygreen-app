@@ -167,7 +167,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     onClose={() => {setFloatingInfoVisible(false)}}
                     animationType="fade"
                 >
-                    <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%"}}>
+                    <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%", alignSelf: "center"}}>
                         <Text style={{fontSize: 18, fontWeight: 'bold'}}>Floating Aircraft</Text>
                         <Text style={{marginTop: 10}}>
                             Floating aircraft are those that are not based at a specific airport but are available for charter from various locations. This allows for greater flexibility in scheduling and can often lead to cost savings for the client.
@@ -185,7 +185,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     onClose={() => {setYomInfoIsVisible(false)}}
                     animationType="fade"
                 >
-                    <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%"}}>
+                    <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%", alignSelf: "center"}}>
                         <Text style={{fontSize: 18, fontWeight: 'bold'}}>Aircraft Information</Text>
                         <Pressable onPress={() => setYomInfoIsVisible(false)} style={{marginTop: 20}}>
                             <Text style={{marginTop: 10}}>
