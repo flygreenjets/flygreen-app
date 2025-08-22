@@ -7,7 +7,7 @@ interface AuthContextProps {
     user: User,
     isAuthenticated: boolean;
     loading: boolean;
-    login: (username: string, password: string) => void;
+    login: (username: string, password: string) => Promise<boolean>;
     logout: () => void;
 }
 
@@ -22,7 +22,7 @@ const AuthContext = createContext<AuthContextProps>({
     user: {id: 0, name: '', email: ''},
     isAuthenticated: false,
     loading: false,
-    login: () => {},
+    login: () => {return Promise.resolve(false);},
     logout: () => {}
 });
 
@@ -32,18 +32,20 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     //const [user, setUser] = useState<User>({id: 0, name: '', email: ''});
     const [{data: user}, setUser] = useStorageState<User>('user');
 
-    const login = (email: string, password: string) => {
-        getApi().then(api => {
-            api.fetchData('/app/auth/login', 'POST', {
+    const login = async (email: string, password: string) => {
+        try {
+            const api = await getApi();
+            const response = await api.fetchData('/app/auth/login', 'POST', {
                 email, password
-            }).then(response => {
-                setToken(response.token); // Use actual token from response
-                setUser(response.user); // Use actual user data from response
-                setIsAuthenticated(true); // Set authentication status
-            }).catch(error => {
-                console.error("Login failed", error);
             });
-        });
+            setToken(response.token); // Use actual token from response
+            setUser(response.user); // Use actual user data from response
+            setIsAuthenticated(true); // Set authentication status
+            return true;
+        } catch (error: any) {
+            console.error("Login failed", error.message);
+            return false;
+        }
     }
 
     const logout = () => {

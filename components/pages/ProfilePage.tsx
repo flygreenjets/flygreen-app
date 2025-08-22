@@ -5,6 +5,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Card from "@/components/ui/Card";
 import React from "react";
 import {useAuth} from "@/providers/AuthProvider";
+import ConfirmButton from "@/components/ui/buttons/ConfirmButton";
 
 const contact = {
     firstName: "Paul",
@@ -34,7 +35,6 @@ export default function profilePage() {
                 <View style={styles.contactInfo}>
                     <Text>{contact.email}</Text>
                     <Text>{contact.phone}</Text>
-                    <Pressable onPress={logout}><Text>Logout</Text></Pressable>
                 </View>
             </View>
             <Card>
@@ -104,6 +104,13 @@ export default function profilePage() {
                     </Pressable>
                 </View>
             </Card>
+            <ConfirmButton
+                buttonStyle={styles.logoutButton}
+                confirmAction={logout}
+                buttonText={"Logout"}
+                confirmTitle="Logout"
+                confirmText="Are you sure you want to logout?"
+            />
         </View>
     );
 }
@@ -176,5 +183,15 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginTop: 5,
         marginBottom: 10,
+    },
+    logoutButton: {
+        fontWeight: "bold",
+        backgroundColor: "white",
+        borderColor: Colors.flygreenGreen,
+        borderWidth: 1,
+        color: Colors.flygreenGreen ,
+        padding: 15,
+        textAlign: "center",
+        borderRadius: 50,
     }
 });

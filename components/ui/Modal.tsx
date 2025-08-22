@@ -10,9 +10,11 @@ interface ModalProps {
     modalVisible: boolean;
     onClose: () => void;
     children: ReactNode;
+    overlayStyle?: string;
+    showCloseButton?: boolean
 }
 
-export default function Modal({modalVisible, onClose, children, animationType = "slide", transparent = true}: ModalProps) {
+export default function Modal({modalVisible, onClose, children, animationType = "slide", overlayStyle='rgba(0, 0, 0, 0.75)', showCloseButton = true}: ModalProps) {
     return (
         <SafeAreaProvider>
             <SafeAreaView>
@@ -24,20 +26,22 @@ export default function Modal({modalVisible, onClose, children, animationType = 
                         onClose();
                     }}>
                     <TouchableWithoutFeedback onPress={onClose}>
-                        <View style={styles.modalOverlay} />
+                        <View style={[styles.modalOverlay, {backgroundColor: overlayStyle}]} />
                     </TouchableWithoutFeedback>
 
                     <View style={styles.modalContent}>
-                        <Pressable
-                            onPress={() => onClose()}
-                            style={[styles.button, styles.buttonClose]}
-                        >
-                            <MaterialCommunityIcons
-                                name="close-circle-outline"
-                                size={28}
-                                color="white"
-                            />
-                        </Pressable>
+                        {showCloseButton && (
+                            <Pressable
+                                onPress={() => onClose()}
+                                style={[styles.button, styles.buttonClose]}
+                            >
+                                <MaterialCommunityIcons
+                                    name="close-circle-outline"
+                                    size={28}
+                                    color="white"
+                                />
+                            </Pressable>
+                        )}
                         {children}
                     </View>
                 </RNModal>
@@ -72,7 +76,6 @@ const styles = StyleSheet.create({
         top: 0,
         bottom: 0,
         left: 0,
-        right: 0,
-        backgroundColor: 'rgba(0, 0, 0, 0.75)',
+        right: 0
     },
 });
