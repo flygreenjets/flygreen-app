@@ -6,12 +6,8 @@ import {useAuth} from "@/providers/AuthProvider";
 
 export default function LoginPage() {
     const {login} = useAuth();
-
     function submit(values: {email: string, password: string}) {
         const success = login(values.email, values.password)
-        if (success) {
-            router.replace('/(tabs)');
-        }
     }
 
     return (
