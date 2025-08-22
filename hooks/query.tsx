@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import {getApi} from "@/lib/api/ApiFactory";
 import {useAuth} from "@/providers/AuthProvider";
+import {useSecureStorageState} from "@/hooks/storage";
 
 /*
 Enhancements To consider
@@ -24,7 +25,7 @@ export default function useQuery<T = any>(endpoint: string, method: "GET" | "POS
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<any>(null);
-    const {token} = useAuth();
+    const [{data: token}] = useSecureStorageState('session');
 
     useEffect(() => {
         let isMounted = true; // to prevent setting state if unmounted

@@ -40,7 +40,8 @@
       ],
       "expo-font",
       "expo-web-browser",
-      "react-native-map-link"
+      "react-native-map-link",
+      "expo-secure-store"
     ],
     "experiments": {
       "typedRoutes": true

@@ -4,6 +4,7 @@ import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Card from "@/components/ui/Card";
 import React from "react";
+import {useAuth} from "@/providers/AuthProvider";
 
 const contact = {
     firstName: "Paul",
@@ -25,6 +26,7 @@ const contact = {
 }
 
 export default function profilePage() {
+    const {logout} = useAuth();
     return (
         <View style={{paddingHorizontal: 10}}>
             <View style={{marginBottom: 15}}>
@@ -32,6 +34,7 @@ export default function profilePage() {
                 <View style={styles.contactInfo}>
                     <Text>{contact.email}</Text>
                     <Text>{contact.phone}</Text>
+                    <Pressable onPress={logout}><Text>Logout</Text></Pressable>
                 </View>
             </View>
             <Card>

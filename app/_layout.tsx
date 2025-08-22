@@ -1,16 +1,23 @@
 import {Stack} from "expo-router";
 import { StatusBar } from 'expo-status-bar';
-import {AuthProvider} from "@/providers/AuthProvider";
+import {AuthProvider, useAuth} from "@/providers/AuthProvider";
+import Splash from "@/components/pages/Splash";
 
 export default function RootLayout() {
     return (
         <AuthProvider>
             <StatusBar style="dark" />
-            <Stack>
-                <Stack.Screen
-                    name="(login)"
-                    options={{ headerShown: false }}
-                />
+            <Splash />
+            <RootNavigator />
+        </AuthProvider>
+    )
+}
+
+function RootNavigator() {
+    const {token} = useAuth();
+    return (
+        <Stack>
+            <Stack.Protected guard={Boolean(token)}>
                 <Stack.Screen
                     name="(tabs)"
                     options={{ headerShown: false }}
@@ -27,7 +34,14 @@ export default function RootLayout() {
                     name="trip-sheet"
                     options={{headerShown: false}}
                 />
-            </Stack>
-        </AuthProvider>
+            </Stack.Protected>
+            <Stack.Protected guard={!Boolean(token)}>
+                <Stack.Screen
+                    name="(login)"
+                    options={{ headerShown: false }}
+                />
+            </Stack.Protected>
+
+        </Stack>
     )
 }
