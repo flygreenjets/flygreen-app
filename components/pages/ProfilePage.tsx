@@ -80,7 +80,11 @@ export default function profilePage() {
                             Call
                         </Text>
                     </Pressable>
-                    <Pressable style={styles.yourBrokerContactButtons}>
+                    <Pressable style={styles.yourBrokerContactButtons}
+                        onPress={() => {
+                            Linking.openURL(`mailto:${contact.account.broker.email}`);
+                        }}
+                    >
                         <MaterialCommunityIcons name="email-outline" size={30} color={Colors.white} />
                         <Text style={styles.yourBrokerContactButtonText}>
                             Email

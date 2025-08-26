@@ -1,8 +1,11 @@
 import { Tabs } from 'expo-router';
 import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 export default function TabLayout() {
+    const insets = useSafeAreaInsets();
+
     return (
         <Tabs
             initialRouteName="index"

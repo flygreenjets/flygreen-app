@@ -1,6 +1,26 @@
 import {Modal as RNModal, View, Text, StyleSheet, Dimensions, TouchableWithoutFeedback, Pressable} from 'react-native';
+import * as Linking from "expo-linking";
 
 const {height} = Dimensions.get('window');
+
+const contact = {
+    firstName: "Paul",
+    lastName: "Atreides",
+    phone: "+1234567890",
+    email: "paul.a@gmail.com",
+    account: {
+        name: "Ero Copper",
+        rewardTier: "Gold",
+        points: 1200,
+        progressTowardNextTier: 83, // percentage
+        flightsBooked: 10,
+        broker: {
+            name: "Pascal Couture-Tremblay",
+            phone: "+1234567890",
+            email: "pct@flygreen.co"
+        }
+    }
+}
 
 export default function ContactMenu({isOpen, onClose}: { isOpen: boolean, onClose: () => void }) {
     return (
@@ -18,14 +38,14 @@ export default function ContactMenu({isOpen, onClose}: { isOpen: boolean, onClos
                     <Text style={{fontSize: 20, fontWeight: 'bold'}}>Contact Your Broker</Text>
                     <Pressable
                         onPress={() => {
-
+                            Linking.openURL(`telprompt:${contact.account.broker.phone}`);
                         }}
                     >
                         <Text style={styles.menuItem}>Call</Text>
                     </Pressable>
                     <Pressable
                         onPress={() => {
-
+                            Linking.openURL(`sms:${contact.account.broker.phone}`);
                         }}
                     >
                         <Text style={styles.menuItem}>SMS</Text>
