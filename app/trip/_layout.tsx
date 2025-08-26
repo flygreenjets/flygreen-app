@@ -8,11 +8,6 @@ import useToggle from "@/hooks/toggle";
 import ContactMenu from "@/components/ui/ContactMenu";
 
 export default function TripPageLayout() {
-    const {
-        value: open,
-        setTrue: setOpen,
-        setFalse: setClose
-    } = useToggle(false);
     return (
         <>
             <StatusBar style="light" />
@@ -32,15 +27,7 @@ export default function TripPageLayout() {
                         </Pressable>
                     ),
                     headerRight: () => (
-                        <>
-                            <Pressable
-                                onPress={() => {setOpen()}}
-                                style={{marginRight: 10}}
-                            >
-                                <AntDesign name="phone" size={24} color="white" />
-                            </Pressable>
-                            <ContactMenu isOpen={open} onClose={() => setClose()}/>
-                        </>
+                        <ContactMenu/>
                     ),
                     headerStyle: {
                         backgroundColor: Colors.flygreenGreen,

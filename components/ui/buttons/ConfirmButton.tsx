@@ -1,5 +1,5 @@
 import {Pressable, TouchableWithoutFeedback, View, StyleSheet, Text, Modal as RNModal} from "react-native";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui/modal/Modal";
 import useToggle from "@/hooks/toggle";
 
 interface ConfirmButtonProps {

@@ -1,5 +1,8 @@
-import {Modal as RNModal, View, Text, StyleSheet, Dimensions, TouchableWithoutFeedback, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Pressable} from 'react-native';
 import * as Linking from "expo-linking";
+import SlidingModal from "@/components/ui/modal/SlidingModal";
+import {AntDesign} from "@expo/vector-icons";
+import useToggle from "@/hooks/toggle";
 
 const {height} = Dimensions.get('window');
 
@@ -22,19 +25,23 @@ const contact = {
     }
 }
 
-export default function ContactMenu({isOpen, onClose}: { isOpen: boolean, onClose: () => void }) {
+export default function ContactMenu() {
+    const {
+        value: isOpen,
+        setTrue: setOpen,
+        setFalse: setClose
+    } = useToggle(false);
+
     return (
-        <RNModal
-            animationType="slide"
-            transparent={true}
-            visible={isOpen}
-            onRequestClose={onClose}
-        >
-            <TouchableWithoutFeedback onPress={onClose}>
-                <View style={[styles.modalOverlay]} />
-            </TouchableWithoutFeedback>
-            <View style={styles.modalContent}>
-                <View style={styles.menuContainer}>
+        <>
+            <Pressable
+                onPress={() => {setOpen()}}
+                style={{marginRight: 10}}
+            >
+                <AntDesign name="phone" size={24} color="white" />
+            </Pressable>
+            <SlidingModal isOpen={isOpen} onClose={setClose}>
+                <View>
                     <Text style={{fontSize: 20, fontWeight: 'bold'}}>Contact Your Broker</Text>
                     <Pressable
                         onPress={() => {
@@ -65,8 +72,8 @@ export default function ContactMenu({isOpen, onClose}: { isOpen: boolean, onClos
                         <Text style={styles.menuItem}>WhatsApp</Text>
                     </Pressable>
                 </View>
-            </View>
-        </RNModal>
+            </SlidingModal>
+        </>
     )
 }
 
@@ -75,22 +82,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         alignItems: 'center',
-    },
-    menuContainer: {
-        width: '100%',
-        backgroundColor: 'white',
-        height: height/3,
-        padding: 20,
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: -2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 4,
-        elevation: 5,
     },
     modalOverlay: {
         position: 'absolute',

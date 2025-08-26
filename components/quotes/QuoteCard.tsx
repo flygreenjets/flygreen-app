@@ -3,14 +3,12 @@ import {Image} from "expo-image";
 import Card from "@/components/ui/Card";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import {Colors} from "@/utils/Colors";
-import * as Linking from "expo-linking";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import {Quote} from "@/types/trips";
 import Separator from "@/components/ui/Separator";
-import Modal from "@/components/ui/Modal";
+import Modal from "@/components/ui/modal/Modal";
 import React, {useState} from "react";
 import ImageCarousel from "@/components/images/ImageCarousel";
-import * as Sharing from "expo-sharing";
 import ShareButton from "@/components/ui/buttons/ShareButton";
 import {router} from "expo-router";
 
