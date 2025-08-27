@@ -1,48 +1,49 @@
 import {createContext, useContext, useMemo, useState} from 'react';
 import {getApi} from "@/lib/api/ApiFactory";
 import {useSecureStorageState, useStorageState} from "@/hooks/storage";
+import {Account, User} from "@/types/types";
 
 interface AuthContextProps {
     token: string;
-    activeAccount: string;
+    activeAccount: Account;
     user: User,
     isAuthenticated: boolean;
     loading: boolean;
     login: (username: string, password: string) => Promise<boolean>;
     logout: () => void;
+    setActiveAccount: (account: Account) => void;
 }
 
-interface User {
-    id: number,
-    name: string,
-    email: string,
-}
 
 const AuthContext = createContext<AuthContextProps>({
     token: "",
-    activeAccount: "",
-    user: {id: 0, name: '', email: ''},
+    activeAccount: {id: 0, name: '', loyaltyPoints: 0, cashbackBalance: 0, agent: {id: 0, name: '', shortName: '', phone: '', email: ''}, loyalty: {id: 0, name: '', threshold: 0}, isMainAccount: false},
+    user: {id: 0, name: '', email: '', accounts: []},
     isAuthenticated: false,
     loading: false,
     login: () => {return Promise.resolve(false);},
-    logout: () => {}
+    logout: () => {},
+    setActiveAccount: () => {}
 });
 
 export function AuthProvider({children}: {children: React.ReactNode}) {
     const [{data: token, loading}, setToken] = useSecureStorageState('session');
-    const [{data: activeAccount, loading: activeAccountLoading}, setActiveAccount] = useSecureStorageState('active-account');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    //const [user, setUser] = useState<User>({id: 0, name: '', email: ''});
     const [{data: user}, setUser] = useStorageState<User>('user');
+    const [{data: activeAccount}, setActiveAccount] = useStorageState<Account>('active-account');
 
     const login = async (email: string, password: string) => {
         try {
             const api = await getApi();
-            const response = await api.fetchData('/app/auth/login', 'POST', {
+            const {token, user}: {
+                token: string;
+                user: User;
+            } = await api.fetchData('/app/auth/login', 'POST', {
                 email, password
             });
-            setToken(response.token); // Use actual token from response
-            setUser(response.user); // Use actual user data from response
+            setToken(token); // Use actual token from response
+            setUser(user); // Use actual user data from response
+            setActiveAccount(user.accounts.find(acc => acc.isMainAccount) || user.accounts[0]);
             setIsAuthenticated(true); // Set authentication status
             return true;
         } catch (error: any) {
@@ -52,9 +53,8 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     }
 
     const logout = () => {
-        //@todo implement actual login logic
-        setToken(''); // Replace with actual token from login response
-        setIsAuthenticated(false); // Set authentication status
+        setToken('');
+        setIsAuthenticated(false);
     }
 
     const contextValue = useMemo(() => ({
@@ -64,8 +64,9 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         isAuthenticated,
         loading,
         login,
-        logout
-    }), [token, user, isAuthenticated, loading, login, logout]);
+        logout,
+        setActiveAccount
+    }), [token, user, isAuthenticated, loading, login, logout, activeAccount, setActiveAccount]);
 
     return (
         <AuthContext.Provider value={contextValue}>

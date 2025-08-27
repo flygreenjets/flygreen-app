@@ -12,68 +12,75 @@ import {router} from "expo-router";
 import {Colors} from "@/utils/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AccountPicker from "@/components/ui/AccountPicker";
+import {useEffect} from "react";
+import { useAuth } from "@/providers/AuthProvider";
+
+const nextTrip = {
+    id: 2,
+    name: "Trip to New York",
+    description: "Description 1",
+    departureDate: "Tue, June 10, 2025",
+    departureAirport: {
+        code: "CYUL",
+        name: "Montreal Airport, QC",
+    },
+    destinationAirport: {
+        code: "KTEB",
+        name: "Newark Liberty Intl. Airport, NJ",
+    },
+    aircraft: {
+        category: 'Super Midsize Jet',
+        model: 'Citation X',
+        registration: 'C-GREEN',
+    },
+    stage: "Closed Won",
+    pax: 2,
+    duration: "1h 39m",
+    fuelStops: 0,
+};
+
+const workingTrip =  {
+    id: 1,
+    name: "Trip to Miami",
+    description: "Description 1",
+    departureDate: "Fri, Apr 4, 2025",
+    stage: "Requested",
+    departureAirport: {
+        code: "KTEB",
+        name: "Newark Liberty Intl. Airport, NJ",
+    },
+    destinationAirport: {
+        code: "KTMB",
+        name: "Miami Executive Airport, FL",
+    },
+    aircraft: {
+        category: 'Light Jet',
+        model: 'Phenom 300',
+        registration: 'N12345',
+    },
+    pax: 5,
+    duration: "2h 30m",
+    fuelStops: 2,
+}
+
+
+const recentDocs = [
+    {id: '1', name: 'Quote 1'},
+    {id: '2', name: 'Quote 2'},
+]
 
 export default function Homepage() {
-    const nextTrip = {
-        id: 2,
-        name: "Trip to New York",
-        description: "Description 1",
-        departureDate: "Tue, June 10, 2025",
-        departureAirport: {
-            code: "CYUL",
-            name: "Montreal Airport, QC",
-        },
-        destinationAirport: {
-            code: "KTEB",
-            name: "Newark Liberty Intl. Airport, NJ",
-        },
-        aircraft: {
-            category: 'Super Midsize Jet',
-            model: 'Citation X',
-            registration: 'C-GREEN',
-        },
-        stage: "Closed Won",
-        pax: 2,
-        duration: "1h 39m",
-        fuelStops: 0,
-    };
+    const {activeAccount} = useAuth();
 
-    const workingTrip =  {
-        id: 1,
-        name: "Trip to Miami",
-        description: "Description 1",
-        departureDate: "Fri, Apr 4, 2025",
-        stage: "Requested",
-        departureAirport: {
-            code: "KTEB",
-            name: "Newark Liberty Intl. Airport, NJ",
-        },
-        destinationAirport: {
-            code: "KTMB",
-            name: "Miami Executive Airport, FL",
-        },
-        aircraft: {
-            category: 'Light Jet',
-            model: 'Phenom 300',
-            registration: 'N12345',
-        },
-        pax: 5,
-        duration: "2h 30m",
-        fuelStops: 2,
-    }
-
-
-    const recentDocs = [
-        {id: '1', name: 'Quote 1'},
-        {id: '2', name: 'Quote 2'},
-    ]
+    useEffect(() => {
+        console.log('Active account changed:', activeAccount.name);
+    }, [activeAccount]);
 
     return (
         <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 30}}>
             <View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
-                    {/*<Text style={styles.title}>Ero Copper Corp.</Text>*/}
-                    <AccountPicker accounts={[{id: 1, name: "Ero Copper Corp."}]}/>
+                    <AccountPicker/>
                     <Pressable onPress={() => router.push('/notifications')}>
                         <View>
                             <Ionicons name="notifications-outline" size={30} color="black" />
