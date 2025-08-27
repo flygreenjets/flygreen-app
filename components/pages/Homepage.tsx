@@ -11,6 +11,7 @@ import TripCard from "@/components/trips/TripCard";
 import {router} from "expo-router";
 import {Colors} from "@/utils/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import AccountPicker from "@/components/ui/AccountPicker";
 
 export default function Homepage() {
     const nextTrip = {
@@ -71,7 +72,8 @@ export default function Homepage() {
         <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 30}}>
             <View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
-                    <Text style={styles.title}>Ero Copper Corp.</Text>
+                    {/*<Text style={styles.title}>Ero Copper Corp.</Text>*/}
+                    <AccountPicker accounts={[{id: 1, name: "Ero Copper Corp."}]}/>
                     <Pressable onPress={() => router.push('/notifications')}>
                         <View>
                             <Ionicons name="notifications-outline" size={30} color="black" />

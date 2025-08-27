@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "flygreen",
-    "slug": "flygreen",
+    "name": "Flygreen",
+    "slug": "flygreen-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icons/ios/AppIcon@3x.png",
@@ -15,9 +15,6 @@
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
-    },
-    "androidNavigationBar": {
-        "visible": "sticky-immersive"
     },
     "android": {
       "adaptiveIcon": {

@@ -4,6 +4,7 @@ import {useSecureStorageState, useStorageState} from "@/hooks/storage";
 
 interface AuthContextProps {
     token: string;
+    activeAccount: string;
     user: User,
     isAuthenticated: boolean;
     loading: boolean;
@@ -19,6 +20,7 @@ interface User {
 
 const AuthContext = createContext<AuthContextProps>({
     token: "",
+    activeAccount: "",
     user: {id: 0, name: '', email: ''},
     isAuthenticated: false,
     loading: false,
@@ -28,6 +30,7 @@ const AuthContext = createContext<AuthContextProps>({
 
 export function AuthProvider({children}: {children: React.ReactNode}) {
     const [{data: token, loading}, setToken] = useSecureStorageState('session');
+    const [{data: activeAccount, loading: activeAccountLoading}, setActiveAccount] = useSecureStorageState('active-account');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     //const [user, setUser] = useState<User>({id: 0, name: '', email: ''});
     const [{data: user}, setUser] = useStorageState<User>('user');
@@ -56,6 +59,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
 
     const contextValue = useMemo(() => ({
         token,
+        activeAccount,
         user,
         isAuthenticated,
         loading,
