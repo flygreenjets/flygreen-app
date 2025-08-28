@@ -117,9 +117,9 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                             setFloorPlanModalVisible(true)
                         }}>
                             <Image
-                                style={styles.image}
-                                source={"https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"}
-                                contentFit="cover"
+                                style={[styles.image, {height: 100}]}
+                                source={"https://cdn.flygreen.co/aircraft-diagrams/citation-x-cropped.png"}
+                                contentFit="contain"
                                 transition={1000}
                             />
                         </Pressable>
@@ -155,7 +155,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     animationType="fade"
                 >
                     <ImageCarousel data={[
-                        {image: "https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"},
+                        {image: "https://cdn.flygreen.co/aircraft-diagrams/citation-x-cropped.png"},
                     ]}/>
                 </Modal>
 
@@ -215,8 +215,8 @@ const styles = StyleSheet.create({
     },
     image: {
         flex: 1,
-        backgroundColor: '#0553',
-        padding: 70,
+        backgroundColor: 'white',
+        height: 150,
         width: "100%",
         resizeMode: 'contain',
         zIndex: 1

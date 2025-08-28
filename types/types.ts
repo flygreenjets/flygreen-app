@@ -27,4 +27,5 @@ export interface Loyalty {
     id: number;
     name: string;
     threshold: number;
+    imageUrl: string;
 }

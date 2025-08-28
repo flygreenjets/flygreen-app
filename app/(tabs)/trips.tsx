@@ -10,9 +10,6 @@ import useQuery from "@/hooks/query";
 import {Trip} from "@/types/trips";
 
 export default function Trips() {
-    const {data, loading, error} = useQuery<Trip[]>('/trips/1214', 'GET', {});
-    console.log(data);
-
     const [tab, setTab] = useState(1);
     const renderList = (tab: number) => {
         switch (tab) {

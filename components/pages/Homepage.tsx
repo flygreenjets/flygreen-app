@@ -89,7 +89,7 @@ export default function Homepage() {
                     </Pressable>
                 </View>
                 <ImageBackground
-                    source={{uri: 'https://flygreen.s3.us-east-2.amazonaws.com/pdf-assets/rewards/gold.jpg'}}
+                    source={{uri: activeAccount.loyalty?.imageUrl ?? ""}}
                     style={styles.rewardsContainer}
                     imageStyle={{
                         borderRadius: 10,
@@ -97,7 +97,7 @@ export default function Homepage() {
                     }}
                     resizeMode={'stretch'}
                 >
-                    <Text style={{color: 'white', fontWeight: "bold", fontSize: 18}}>{(122354).toLocaleString()} Points</Text>
+                    <Text style={{color: 'white', fontWeight: "bold", fontSize: 18}}>{(activeAccount.loyaltyPoints)} Points</Text>
                 </ImageBackground>
                 <View style={{marginTop: 15, gap: 10}}>
                     <Text style={[styles.title, {fontSize: 16}]}>Your next trip</Text>

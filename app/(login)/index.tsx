@@ -23,7 +23,7 @@ export default function LoginPage() {
                 <View style={styles.container}>
                     <Image
                         style={{width: "100%", height: 125, alignSelf: 'center', marginVertical: 50}}
-                        source="http://cdn.flygreen.co/app-resources/logo-flygreen-full.png"
+                        source={"https://cdn.flygreen.co/app-resources/logo-flygreen-full.png"}
                         contentFit="contain"
                         transition={1000}
                     />
