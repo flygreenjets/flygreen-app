@@ -17,7 +17,7 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps>({
     token: "",
-    activeAccount: {id: 0, name: '', loyaltyPoints: 0, cashbackBalance: 0, agent: {id: 0, name: '', shortName: '', phone: '', email: ''}, loyalty: {id: 0, name: '', threshold: 0}, isMainAccount: false},
+    activeAccount: {id: 0, name: '', loyaltyPoints: 0, cashbackBalance: 0, agent: {id: 0, name: '', shortName: '', phone: '', email: ''}, nextLoyaltyTierThreshold: 1, loyalty: {id: 0, name: '', threshold: 0, imageUrl: ""}, isMainAccount: false},
     user: {id: 0, name: '', email: '', accounts: []},
     isAuthenticated: false,
     loading: false,

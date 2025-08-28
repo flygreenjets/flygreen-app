@@ -1,8 +1,9 @@
-import {View, Text, StyleSheet, Dimensions, Pressable} from 'react-native';
+import {View, Text, StyleSheet, Dimensions, Pressable, Alert} from 'react-native';
 import * as Linking from "expo-linking";
 import SlidingModal from "@/components/ui/modal/SlidingModal";
 import {AntDesign} from "@expo/vector-icons";
 import useToggle from "@/hooks/toggle";
+import {useAuth} from "@/providers/AuthProvider";
 
 const {height} = Dimensions.get('window');
 
@@ -32,6 +33,8 @@ export default function ContactMenu() {
         setFalse: setClose
     } = useToggle(false);
 
+    const {activeAccount} = useAuth();
+
     return (
         <>
             <Pressable
@@ -45,28 +48,52 @@ export default function ContactMenu() {
                     <Text style={{fontSize: 20, fontWeight: 'bold'}}>Contact Your Broker</Text>
                     <Pressable
                         onPress={() => {
-                            Linking.openURL(`telprompt:${contact.account.broker.phone}`);
+                            Linking.canOpenURL(`telprompt:${activeAccount.agent.phone}`).then((url) => {
+                                if (url) {
+                                    Linking.openURL(`telprompt:${activeAccount.agent.phone}`);
+                                } else {
+                                    Alert.alert("We've encountered an issue", "An error occurred while trying to make the call.");
+                                }
+                            });
                         }}
                     >
                         <Text style={styles.menuItem}>Call</Text>
                     </Pressable>
                     <Pressable
                         onPress={() => {
-                            Linking.openURL(`sms:${contact.account.broker.phone}`);
+                            Linking.canOpenURL(`sms:${activeAccount.agent.phone}`).then((url) => {
+                                if (url) {
+                                    Linking.openURL(`sms:${activeAccount.agent.phone}`);
+                                } else {
+                                    Alert.alert("We've encountered an issue", "An error occurred while trying to send the sms.");
+                                }
+                            });
                         }}
                     >
                         <Text style={styles.menuItem}>SMS</Text>
                     </Pressable>
                     <Pressable
                         onPress={() => {
-
+                            Linking.canOpenURL(`mailto:${activeAccount.agent.email}`).then((url) => {
+                                if (url) {
+                                    Linking.openURL(`mailto:${activeAccount.agent.email}`);
+                                } else {
+                                    Alert.alert("We've encountered an issue", "An error occurred while trying to send the email.");
+                                }
+                            });
                         }}
                     >
                         <Text style={styles.menuItem}>Email</Text>
                     </Pressable>
                     <Pressable
                         onPress={() => {
-
+                            Linking.canOpenURL(`whatsapp://send?phone=+${activeAccount.agent.phone}`).then((url) => {
+                                if (url) {
+                                    Linking.openURL(`whatsapp://send?phone=+${activeAccount.agent.phone}`);
+                                } else {
+                                    Alert.alert("We've encountered an issue", "An error occurred while trying to open WhatsApp.");
+                                }
+                            });
                         }}
                     >
                         <Text style={styles.menuItem}>WhatsApp</Text>

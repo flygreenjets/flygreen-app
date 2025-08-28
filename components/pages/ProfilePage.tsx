@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Pressable} from "react-native";
+import {View, Text, StyleSheet, Pressable, Alert} from "react-native";
 import * as Linking from "expo-linking";
 import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -7,51 +7,31 @@ import React from "react";
 import {useAuth} from "@/providers/AuthProvider";
 import ConfirmButton from "@/components/ui/buttons/ConfirmButton";
 
-const contact = {
-    firstName: "Paul",
-    lastName: "Atreides",
-    phone: "+1234567890",
-    email: "paul.a@gmail.com",
-    account: {
-        name: "Ero Copper",
-        rewardTier: "Gold",
-        points: 1200,
-        progressTowardNextTier: 83, // percentage
-        flightsBooked: 10,
-        broker: {
-            name: "Pascal Couture-Tremblay",
-            phone: "+1234567890",
-            email: "pct@flygreen.co"
-        }
-    }
-}
-
 export default function profilePage() {
-    const {logout} = useAuth();
+    const {logout, user, activeAccount} = useAuth();
     return (
         <View style={{paddingHorizontal: 10}}>
             <View style={{marginBottom: 15}}>
-                <Text style={styles.accountName}>{contact.firstName} {contact.lastName}</Text>
+                <Text style={styles.accountName}>{user.name}</Text>
                 <View style={styles.contactInfo}>
-                    <Text>{contact.email}</Text>
-                    <Text>{contact.phone}</Text>
+                    <Text>{user.email}</Text>
                 </View>
             </View>
             <Card>
-                <Text style={[styles.accountName, {textAlign: "center"}]}>{contact.account.name}</Text>
+                <Text style={[styles.accountName, {textAlign: "center"}]}>{activeAccount.name}</Text>
                 <View style={styles.loyaltyInfoContainer}>
                     <Text style={styles.loyaltyInfo}>
-                        <Text style={{fontWeight: "bold"}}>{contact.account.rewardTier}</Text>
+                        <Text style={{fontWeight: "bold"}}>{activeAccount.loyalty.name}</Text>
                         {"\n"}
                         Tier
                     </Text>
                     <Text style={[styles.loyaltyInfo, styles.loyaltyInfoMiddle]}>
-                        <Text style={{fontWeight: "bold"}}>{(contact.account.points).toLocaleString()}</Text>
+                        <Text style={{fontWeight: "bold"}}>{(activeAccount.loyaltyPoints).toLocaleString()}</Text>
                         {"\n"}
                         Points
                     </Text>
                     <Text style={[styles.loyaltyInfo]}>
-                        <Text style={{fontWeight: "bold"}}>{(contact.account.progressTowardNextTier).toFixed(0)}%</Text>
+                        <Text style={{fontWeight: "bold"}}>{((activeAccount.loyaltyPoints / activeAccount.nextLoyaltyTierThreshold)*100).toFixed(0)}%</Text>
                         {"\n"}
                         to next tier
                     </Text>
@@ -66,48 +46,80 @@ export default function profilePage() {
                     <MaterialCommunityIcons name="file-document-outline" size={20} color={Colors.flygreenGreen} />
                 </Pressable>
             </Card>
-            <Card>
-                <View style={styles.yourBrokerContainer}>
-                    <Text style={styles.yourBrokerTitle}>Your Broker:</Text>
-                    <Text style={styles.yourBrokerText}>{contact.account.broker.name}</Text>
-                </View>
-                <View style={styles.yourBrokerContactInfo}>
-                    <Pressable onPress={() => {
-                        Linking.openURL(`telprompt:${contact.account.broker.phone}`);
-                    }} style={styles.yourBrokerContactButtons}>
-                        <MaterialCommunityIcons name="phone-outline" size={30} color={Colors.white} />
-                        <Text style={styles.yourBrokerContactButtonText}>
-                            Call
-                        </Text>
-                    </Pressable>
-                    <Pressable style={styles.yourBrokerContactButtons}
-                        onPress={() => {
-                            Linking.openURL(`mailto:${contact.account.broker.email}`);
-                        }}
-                    >
-                        <MaterialCommunityIcons name="email-outline" size={30} color={Colors.white} />
-                        <Text style={styles.yourBrokerContactButtonText}>
-                            Email
-                        </Text>
-                    </Pressable>
-                </View>
-                <View style={[styles.yourBrokerContactInfo, {marginTop: 10}]}>
-                    <Pressable onPress={() => {
-                        Linking.openURL(`sms:${contact.account.broker.phone}`);
-                    }} style={styles.yourBrokerContactButtons}>
-                        <MaterialCommunityIcons name="message-outline" size={30} color={Colors.white} />
-                        <Text style={styles.yourBrokerContactButtonText}>
-                            Text
-                        </Text>
-                    </Pressable>
-                    <Pressable style={styles.yourBrokerContactButtons}>
-                        <MaterialCommunityIcons name="whatsapp" size={30} color={Colors.white} />
-                        <Text style={styles.yourBrokerContactButtonText}>
-                            Text
-                        </Text>
-                    </Pressable>
-                </View>
-            </Card>
+            {activeAccount.agent && (
+                <Card>
+                    <View style={styles.yourBrokerContainer}>
+                        <Text style={styles.yourBrokerTitle}>Your Broker:</Text>
+                        <Text style={styles.yourBrokerText}>{activeAccount.agent.name}</Text>
+                    </View>
+                    <View style={styles.yourBrokerContactInfo}>
+                        <Pressable onPress={() => {
+                            Linking.canOpenURL(`telprompt:${activeAccount.agent.phone}`).then((url) => {
+                                if (url) {
+                                    Linking.openURL(`telprompt:${activeAccount.agent.phone}`);
+                                } else {
+                                    Alert.alert("We've encountered an issue", "An error occurred while trying to make the call.");
+                                }
+                            });
+                        }} style={styles.yourBrokerContactButtons}>
+                            <MaterialCommunityIcons name="phone-outline" size={30} color={Colors.white} />
+                            <Text style={styles.yourBrokerContactButtonText}>
+                                Call
+                            </Text>
+                        </Pressable>
+                        <Pressable style={styles.yourBrokerContactButtons}
+                                   onPress={() => {
+                                       Linking.canOpenURL(`mailto:${activeAccount.agent.email}`).then((url) => {
+                                           if (url) {
+                                               Linking.openURL(`mailto:${activeAccount.agent.email}`);
+                                           } else {
+                                               Alert.alert("We've encountered an issue", "An error occurred while trying to send the email.");
+                                           }
+                                       });
+                                   }}
+                        >
+                            <MaterialCommunityIcons name="email-outline" size={30} color={Colors.white} />
+                            <Text style={styles.yourBrokerContactButtonText}>
+                                Email
+                            </Text>
+                        </Pressable>
+                    </View>
+                    <View style={[styles.yourBrokerContactInfo, {marginTop: 10}]}>
+                        <Pressable onPress={() => {
+                            Linking.canOpenURL(`sms:${activeAccount.agent.phone}`).then((url) => {
+                                if (url) {
+                                    Linking.openURL(`sms:${activeAccount.agent.phone}`);
+                                } else {
+                                    Alert.alert("We've encountered an issue", "An error occurred while trying to send the sms.");
+                                }
+                            });
+                            Linking.openURL(`sms:${activeAccount.agent.phone}`);
+                        }} style={styles.yourBrokerContactButtons}>
+                            <MaterialCommunityIcons name="message-outline" size={30} color={Colors.white} />
+                            <Text style={styles.yourBrokerContactButtonText}>
+                                Text
+                            </Text>
+                        </Pressable>
+                        <Pressable
+                            onPress={() => {
+                                Linking.canOpenURL(`whatsapp://send?phone=+${activeAccount.agent.phone}`).then((url) => {
+                                    if (url) {
+                                        Linking.openURL(`whatsapp://send?phone=+${activeAccount.agent.phone}`);
+                                    } else {
+                                        Alert.alert("We've encountered an issue", "An error occurred while trying to open WhatsApp.");
+                                    }
+                                });
+                            }}
+                            style={styles.yourBrokerContactButtons}
+                        >
+                            <MaterialCommunityIcons name="whatsapp" size={30} color={Colors.white} />
+                            <Text style={styles.yourBrokerContactButtonText}>
+                                WhatsApp
+                            </Text>
+                        </Pressable>
+                    </View>
+                </Card>
+            )}
             <ConfirmButton
                 buttonStyle={styles.logoutButton}
                 confirmAction={logout}

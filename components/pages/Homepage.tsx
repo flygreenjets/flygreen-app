@@ -97,7 +97,7 @@ export default function Homepage() {
                     }}
                     resizeMode={'stretch'}
                 >
-                    <Text style={{color: 'white', fontWeight: "bold", fontSize: 18}}>{(activeAccount.loyaltyPoints)} Points</Text>
+                    <Text style={{color: 'white', fontWeight: "bold", fontSize: 18}}>{(activeAccount.loyaltyPoints ?? 0).toLocaleString()} Points</Text>
                 </ImageBackground>
                 <View style={{marginTop: 15, gap: 10}}>
                     <Text style={[styles.title, {fontSize: 16}]}>Your next trip</Text>
