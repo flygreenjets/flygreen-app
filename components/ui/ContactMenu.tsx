@@ -1,32 +1,16 @@
-import {View, Text, StyleSheet, Dimensions, Pressable, Alert} from 'react-native';
+import {View, Text, StyleSheet, Pressable, Alert} from 'react-native';
 import * as Linking from "expo-linking";
 import SlidingModal from "@/components/ui/modal/SlidingModal";
 import {AntDesign} from "@expo/vector-icons";
 import useToggle from "@/hooks/toggle";
 import {useAuth} from "@/providers/AuthProvider";
+import {ReactNode} from "react";
 
-const {height} = Dimensions.get('window');
-
-const contact = {
-    firstName: "Paul",
-    lastName: "Atreides",
-    phone: "+1234567890",
-    email: "paul.a@gmail.com",
-    account: {
-        name: "Ero Copper",
-        rewardTier: "Gold",
-        points: 1200,
-        progressTowardNextTier: 83, // percentage
-        flightsBooked: 10,
-        broker: {
-            name: "Pascal Couture-Tremblay",
-            phone: "+1234567890",
-            email: "pct@flygreen.co"
-        }
-    }
+interface ContactMenuProps {
+    button?: ReactNode;
 }
 
-export default function ContactMenu() {
+export default function ContactMenu({button}: ContactMenuProps) {
     const {
         value: isOpen,
         setTrue: setOpen,
@@ -41,11 +25,13 @@ export default function ContactMenu() {
                 onPress={() => {setOpen()}}
                 style={{marginRight: 10}}
             >
-                <AntDesign name="phone" size={24} color="white" />
+                {button ?? (
+                    <AntDesign name="phone" size={24} color="white" />
+                )}
             </Pressable>
             <SlidingModal isOpen={isOpen} onClose={setClose}>
                 <View>
-                    <Text style={{fontSize: 20, fontWeight: 'bold'}}>Contact Your Broker</Text>
+                    <Text style={{fontSize: 20, fontWeight: 'bold'}}>Contact {activeAccount.agent.shortName}</Text>
                     <Pressable
                         onPress={() => {
                             Linking.canOpenURL(`telprompt:${activeAccount.agent.phone}`).then((url) => {

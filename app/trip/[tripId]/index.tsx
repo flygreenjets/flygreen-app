@@ -62,7 +62,7 @@ export default function TripPage({}) {
     const {tripId} = useLocalSearchParams();
     const router = useRouter();
 
-    const {data, loading, error} = useQuery(`/trips/100202524`);
+    const {data, loading, error} = useQuery(`/trips/${tripId}`);
 
     useEffect(() => {
         if (error) {

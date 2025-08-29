@@ -1,4 +1,5 @@
 import {StyleSheet, TouchableWithoutFeedback, View, Modal as RNModal, Dimensions} from "react-native";
+import {useSafeAreaInsets} from "react-native-safe-area-context";
 
 interface SlidingModalProps {
     isOpen: boolean,
@@ -9,6 +10,8 @@ interface SlidingModalProps {
 const {height} = Dimensions.get('window');
 
 export default function SlidingModal({isOpen, onClose, children}: SlidingModalProps) {
+    const {bottom} = useSafeAreaInsets()
+
     return (
         <RNModal
             animationType="slide"
@@ -20,7 +23,7 @@ export default function SlidingModal({isOpen, onClose, children}: SlidingModalPr
                 <View style={[styles.modalOverlay]} />
             </TouchableWithoutFeedback>
             <View style={[styles.modalContent]}>
-                <View style={styles.container}>
+                <View style={[styles.container, {marginBottom: bottom}]}>
                     {children}
                 </View>
             </View>
@@ -44,7 +47,7 @@ const styles = StyleSheet.create({
     container: {
         width: '100%',
         backgroundColor: 'white',
-        height: height/3,
+        height: height/2,
         padding: 20,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,

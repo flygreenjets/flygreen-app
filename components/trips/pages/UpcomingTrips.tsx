@@ -4,35 +4,13 @@ import TripCard from "@/components/trips/TripCard";
 import useToggle from "@/hooks/toggle";
 import TripTabs from "@/components/trips/TripTabs";
 import {router} from "expo-router";
+import {Trip} from "@/types/trips";
 
-export default function UpcomingTrips() {
-    // trips data
-    const trips = [
-        {
-            id: 2,
-            name: "Trip to New York",
-            description: "Description 1",
-            departureDate: "Tue, June 10, 2025",
-            departureAirport: {
-                code: "CYUL",
-                name: "Montreal Airport, QC",
-            },
-            destinationAirport: {
-                code: "KTEB",
-                name: "Newark Liberty Intl. Airport, NJ",
-            },
-            aircraft: {
-                category: 'Super Midsize Jet',
-                model: 'Citation X',
-                registration: 'C-GREEN',
-            },
-            stage: "Closed Won",
-            pax: 2,
-            duration: "1h 39m",
-            fuelStops: 0,
-        },
-    ];
+interface UpcomingTripsProps {
+    trips: Trip[];
+}
 
+export default function UpcomingTrips({trips}: UpcomingTripsProps) {
     return (
         <>
             {trips.map((trip) => (
