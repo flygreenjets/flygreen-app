@@ -38,7 +38,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
             const {token, user}: {
                 token: string;
                 user: User;
-            } = await api.fetchData('/app/auth/login', 'POST', {
+            } = await api.fetchData('/auth/login', 'POST', {
                 email, password
             });
             setToken(token); // Use actual token from response

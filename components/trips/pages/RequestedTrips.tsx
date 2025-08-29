@@ -3,33 +3,11 @@ import TripCard from "@/components/trips/TripCard";
 import {router} from "expo-router";
 import {Trip} from "@/types/trips";
 
-export default function RequestedTrips() {
-    const trips = [
-        {
-            id: 1,
-            name: "Trip 1",
-            description: "Description 1",
-            departureDate: "Fri, Apr 4, 2025",
-            stage: "Requested",
-            departureAirport: {
-                code: "KTEB",
-                name: "Newark Liberty Intl. Airport, NJ",
-            },
-            destinationAirport: {
-                code: "KTMB",
-                name: "Miami Executive Airport, FL",
-            },
-            aircraft: {
-                category: 'Light Jet',
-                model: 'Phenom 300',
-                registration: 'N12345',
-            },
-            pax: 5,
-            duration: "2h 30m",
-            fuelStops: 2,
-        },
-    ];
+interface RequestedTripsProps {
+    trips: Trip[];
+}
 
+export default function RequestedTrips({trips}: RequestedTripsProps) {
     return (
         <>
             {trips.map((trip) => (

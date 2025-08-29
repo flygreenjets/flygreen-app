@@ -6,6 +6,8 @@ export interface Trip {
     description: string;
     departureDate: string;
     stage: string;
+    rfqCount: number;
+    rfqResolved: Number;
     departureAirport: {
         code: string;
         name: string;
@@ -14,7 +16,7 @@ export interface Trip {
         code: string;
         name: string;
     };
-    aircraft: {
+    aircraft?: {
         category: string;
         model: string;
         registration: string;

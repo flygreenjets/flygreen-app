@@ -25,7 +25,7 @@ export default function useQuery<T = any>(endpoint: string, method: "GET" | "POS
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<any>(null);
-    const [{data: token}] = useSecureStorageState('session');
+    const {token} = useAuth();
 
     useEffect(() => {
         let isMounted = true; // to prevent setting state if unmounted

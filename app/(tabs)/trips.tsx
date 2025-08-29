@@ -3,18 +3,22 @@ import {SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import TripTabs from "@/components/trips/TripTabs";
 import UpcomingTrips from "@/components/trips/pages/UpcomingTrips";
 import {useState} from "react";
-import {switchCase} from "@babel/types";
 import PastTrips from "@/components/trips/pages/PastTrips";
 import RequestedTrips from "@/components/trips/pages/RequestedTrips";
+import {AccountTripsResponse} from "@/types/responses";
 import useQuery from "@/hooks/query";
-import {Trip} from "@/types/trips";
+import {useAuth} from "@/providers/AuthProvider";
+import SpinnerLoading from "@/components/animations/SpinnerLoading";
 
 export default function Trips() {
+    const {activeAccount} = useAuth();
     const [tab, setTab] = useState(1);
+    const { data, loading, error } = useQuery<AccountTripsResponse>(`/accounts/${activeAccount.id}/trips`);
+
     const renderList = (tab: number) => {
         switch (tab) {
             case 1:
-                return <RequestedTrips />
+                return <RequestedTrips trips={data?.requested ?? []}/>
             case 2:
                 return <UpcomingTrips/>
             case 3:
@@ -28,9 +32,13 @@ export default function Trips() {
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>
                 <TripTabs tab={tab} setTab={setTab}/>
-                <ScrollView style={styles.scrollView}>
-                    {renderList(tab)}
-                </ScrollView>
+                {loading && !data ? (
+                    <SpinnerLoading/>
+                ) : (
+                    <ScrollView style={styles.scrollView}>
+                        {renderList(tab)}
+                    </ScrollView>
+                )}
             </SafeAreaView>
         </SafeAreaProvider>
     );

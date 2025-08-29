@@ -82,7 +82,7 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <Text style={styles.progressText}>Confirming aircraft availability and pricing</Text>
                     </View>
-                    <ProgressBar progress={50} />
+                    <ProgressBar progress={trip.rfqCount > 0 ? ((Number(trip.rfqResolved)/Number(trip.rfqCount))*100): 10} />
                 </View>
             )}
         </>
