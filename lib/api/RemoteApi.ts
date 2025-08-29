@@ -21,7 +21,6 @@ export default class RemoteApi extends BaseApi {
             const response = await this.axiosInstance.request({
                 url: endpoint,
                 method: method,
-                data: data,
                 ...(method === 'POST' && { data })
             });
             return response.data;
