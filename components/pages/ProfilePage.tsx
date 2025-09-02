@@ -39,7 +39,7 @@ export default function profilePage() {
                 <Pressable
                     style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5}}
                     onPress={() => {
-
+                        Linking.openURL(process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/loyalty-points/${activeAccount.id}`);
                     }}
                 >
                     <Text style={{color: Colors.flygreenGreen}}>View Rewards History</Text>
