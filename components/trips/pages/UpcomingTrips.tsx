@@ -5,6 +5,7 @@ import useToggle from "@/hooks/toggle";
 import TripTabs from "@/components/trips/TripTabs";
 import {router} from "expo-router";
 import {Trip} from "@/types/trips";
+import EmptyTripList from "@/components/ui/trips/EmptyTripList";
 
 interface UpcomingTripsProps {
     trips: Trip[];
@@ -13,11 +14,13 @@ interface UpcomingTripsProps {
 export default function UpcomingTrips({trips}: UpcomingTripsProps) {
     return (
         <>
-            {trips.map((trip) => (
+            {trips.length > 0 ? trips.map((trip) => (
                 <Pressable key={trip.id} onPress={() => router.push(`/trip/${trip.id}`)}>
                     <TripCard trip={trip} />
                 </Pressable>
-            ))}
+            )) : (
+                <EmptyTripList/>
+            )}
         </>
     );
 }

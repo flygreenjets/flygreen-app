@@ -19,6 +19,7 @@ interface UseApiQueryResult<T> {
     loading: boolean;
     data: T | null;
     error: any;
+    refetch: () => Promise<void>;
 }
 
 export default function useQuery<T = any>(endpoint: string, method: "GET" | "POST" = "GET", body: any = {}): UseApiQueryResult<T> {
@@ -56,5 +57,20 @@ export default function useQuery<T = any>(endpoint: string, method: "GET" | "POS
         };
     }, [endpoint]);
 
-    return { loading, data, error };
+    const refetch = async () => {
+        setLoading(true);
+        setError(null);
+        setData(null);
+        try {
+            const api = await getApi(token);
+            const result = await api.fetchData(endpoint, method, body);
+            setData(result);
+        } catch (err) {
+            setError(err);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return { loading, data, error, refetch };
 }
