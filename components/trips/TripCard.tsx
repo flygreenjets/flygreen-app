@@ -14,6 +14,14 @@ interface TripCardProps {
     showAsCard?: boolean
 }
 export default function TripCard({trip, showAsCard = true}: TripCardProps) {
+    const showProgress = () => {
+        if (trip.rfqCount === 0) return 10;
+        const progress = (Number(trip.rfqResolved)/Number(trip.rfqCount))*100;
+        if (progress > 90) return 90;
+        if (progress < 10) return 10;
+        return progress;
+    }
+
     const getContainer = (children: ReactNode) => {
         return showAsCard ? (
             <Card>
@@ -51,7 +59,7 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                     <Text style={{...styles.airportName, textAlign: "right"}}>{trip.destinationAirport.name}</Text>
                 </View>
             </View>
-            {trip.stage === "Closed Won" ? (
+            {trip.status === "confirmed" ? (
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -82,7 +90,7 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <Text style={styles.progressText}>Confirming aircraft availability and pricing</Text>
                     </View>
-                    <ProgressBar progress={trip.rfqCount > 0 ? ((Number(trip.rfqResolved)/Number(trip.rfqCount))*100): 10} />
+                    <ProgressBar progress={showProgress()} />
                 </View>
             )}
         </>

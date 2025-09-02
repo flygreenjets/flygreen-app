@@ -6,6 +6,7 @@ export interface Trip {
     description: string;
     departureDate: string;
     stage: string;
+    status: string;
     rfqCount: number;
     rfqResolved: Number;
     departureAirport: {
