@@ -1,4 +1,4 @@
-import {View, ScrollView, Text, StyleSheet} from "react-native";
+import {View, ScrollView, Text, StyleSheet, RefreshControl} from "react-native";
 import {Quote, Trip} from "@/types/trips";
 import TripCard from "@/components/trips/TripCard";
 import {Colors} from "@/utils/Colors";
@@ -166,12 +166,16 @@ const data: Quote[] = [
 
 // const data: Quote[] = [];
 export default function TripView({trip}: TripViewProps) {
+
+    if (!trip) {
+        return null;
+    }
     const checkStage = () => {
         return trip.stage === TRIP_STAGE_SOURCING || trip.stage === TRIP_STAGE_QUOTING || trip.stage === TRIP_STAGE_DILIGENCE;
     }
 
     return (
-        <ScrollView>
+        <>
             <View style={{
                 backgroundColor: "#fff",
                 paddingHorizontal: 16,
@@ -198,7 +202,7 @@ export default function TripView({trip}: TripViewProps) {
                 </>
             )}
             <TripDocumentSection />
-        </ScrollView>
+        </>
     );
 }
 

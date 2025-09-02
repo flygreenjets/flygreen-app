@@ -7,7 +7,7 @@ import useQuery from "@/hooks/query";
 import axios, {Axios} from "axios";
 import {useAuth} from "@/providers/AuthProvider";
 import SpinnerLoading from "@/components/animations/SpinnerLoading";
-import {Alert, View} from "react-native";
+import {Alert, RefreshControl, ScrollView, View} from "react-native";
 
 const trips = [
     {
@@ -62,7 +62,7 @@ export default function TripPage({}) {
     const {tripId} = useLocalSearchParams();
     const router = useRouter();
 
-    const {data, loading, error} = useQuery(`/trips/${tripId}`);
+    const {data, loading, error, refetch} = useQuery(`/trips/${tripId}`);
 
     useEffect(() => {
         if (error) {
@@ -77,17 +77,15 @@ export default function TripPage({}) {
         <GestureHandlerRootView>
             <SafeAreaProvider>
                 <SafeAreaView>
-                    {loading || error !== null ? (
-                        <View style={{
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            height: '100%'
-                        }}>
-                            <SpinnerLoading/>
-                        </View>
-                    ) : (
-                        <TripView trip={data.data} />
-                    )}
+                    <ScrollView
+                        style={{
+                            height: "100%"
+                        }}
+                        refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch} />}
+                    >
+                        <TripView trip={data?.data} />
+                    </ScrollView>
+
                 </SafeAreaView>
             </SafeAreaProvider>
         </GestureHandlerRootView>

@@ -60,7 +60,6 @@ export default function useQuery<T = any>(endpoint: string, method: "GET" | "POS
     const refetch = async () => {
         setLoading(true);
         setError(null);
-        setData(null);
         try {
             const api = await getApi(token);
             const result = await api.fetchData(endpoint, method, body);
