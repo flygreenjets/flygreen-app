@@ -78,8 +78,8 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                     <View style={{...styles.flightInfo, justifyContent: 'flex-end'}}>
                         <MaterialIcons name="location-pin" size={16} color="#205046" />
                         <Text>
-                            {trip.fuelStops && trip.fuelStops > 0 ?
-                                `${trip.fuelStops} stop${trip.fuelStops && trip.fuelStops > 1 ? 's' : null}`
+                            {trip.numStops && trip.numStops > 0 ?
+                                `${trip.numStops} stop${trip.numStops && trip.numStops > 1 ? 's' : null}`
                             : "Non-stop"}
 
                         </Text>

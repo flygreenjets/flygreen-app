@@ -14,7 +14,7 @@ export interface Trip {
     aircraft?: Aircraft;
     pax: number;
     duration: string;
-    fuelStops?: number; // optional property
+    numStops?: number; // optional property
     quotes: Quote[];
     tripSheets: TripSheet[];
 }
