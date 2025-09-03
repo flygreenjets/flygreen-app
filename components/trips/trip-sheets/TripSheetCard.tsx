@@ -3,127 +3,24 @@ import Card from "@/components/ui/Card";
 import {Colors} from "@/utils/Colors";
 import {Image} from "expo-image";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import React from "react";
+import React, {useState} from "react";
 import {showLocation} from "react-native-map-link";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import DotPagination from "@/components/ui/DotPagination";
 import {router} from "expo-router";
 import ShareButton from "@/components/ui/buttons/ShareButton";
 import * as Linking from "expo-linking";
+import {TripSheet} from "@/types/trips";
 
 const {width} = Dimensions.get('screen');
 
-const quote = {
-    imageUrl: "https://flygreen.s3.us-east-2.amazonaws.com/aircraft-category-pictures/supermidsize-exterior.jpg",
+interface TripSheetCardProps {
+    tripSheet: TripSheet;
 }
 
-const tripSheet = {
-    id: 1,
-    departureDate: "Jun 14th, 10:00am",
-    tailNumber: "N350HH",
-    pilotInCommand: "William Chau",
-    secondInCommand: "Keith Chau",
-    cabinAttendant: "William Chau",
-    segments: [
-        {
-            from: "CYUL to CYYZ",
-            date: "05/14 10:00am",
-            duration: "2h 30m",
-            passengers: "5 PAX",
-            departureAirport: {
-                "name": "Los Angeles Intl",
-                "code": "KLAX",
-                "city": "Los Angeles",
-                "phone": "+1 310-410-9605"
-            },
-            departureFbo: {
-                "name": "Signature Flight Support",
-                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
-                "phone": "+1 310-410-9605"
-            },
-            destinationAirport: {
-                "name": "Charlottetown",
-                "code": "CYYG",
-                "city": "Charlottetown",
-                "phone": "+1 310-410-9605"
-            },
-            destinationFbo: {
-                "name": "Main Terminal",
-                "address": "250 Maple Hills Ave, \nCharlottetown, PE, C1C 1N2",
-                "phone": "+1 902-566-7997"
-            }
-        },
-        {
-            from: "CYUL to CYYZ",
-            date: "05/14 10:00am",
-            duration: "2h 30m",
-            passengers: "5 PAX",
-            departureAirport: {
-                "name": "Los Angeles Intl",
-                "code": "KLAX",
-                "city": "Los Angeles",
-                "phone": "+1 310-410-9605"
-            },
-            departureFbo: {
-                "name": "Signature Flight Support",
-                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
-                "phone": "+1 310-410-9605"
-            },
-            destinationAirport: {
-                "name": "Charlottetown",
-                "code": "CYYG",
-                "city": "Charlottetown",
-                "phone": "+1 310-410-9605"
-            },
-            destinationFbo: {
-                "name": "Main Terminal",
-                "address": "250 Maple Hills Ave, \nCharlottetown, PE, C1C 1N2",
-                "phone": "+1 902-566-7997"
-            }
-        },
-        {
-            from: "CYUL to CYYZ",
-            date: "05/14 10:00am",
-            duration: "2h 30m",
-            passengers: "5 PAX",
-            departureAirport: {
-                "name": "Los Angeles Intl",
-                "code": "KLAX",
-                "city": "Los Angeles",
-                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
-                "phone": "+1 310-410-9605"
-            },
-            departureFbo: {
-                "name": "Signature Flight Support",
-                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
-                "phone": "+1 310-410-9605"
-            },
-            destinationAirport: {
-                "name": "Charlottetown",
-                "code": "CYYG",
-                "city": "Charlottetown",
-                "address": "6201 W Imperial Hwy \nLos Angeles, California 90045",
-                "phone": "+1 310-410-9605"
-            },
-            destinationFbo: {
-                "name": "Main Terminal",
-                "address": "250 Maple Hills Ave, \nCharlottetown, PE, C1C 1N2",
-                "phone": "+1 902-566-7997"
-            }
-        }
-    ],
-    passengers: [
-        "John Doe",
-        "Jane Smith",
-        "Bob Johnson",
-        "Alice Brown",
-        "Charlie White"
-    ],
-    notes: "<p><b>Catering: Stevie's Catering</b></p><p><b>Breakfast:</b> 3x Scrambled Eggs + Bacon // 2x Breakfast Burrito<br><b>Lunch: </b>Crispy Vegetable Spring Rolls // Pico de Gallo + Spicy Guacamole &amp; Chips // 3x Chicken Teriyaki Plates // 4x House Salad with Chicken // 1x Steak // 1x Macaroni and Cheese // 1x Spaghetti Tomato Sauce<br><b>Drinks:</b> Coors Light // 2x bottles of Pinot Noir</p><p>&nbsp;</p><p><b>CYYG Driver:</b> 1 902 439-4636</p>",
-}
 
-export default function TripSheetCard() {
-    const [pagination, setPagination] = React.useState(0);
+export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
+    const [pagination, setPagination] = useState(0);
 
     return (
         <Card style={styles.mainContainer}>
@@ -140,7 +37,7 @@ export default function TripSheetCard() {
             <View>
                 <Image
                     style={[styles.image]}
-                    source={quote.imageUrl}
+                    source={tripSheet.primaryImage ?? ""}
                     contentFit="cover"
                     transition={1000}
                 />
@@ -165,7 +62,7 @@ export default function TripSheetCard() {
                                 }}>
                                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                         <Text>Leg {index+1}</Text>
-                                        <Text>June 14th, 10:00am</Text>
+                                        <Text>{segment.departureDate}</Text>
                                     </View>
                                     <View key={index} style={{
                                         flexDirection: 'row',
@@ -194,11 +91,11 @@ export default function TripSheetCard() {
                                                     <Pressable
                                                         onPress={() => {
                                                             showLocation({
-                                                                address: segment.departureAirport.address,
+                                                                address: segment.departureAirport.location,
                                                             });
                                                         }}
                                                     >
-                                                        <Text>{segment.departureAirport?.address}</Text>
+                                                        <Text>{segment.departureAirport?.location}</Text>
                                                     </Pressable>
                                                     <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.departureAirport.phone}`);}}>
                                                         <Text>{segment.departureAirport.phone}</Text>
@@ -229,15 +126,15 @@ export default function TripSheetCard() {
                                                 </>
                                             ) : (
                                                 <>
-                                                    <Text style={styles.airportName}>{segment.destinationAirport?.name}</Text>
+                                                    <Text style={[styles.right, styles.airportName]}>{segment.destinationAirport?.name}</Text>
                                                     <Pressable
                                                         onPress={() => {
                                                             showLocation({
-                                                                address: segment.destinationAirport.address,
+                                                                address: segment.destinationAirport.location,
                                                             });
                                                         }}
                                                     >
-                                                        <Text>{segment.destinationAirport?.name}</Text>
+                                                        <Text style={styles.right}>{segment.destinationAirport?.name}</Text>
                                                     </Pressable>
                                                     <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.destinationAirport.phone}`);}}>
                                                         <Text>{segment.destinationAirport.phone}</Text>

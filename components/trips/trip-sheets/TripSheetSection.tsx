@@ -1,13 +1,18 @@
 import {View, Text, FlatList} from "react-native";
 import TripSheetCard from "@/components/trips/trip-sheets/TripSheetCard";
+import {TripSheet} from "@/types/trips";
 
-export default function TripSheetSection() {
+interface TripSheetSectionProps {
+    tripSheet: TripSheet;
+}
+
+export default function TripSheetSection({tripSheet}: TripSheetSectionProps) {
     return (
         <View>
             <View style={{padding: 15}}>
                 <Text style={{fontSize: 20, fontWeight: 'bold'}}>Trip Sheet</Text>
             </View>
-            <TripSheetCard />
+            <TripSheetCard tripSheet={tripSheet}/>
         </View>
     );
 }

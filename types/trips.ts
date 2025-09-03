@@ -9,48 +9,41 @@ export interface Trip {
     status: string;
     rfqCount: number;
     rfqResolved: Number;
-    departureAirport: {
-        code: string;
-        name: string;
-    };
-    destinationAirport: {
-        code: string;
-        name: string;
-    };
-    aircraft?: {
-        category: string;
-        model: string;
-        registration: string;
-    };
+    departureAirport: Airport;
+    destinationAirport: Airport;
+    aircraft?: Aircraft;
     pax: number;
     duration: string;
     fuelStops?: number; // optional property
     quotes: Quote[];
+    tripSheets: TripSheet[];
+}
+
+export interface Airport {
+    id: number;
+    code: string;
+    name: string;
+    location: string;
+    phone: string;
+}
+
+export interface Fbo {
+    id: number;
+    name: string;
+    address: string;
+    phone: string;
+    email: string;
 }
 
 export interface Segment {
-    departureAirport: {
-        code: string;
-        name: string;
-    };
-    destinationAirport: {
-        code: string;
-        name: string;
-    };
-    departureAirportCode: string;
-    destinationAirportCode: string;
     departureDate: string;
-    departureTime: string | null;
-    arrivalDate: string | null;
-    arrivalTime: string | null;
-    blockMinutes: number;
-    numPaxTbd: boolean;
-    numPaxTBD: number | null;
-    numStops: number;
-    numPax: number;
+    departureAirport: Airport;
+    departureFbo: Fbo;
+    destinationAirport: Airport;
+    destinationFbo: Fbo;
+    pax: number;
     sort: number;
     duration: string | null;
-    departureTimeTBD: string | null;
 }
 
 export interface Quote {
@@ -60,14 +53,8 @@ export interface Quote {
     departureDate: string,
     aircraft: Aircraft,
     images: string[],
-    departureAirport: {
-        code: string,
-        name: string,
-    },
-    destinationAirport: {
-        code: string,
-        name: string,
-    },
+    departureAirport: Airport;
+    destinationAirport: Airport
     pax: number,
     duration: string,
     fuelStops: number,
@@ -76,6 +63,24 @@ export interface Quote {
         color: string,
     },
     price: number,
+}
+
+export interface TripSheet {
+    id: number,
+    tailNumber: string,
+    departureDate: string,
+    pilotInCommand: string,
+    secondInCommand: string,
+    cabinAttendant: string,
+    passengers: Passenger[],
+    notes: string,
+    segments: Segment[],
+    primaryImage: string
+}
+
+export interface Passenger {
+    id: number,
+    name: string,
 }
 
 export interface Aircraft {

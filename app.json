@@ -11,7 +11,7 @@
     "jsEngine": "hermes",
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.alexflygreen.flygreenapp",
+      "bundleIdentifier": "com.flygreen.flygreen",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -20,7 +20,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icons/android/play_store_512.png"
       },
-      "package": "com.alexflygreen.flygreenapp"
+      "package": "com.flygreen.flygreen"
     },
     "web": {
       "bundler": "metro",
