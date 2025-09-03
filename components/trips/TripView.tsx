@@ -32,7 +32,7 @@ export default function TripView({trip}: TripViewProps) {
                 <TripCard trip={trip} showAsCard={false}/>
             </View>
             {checkStage() ?
-                trip.quotes.length > 0 ? (
+                trip.quotes && trip.quotes.length > 0 ? (
                     <QuoteSection quotes={trip.quotes} />
                 ) : (
                     <View>
