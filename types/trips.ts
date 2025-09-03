@@ -25,6 +25,7 @@ export interface Trip {
     pax: number;
     duration: string;
     fuelStops?: number; // optional property
+    quotes: Quote[];
 }
 
 export interface Segment {
@@ -57,14 +58,8 @@ export interface Quote {
     notes?: string,
     imageUrl: string,
     departureDate: string,
-    aircraft: {
-        category: string,
-        model: string,
-        seats: number,
-        cabinHeight: string,
-        yom: string,
-        yor: string
-    }
+    aircraft: Aircraft,
+    images: string[],
     departureAirport: {
         code: string,
         name: string,
@@ -81,24 +76,17 @@ export interface Quote {
         color: string,
     },
     price: number,
-    segments: {
-        departure: {
-            airport: {
-                code: string,
-                name: string,
-            },
-            date: string,
-            time:string,
-        },
-        arrival: {
-            airport: {
-                code: string,
-                name: string,
-            },
-            date: string,
-            time: string,
-        },
-        flightTime: string,
-        fuelStops: number,
-    }
+}
+
+export interface Aircraft {
+    aircraftDiagram: string,
+    cabinViewUrl: string,
+    category: string,
+    model: string,
+    seats: number,
+    cabinHeight: string,
+    yom: string,
+    yor: string,
+    homebase: string,
+    is_floating: boolean
 }

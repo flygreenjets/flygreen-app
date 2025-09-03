@@ -24,12 +24,13 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
     const [imageCarouselVisible, setImageCarouselVisible] = useState(false);
     const [floorPlanModalVisible, setFloorPlanModalVisible] = useState(false);
     const [floatingInfoVisible, setFloatingInfoVisible] = useState(false);
+    const [homebaseInfoVisible, setHomebaseInfoVisibile] = useState(false);
     const [yomInfoIsVisible, setYomInfoIsVisible] = useState(false);
     return (
         <Pressable key={quote.id}>
             <Card style={{padding: 0}}>
                 <View style={styles.topRadius}>
-                    {flag && (
+                    {flag && flag?.label !== "" && (
                         <View style={[styles.flag, {backgroundColor: flag.color}]}>
                             <Text style={{color: Colors.white, fontWeight: "bold"}}>{flag.label}</Text>
                         </View>
@@ -39,17 +40,18 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     >
                         <Image
                             style={[styles.image, styles.topRadius]}
-                            source={quote.imageUrl}
+                            source={quote.images[0]}
                             contentFit="cover"
-                            transition={1000}
                         />
                     </Pressable>
-                    <Pressable
-                        onPress={() => {router.push(`/trip/1/cabin-view`)}}
-                        style={[styles.imageIcons, {left: 0, borderTopRightRadius: 5}]}
-                    >
-                        <MaterialCommunityIcons name="video-3d" size={24} color={Colors.white} />
-                    </Pressable>
+                    {quote.aircraft.cabinViewUrl && (
+                        <Pressable
+                            onPress={() => {router.push(`/trip/1/cabin-view`)}}
+                            style={[styles.imageIcons, {left: 0, borderTopRightRadius: 5}]}
+                        >
+                            <MaterialCommunityIcons name="video-3d" size={24} color={Colors.white} />
+                        </Pressable>
+                    )}
                     <Pressable
                         onPress={() => {setImageCarouselVisible(true)}}
                            style={[styles.imageIcons, {right: 0, borderTopLeftRadius: 3}]}
@@ -61,10 +63,12 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", marginBottom: 5}}>
                             <Text style={{fontSize: 16}}>{quote.aircraft.model}</Text>
-                            <View style={{flexDirection: "row", gap: 5, alignItems: "center"}}>
-                                <MaterialCommunityIcons name="human-male-height-variant" size={16} color="black" />
-                                <Text style={{fontSize: 14}}>{quote.aircraft.cabinHeight}</Text>
-                            </View>
+                            {quote.aircraft.cabinHeight && quote.aircraft.cabinHeight !== "" && (
+                                <View style={{flexDirection: "row", gap: 5, alignItems: "center"}}>
+                                    <MaterialCommunityIcons name="human-male-height-variant" size={16} color="black" />
+                                    <Text style={{fontSize: 14}}>{quote.aircraft.cabinHeight}</Text>
+                                </View>
+                            )}
                         </View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
                             <Text style={{color: 'gray', fontSize: 12}}>{quote.aircraft.category}</Text>
@@ -75,30 +79,32 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
+                        alignItems: 'center',
                     }}>
                         <View style={styles.flightInfo}>
-                            {quote.aircraft ? (
-                                <Pressable onPress={() => setFloatingInfoVisible(true)}>
-                                    <View style={styles.rating}>
-                                        <Text>Floating</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
-                                    </View>
-                                </Pressable>
-                            ) : (
-                                <>
-                                    <Text>Homebase:</Text>
-                                    <View style={styles.rating}>
-                                        <Text>Floating</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
-                                    </View>
-                                </>
+                            {quote.aircraft && (
+                                quote.aircraft.is_floating ? (
+                                    <Pressable onPress={() => setFloatingInfoVisible(true)}>
+                                        <View style={styles.rating}>
+                                            <Text>Floating</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
+                                        </View>
+                                    </Pressable>
+                                ) : quote.aircraft.homebase && quote.aircraft.homebase !== "" && (
+                                    <Pressable onPress={() => setHomebaseInfoVisibile(true)}>
+                                        <View style={styles.rating}>
+                                            <Text>{quote.aircraft.homebase}</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
+                                        </View>
+                                    </Pressable>
+                                )
                             )}
                         </View>
                         <View style={[styles.flightInfo, {justifyContent: 'flex-end'}]}>
-                            <Text>YOM:</Text>
+                            <Text>{quote.aircraft.yor !== "" ? "YOR" : "YOM"}:</Text>
                             <Pressable
                                 onPress={() => setYomInfoIsVisible(true)}
                             >
                                 <View style={styles.rating}>
-                                    <Text>2009 (2020)</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
+                                    <Text>{quote.aircraft.yor !== "" ? quote.aircraft.yor : quote.aircraft.yom}</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
                                 </View>
                             </Pressable>
                         </View>
@@ -112,24 +118,28 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                             </>
                         )}
                     </View>
-                    <Animated.View>
-                        <Pressable onPress={() => {
-                            setFloorPlanModalVisible(true)
-                        }}>
-                            <Image
-                                style={[styles.image, {height: 100}]}
-                                source={"https://cdn.flygreen.co/aircraft-diagrams/citation-x-cropped.png"}
-                                contentFit="contain"
-                                transition={1000}
-                            />
-                        </Pressable>
-                    </Animated.View>
-                    <Separator/>
+                    {quote.aircraft.aircraftDiagram && quote.aircraft.aircraftDiagram !== "" && (
+                        <>
+                            <Animated.View>
+                                <Pressable onPress={() => {
+                                    setFloorPlanModalVisible(true)
+                                }}>
+                                    <Image
+                                        style={[styles.image, {height: 100}]}
+                                        source={quote.aircraft.aircraftDiagram}
+                                        contentFit="cover"
+                                        contentPosition={"center"}
+                                    />
+                                </Pressable>
+                            </Animated.View>
+                            <Separator/>
+                        </>
+                    )}
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", alignItems: "center"}}>
                             <Text style={styles.priceText}>$ {quote.price.toLocaleString()}</Text>
                             <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
-                                <ShareButton shareUrl={quote.imageUrl}/>
+                                <ShareButton shareUrl={process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/quote/${quote.id}`}/>
                                 <Pressable>
                                     <Text style={styles.bookButton}>Book</Text>
                                 </Pressable>
@@ -142,11 +152,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     onClose={() => setImageCarouselVisible(false)}
                     animationType="fade"
                 >
-                   <ImageCarousel data={[
-                        {image: quote.imageUrl},
-                        {image: "https://cdn.flygreen.co/aircraft-diagrams/citation-x.png"},
-                        {image: "https://cdn.flygreen.co/aircraft-category-pictures/turboprop-exterior.jpg"}
-                   ]}/>
+                   <ImageCarousel data={quote.images.map(image => { return {"image": image}})}/>
                 </Modal>
 
                 <Modal
@@ -155,7 +161,7 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     animationType="fade"
                 >
                     <ImageCarousel data={[
-                        {image: "https://cdn.flygreen.co/aircraft-diagrams/citation-x-cropped.png"},
+                        {image: quote.aircraft.aircraftDiagram},
                     ]}/>
                 </Modal>
 
@@ -177,6 +183,26 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                     </View>
                 </Modal>
 
+                {/*Floating Aircraft Info*/}
+                <Modal
+                    modalVisible={homebaseInfoVisible}
+                    onClose={() => {setHomebaseInfoVisibile(false)}}
+                    animationType="fade"
+                >
+                    <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%", alignSelf: "center", gap: 10}}>
+                        <Text style={{fontSize: 18, fontWeight: 'bold'}}>Aircraft Home base and Positioning</Text>
+                        <Text>Home base: {quote.aircraft.homebase}</Text>
+                        <Text>Positioning describes the location of the aircraft prior to your flight.</Text>
+                        <Text>If the aircraft needs to travel from another airport to reach your departure point, those repositioning costs are included in the overall quote.</Text>
+                        <Text>When the aircraft is already nearby, pricing may be more cost-efficient.</Text>
+                        <Pressable onPress={() => setHomebaseInfoVisibile(false)} style={{marginTop: 20}}>
+                            <Text style={{color: Colors.flygreenGreen, fontWeight: 'bold', textAlign: "right"}}>Close</Text>
+                        </Pressable>
+                    </View>
+                </Modal>
+
+
+
                 {/*YOM YOR*/}
                 <Modal
                     modalVisible={yomInfoIsVisible}
@@ -185,13 +211,20 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                 >
                     <View style={{backgroundColor: "white", padding: 20, borderRadius: 10, width: "90%", alignSelf: "center"}}>
                         <Text style={{fontSize: 18, fontWeight: 'bold'}}>Aircraft Information</Text>
-                        <Pressable onPress={() => setYomInfoIsVisible(false)} style={{marginTop: 20}}>
-                            <Text style={{marginTop: 10}}>
-                                Year of make: {quote.aircraft.yom}
-                            </Text>
-                            <Text>
-                                Year of refurbishment: {quote.aircraft.yor}
-                            </Text>
+                        <Pressable onPress={() => setYomInfoIsVisible(false)} style={{marginTop: 20, gap: 10}}>
+                            <View style={{flexDirection: "row", justifyContent: "space-between", marginBottom: 10}}>
+                                <Text>
+                                    Year of make: {quote.aircraft.yom}
+                                </Text>
+                                {quote.aircraft.yor && quote.aircraft.yor !== "" && (
+                                    <Text>
+                                        Year of refurbishment: {quote.aircraft.yor}
+                                    </Text>
+                                )}
+                            </View>
+                            <Text>The Year of Make (YOM) is when the aircraft was originally manufactured, while the Year of Refurbishment (YOR) notes the most recent major interior or exterior updates.</Text>
+                            <Text>Newer aircraft may highlight the latest design and technology, while older models with recent refurbishments often deliver a modern, high-quality experience at a competitive rate.</Text>
+                            <Text>Both can influence pricing.</Text>
                             <Text style={{color: Colors.flygreenGreen, fontWeight: 'bold', textAlign: "right"}}>Close</Text>
                         </Pressable>
                     </View>
@@ -233,6 +266,7 @@ const styles = StyleSheet.create({
     rating: {
         flexDirection: 'row',
         alignItems: "center",
+        gap: 2
     },
     card: {
         backgroundColor: '#fff',

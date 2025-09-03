@@ -10,7 +10,13 @@ export default function QuoteSection({quotes}: QuoteSectionProps) {
     return (
         <View style={styles.quoteScroll}>
             <Text style={styles.itineraryTitle}>Quotes</Text>
-            {quotes.map((quote: Quote) => {
+            {quotes.sort((a, b) => {
+                const isARecommended = a.quoteFlag?.label === "Recommended";
+                const isBRecommended = b.quoteFlag?.label === "Recommended";
+
+                if (isARecommended === isBRecommended) return 0;
+                return isARecommended ? -1 : 1;
+            }).map((quote: Quote) => {
                 return <QuoteCard key={quote.id} quote={quote} flag={quote.quoteFlag}/>
             })}
         </View>
