@@ -5,7 +5,7 @@ import {Colors} from "@/utils/Colors";
 export default function EmptyTripList() {
     return (
         <View style={styles.emptyContainer}>
-            <Text>You don’t have any charters right now.</Text>
+            <Text>You don’t have any upcoming trips right now.</Text>
             <Text>Contact your broker to start planning.</Text>
             <ContactMenu button={(
                 <Text style={{

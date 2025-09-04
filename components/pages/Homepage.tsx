@@ -5,63 +5,17 @@ import {
     Pressable,
     FlatList,
     ImageBackground,
-    ScrollView
 } from "react-native";
 import TripCard from "@/components/trips/TripCard";
 import {router} from "expo-router";
 import {Colors} from "@/utils/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AccountPicker from "@/components/ui/AccountPicker";
-import {useEffect} from "react";
 import { useAuth } from "@/providers/AuthProvider";
-
-const nextTrip = {
-    id: 2,
-    name: "Trip to New York",
-    description: "Description 1",
-    departureDate: "Tue, June 10, 2025",
-    departureAirport: {
-        code: "CYUL",
-        name: "Montreal Airport, QC",
-    },
-    destinationAirport: {
-        code: "KTEB",
-        name: "Newark Liberty Intl. Airport, NJ",
-    },
-    aircraft: {
-        category: 'Super Midsize Jet',
-        model: 'Citation X',
-        registration: 'C-GREEN',
-    },
-    stage: "Closed Won",
-    pax: 2,
-    duration: "1h 39m",
-    fuelStops: 0,
-};
-
-const workingTrip =  {
-    id: 1,
-    name: "Trip to Miami",
-    description: "Description 1",
-    departureDate: "Fri, Apr 4, 2025",
-    stage: "Requested",
-    departureAirport: {
-        code: "KTEB",
-        name: "Newark Liberty Intl. Airport, NJ",
-    },
-    destinationAirport: {
-        code: "KTMB",
-        name: "Miami Executive Airport, FL",
-    },
-    aircraft: {
-        category: 'Light Jet',
-        model: 'Phenom 300',
-        registration: 'N12345',
-    },
-    pax: 5,
-    duration: "2h 30m",
-    fuelStops: 2,
-}
+import {Trip} from "@/types/trips";
+import EmptyTripList from "@/components/ui/trips/EmptyTripList";
+import {RecentDocument} from "@/types/types";
+import RecentDocumentCard from "@/components/ui/RecentDocumentCard";
 
 
 const recentDocs = [
@@ -69,15 +23,17 @@ const recentDocs = [
     {id: '2', name: 'Quote 2'},
 ]
 
-export default function Homepage() {
+interface HomepageProps {
+    recentDocs: RecentDocument[];
+    nextTrip?: Trip | null;
+    nextRequestedTrip?: Trip | null;
+}
+
+export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip = null}: HomepageProps) {
     const {activeAccount} = useAuth();
 
-    useEffect(() => {
-        console.log('Active account changed:', activeAccount.name);
-    }, [activeAccount]);
-
     return (
-        <ScrollView style={styles.container} contentContainerStyle={{paddingBottom: 30}}>
+        <>
             <View>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 15}}>
                     <AccountPicker/>
@@ -99,71 +55,51 @@ export default function Homepage() {
                 >
                     <Text style={{color: 'white', fontWeight: "bold", fontSize: 18}}>{(activeAccount.loyaltyPoints ?? 0).toLocaleString()} Points</Text>
                 </ImageBackground>
-                <View style={{marginTop: 15, gap: 10}}>
-                    <Text style={[styles.title, {fontSize: 16}]}>Your next trip</Text>
-                    <Pressable key={nextTrip.id} onPress={() => router.push(`/trip/${nextTrip.id}`)}>
-                        <TripCard trip={nextTrip} />
-                    </Pressable>
-                </View>
-                <View style={{gap: 10}}>
-                    <Text style={[styles.title, {fontSize: 16}]}>We're working on this trip</Text>
-                    <Pressable key={workingTrip.id} onPress={() => router.push(`/trip/${workingTrip.id}`)}>
-                        <TripCard trip={workingTrip} />
-                    </Pressable>
-                </View>
-            </View>
-            <View>
-                <Text style={[styles.title, {fontSize: 16}]}>Recently viewed</Text>
-                <FlatList
-                    style={{marginTop: 5}}
-                    data={[
-                        ...recentDocs
-                    ]}
-                    renderItem={({item}) => (
-                        <Pressable onPress={() => console.log('Open document')}>
-                            <View style={styles.recentDocItem}>
-                                <Text>{item.name}</Text>
-                                <Text>CYUL to KTEB</Text>
-                                <Text>${(35949).toLocaleString()}</Text>
-                            </View>
+                {!nextTrip && !nextRequestedTrip && (
+                    <View style={{marginBottom: 30}}>
+                        <EmptyTripList/>
+                    </View>
+                )}
+                {nextTrip && (
+                    <View style={{marginTop: 15, gap: 10}}>
+                        <Text style={[styles.title, {fontSize: 16}]}>Your next trip</Text>
+                        <Pressable key={nextTrip.id} onPress={() => router.push(`/trip/${nextTrip.id}`)}>
+                            <TripCard trip={nextTrip} />
                         </Pressable>
-                    )}
-                    keyExtractor={(item) => item.id}
-                    ListEmptyComponent={<Text>No recent documents found.</Text>}
-                    contentContainerStyle={{justifyContent: 'space-between', alignItems: 'center'}}
-                    horizontal={true}
-                />
-            </View>
-            <View style={{marginTop: 15}}>
-                <Text style={[styles.title, {fontSize: 16}]}>Recently shared with you</Text>
-                <FlatList
-                    style={{marginTop: 5}}
-                    data={[
-                        ...recentDocs
-                    ]}
-                    renderItem={({item}) => (
-                        <Pressable onPress={() => console.log('Open document')}>
-                            <View style={styles.recentDocItem}>
-                                <Text>{item.name}</Text>
-                                <Text>CYUL to KTEB</Text>
-                                <Text>${(35949).toLocaleString()}</Text>
-                            </View>
+                    </View>
+                )}
+                {nextRequestedTrip && (
+                    <View style={{gap: 10}}>
+                        <Text style={[styles.title, {fontSize: 16}]}>We're working on this trip</Text>
+                        <Pressable key={nextRequestedTrip.id} onPress={() => router.push(`/trip/${nextRequestedTrip.id}`)}>
+                            <TripCard trip={nextRequestedTrip} />
                         </Pressable>
-                    )}
-                    keyExtractor={(item) => item.id}
-                    ListEmptyComponent={<Text>No recent documents found.</Text>}
-                    contentContainerStyle={{justifyContent: 'space-between', alignItems: 'center'}}
-                    horizontal={true}
-                />
+                    </View>
+                )}
             </View>
-        </ScrollView>
+            {recentDocs && recentDocs.length > 0 && (
+                <View style={{marginTop: 15}}>
+                    <Text style={[styles.title, {fontSize: 16}]}>Recently shared with you</Text>
+                    <FlatList
+                        style={{marginTop: 5}}
+                        data={[
+                            ...recentDocs
+                        ]}
+                        renderItem={({item}: {item: RecentDocument }) => (
+                           <RecentDocumentCard document={item}/>
+                        )}
+                        keyExtractor={(item) => item.id}
+                        ListEmptyComponent={<Text>No recent documents found.</Text>}
+                        contentContainerStyle={{justifyContent: 'space-between', alignItems: 'center'}}
+                        horizontal={true}
+                    />
+                </View>
+            )}
+        </>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        padding: 20,
-    },
     title: {
         fontSize: 20,
         fontWeight: 'bold'
@@ -184,16 +120,6 @@ const styles = StyleSheet.create({
         shadowRadius: 3.84,
         elevation: 5,
         overflow: 'hidden',
-    },
-    recentDocItem: {
-        alignItems: "center",
-        marginRight: 15,
-        paddingHorizontal: 10,
-        backgroundColor: Colors.white,
-        borderRadius: 5,
-        borderWidth: 0.5,
-        borderColor: Colors.lightGray,
-        padding: 10,
     },
     notificationBadge: {
         backgroundColor: Colors.red,

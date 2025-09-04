@@ -30,3 +30,12 @@ export interface Loyalty {
     threshold: number;
     imageUrl: string;
 }
+
+export interface RecentDocument {
+    id: string;
+    type: "Quote" | "Trip Sheet";
+    orderDate: string;
+    tripId: number;
+    itinerary: string;
+    description: string;
+}
