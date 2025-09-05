@@ -1,4 +1,5 @@
 import {Colors} from "@/utils/Colors";
+import {Account} from "@/types/types";
 
 export interface Trip {
     id: number;
@@ -15,8 +16,12 @@ export interface Trip {
     pax: number;
     duration: string;
     numStops?: number; // optional property
+    pointValue: number;
     quotes: Quote[];
     tripSheets: TripSheet[];
+    tripReports: TripReport[];
+    account: Account;
+    primaryImageUrl: string;
 }
 
 export interface Airport {
@@ -76,6 +81,13 @@ export interface TripSheet {
     notes: string,
     segments: Segment[],
     primaryImage: string
+}
+
+export interface TripReport {
+    id: number,
+    flightDistance: number,
+    totalBlockMinutes: number,
+    maxAltitude: number,
 }
 
 export interface Passenger {
