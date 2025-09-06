@@ -20,7 +20,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/icons/android/play_store_512.png"
       },
-      "package": "com.flygreen.flygreen"
+      "package": "com.flygreen.flygreen",
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -41,7 +42,15 @@
       "expo-font",
       "expo-web-browser",
       "react-native-map-link",
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-notifications",
+        {
+          "icon": "./assets/images/icons/android/notification-icon.png",
+          "defaultChannelId": "default",
+          "useNextNotificationsApi": true
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
