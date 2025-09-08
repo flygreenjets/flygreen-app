@@ -8,6 +8,7 @@ import TripReportSection from "@/components/trips/trip-reports/TripReportSection
 import TripDocumentSection from "./trip-documents/TripDocumentSection";
 import {stageIsBefore} from "@/lib/helpers";
 import {useAuth} from "@/providers/AuthProvider";
+import useMutation from "@/hooks/mutation";
 
 interface TripViewProps {
     trip: Trip
@@ -31,7 +32,7 @@ export default function TripView({trip}: TripViewProps) {
             </View>
             {stageIsBefore(trip.stage, TripStage.ClosedWon) ?
                 trip.quotes && trip.quotes.length > 0 ? (
-                    <QuoteSection quotes={trip.quotes} />
+                    <QuoteSection tripId={trip.id} quotes={trip.quotes} />
                 ) : (
                     <View>
                         <Text style={styles.banner}>

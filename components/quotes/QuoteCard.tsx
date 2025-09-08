@@ -11,6 +11,10 @@ import React, {useState} from "react";
 import ImageCarousel from "@/components/images/ImageCarousel";
 import ShareButton from "@/components/ui/buttons/ShareButton";
 import {router} from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import useMutation from "@/hooks/mutation";
+import ConfirmButton from "@/components/ui/buttons/ConfirmButton";
+import SpinnerLoading from "@/components/animations/SpinnerLoading";
 
 interface QuoteCardProps {
     quote: Quote,
@@ -18,14 +22,19 @@ interface QuoteCardProps {
         label: string;
         color: string;
     };
+    tripId: number;
 }
 
-export default function QuoteCard({quote, flag}: QuoteCardProps) {
+export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
     const [imageCarouselVisible, setImageCarouselVisible] = useState(false);
     const [floorPlanModalVisible, setFloorPlanModalVisible] = useState(false);
     const [floatingInfoVisible, setFloatingInfoVisible] = useState(false);
     const [homebaseInfoVisible, setHomebaseInfoVisibile] = useState(false);
     const [yomInfoIsVisible, setYomInfoIsVisible] = useState(false);
+    const [isRequested, setIsRequested] = useState(quote.clientHasRequestedBooking || false);
+
+    const [requestBooking, {data, loading, error}] = useMutation('/trips/quotes/request-booking', 'POST');
+
     return (
         <Pressable key={quote.id}>
             <Card style={{padding: 0}}>
@@ -140,9 +149,31 @@ export default function QuoteCard({quote, flag}: QuoteCardProps) {
                             <Text style={styles.priceText}>$ {quote.price.toLocaleString()}</Text>
                             <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
                                 <ShareButton shareUrl={process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/quote/${quote.id}`}/>
-                                <Pressable>
-                                    <Text style={styles.bookButton}>Book</Text>
-                                </Pressable>
+                                {isRequested ? (
+                                    <Ionicons name="checkmark-circle-outline" size={24} color={Colors.flygreenGreen} />
+                                ) : (
+                                    loading || true ? (
+                                        <SpinnerLoading/>
+                                    ) : (
+                                        <ConfirmButton
+                                            confirmAction={() => {
+                                                requestBooking({
+                                                    tripId: tripId,
+                                                    quoteId: quote.id
+                                                }).then(() => {
+                                                    setIsRequested(true);
+                                                }).catch((err) => {
+                                                    // Optionally handle error (e.g., show an error message)
+                                                    console.error("Error requesting booking:", err);
+                                                })
+                                            }}
+                                            confirmText="Are you sure you want to request this booking?"
+                                            buttonText="Book"
+                                            cancelText="Cancel"
+                                            buttonStyle={styles.bookButton}
+                                        />
+                                    )
+                                )}
                             </View>
                         </View>
                     </View>
@@ -319,5 +350,13 @@ const styles = StyleSheet.create({
         bottom: 0,
         padding: 5,
         backgroundColor: Colors.blackTransparent
-    }
+    },
+    shareButton: {
+        backgroundColor: Colors.white,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderRadius: 5,
+        borderWidth: 1,
+        borderColor: Colors.flygreenGreen,
+    },
 });

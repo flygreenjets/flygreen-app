@@ -112,6 +112,7 @@ export interface Quote {
         color: string,
     },
     price: number,
+    clientHasRequestedBooking: boolean,
 }
 
 export interface TripSheet {

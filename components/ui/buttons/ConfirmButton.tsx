@@ -1,6 +1,7 @@
 import {Pressable, TouchableWithoutFeedback, View, StyleSheet, Text, Modal as RNModal} from "react-native";
 import Modal from "@/components/ui/modal/Modal";
 import useToggle from "@/hooks/toggle";
+import {Colors} from "@/utils/Colors";
 
 interface ConfirmButtonProps {
     buttonStyle?: any,
@@ -26,7 +27,7 @@ export default function ConfirmButton({
         setFalse: close
     } = useToggle(false);
     return (
-        <>
+        <View>
             <Pressable onPress={() => {open()}}>
                 <Text style={buttonStyle}>{buttonText}</Text>
             </Pressable>
@@ -43,24 +44,24 @@ export default function ConfirmButton({
                     <Text style={styles.confirmText}>{confirmText}</Text>
                     <View style={styles.buttonContainer}>
                         <Pressable
-                            onPress={() => {
-                                close();
-                                confirmAction();
-                            }}
-                            style={[styles.button, {backgroundColor: "blue"}]}
-                        >
-                            <Text style={{color: "white", textAlign: "center"}}>{buttonText}</Text>
-                        </Pressable>
-                        <Pressable
                             onPress={() => close()}
                             style={[styles.button, {backgroundColor: "gray"}]}
                         >
                             <Text style={{color: "white", textAlign: "center"}}>{cancelText}</Text>
                         </Pressable>
+                        <Pressable
+                            onPress={() => {
+                                close();
+                                confirmAction();
+                            }}
+                            style={[styles.button, {backgroundColor: Colors.lightGreen}]}
+                        >
+                            <Text style={{color: "white", textAlign: "center"}}>{buttonText}</Text>
+                        </Pressable>
                     </View>
                 </View>
             </Modal>
-        </>
+        </View>
     );
 }
 

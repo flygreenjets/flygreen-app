@@ -16,7 +16,7 @@ export default class RemoteApi extends BaseApi {
             this.axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     }
 
-    async fetchData(endpoint: string, method: 'GET' | 'POST' = 'GET', data?: any) {
+    async fetchData(endpoint: string, method: 'GET' | "POST" | "PUT" | "PATCH" | "DELETE" = 'GET', data?: any) {
         try {
             const response = await this.axiosInstance.request({
                 url: endpoint,

@@ -4,9 +4,10 @@ import {Quote} from "@/types/trips";
 
 interface QuoteSectionProps {
     quotes: Quote[];
+    tripId: number;
 }
 
-export default function QuoteSection({quotes}: QuoteSectionProps) {
+export default function QuoteSection({quotes, tripId}: QuoteSectionProps) {
     return (
         <View style={styles.quoteScroll}>
             <Text style={styles.itineraryTitle}>Quotes</Text>
@@ -17,7 +18,7 @@ export default function QuoteSection({quotes}: QuoteSectionProps) {
                 if (isARecommended === isBRecommended) return 0;
                 return isARecommended ? -1 : 1;
             }).map((quote: Quote) => {
-                return <QuoteCard key={quote.id} quote={quote} flag={quote.quoteFlag}/>
+                return <QuoteCard tripId={tripId} key={quote.id} quote={quote} flag={quote.quoteFlag}/>
             })}
         </View>
     );

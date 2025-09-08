@@ -13,7 +13,7 @@ export default function TripDocumentSection({docs}: TripDocumentSectionProps) {
         <View style={{padding: 16}}>
             <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>Documents</Text>
             {docs.map((doc) => (
-                <Pressable style={docs.length > 1 &&{
+                <Pressable key={doc.id} style={docs.length > 1 &&{
                     borderBottomColor: Colors.lightGray,
                     borderBottomWidth: 0.5,
                 }} onPress={() => {
@@ -21,7 +21,7 @@ export default function TripDocumentSection({docs}: TripDocumentSectionProps) {
                         Linking.openURL(doc.url);
                     }
                 }}>
-                    <ListItem key={doc.id} icon={
+                    <ListItem icon={
                         <Ionicons name="document-text-outline" size={32} color={Colors.flygreenGreen} />
                     }>
                         <View>
