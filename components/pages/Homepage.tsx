@@ -69,7 +69,7 @@ export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip
                     </View>
                 )}
                 {nextRequestedTrip && (
-                    <View style={{gap: 10}}>
+                    <View style={{gap: 10, marginTop: 15}}>
                         <Text style={[styles.title, {fontSize: 16}]}>We're working on this trip</Text>
                         <Pressable key={nextRequestedTrip.id} onPress={() => router.push(`/trip/${nextRequestedTrip.id}`)}>
                             <TripCard trip={nextRequestedTrip} />

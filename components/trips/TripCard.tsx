@@ -1,12 +1,11 @@
-import {Pressable, StyleSheet, Text, View} from "react-native";
-import {Trip} from "@/types/trips";
+import {StyleSheet, Text, View} from "react-native";
+import {Trip, TripStatus} from "@/types/trips";
 import Ionicons from '@expo/vector-icons/Ionicons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
-import {router} from "expo-router";
-import { ReactNode } from "react";
+import {ReactNode} from "react";
 import Card from "@/components/ui/Card";
+import {statusIsAtLeast, statusIsBefore} from "@/lib/helpers";
 import ProgressBar from "@/components/ui/ProgressBar";
-import SpinnerLoading from "@/components/animations/SpinnerLoading";
 
 
 interface TripCardProps {
@@ -59,7 +58,7 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                     <Text style={{...styles.airportName, textAlign: "right"}}>{trip.destinationAirport.name}</Text>
                 </View>
             </View>
-            {trip.status === "confirmed" ? (
+            {statusIsAtLeast(trip.status, TripStatus.Confirmed) && (
                 <View style={{
                     flexDirection: 'row',
                     justifyContent: 'space-between',
@@ -85,7 +84,8 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                         </Text>
                     </View>
                 </View>
-            ) : (
+            )}
+            {statusIsBefore(trip.status, TripStatus.Confirmed) && (
                 <View style={styles.progressView}>
                     <View style={{flexDirection: "row", justifyContent: "space-between"}}>
                         <Text style={styles.progressText}>Confirming aircraft availability and pricing</Text>

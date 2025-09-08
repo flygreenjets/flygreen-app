@@ -1,13 +1,56 @@
-import {Colors} from "@/utils/Colors";
 import {Account} from "@/types/types";
+
+export enum TripStatus {
+    Open = "open",
+    Confirmed = "confirmed",
+    Planning = "planning",
+    ReadyToFly = "ready",
+    Flying = "flying",
+    Cancelled = "cancelled",
+    Flown = "flown",
+    Completed = "completed",
+    Closed = "closed",
+}
+export const StatusOrder: Record<TripStatus, number> = {
+    [TripStatus.Open]: 0,
+    [TripStatus.Confirmed]: 1,
+    [TripStatus.Planning]: 2,
+    [TripStatus.ReadyToFly]: 3,
+    [TripStatus.Flying]: 4,
+    [TripStatus.Cancelled]: 5,
+    [TripStatus.Flown]: 6,
+    [TripStatus.Completed]: 7,
+    [TripStatus.Closed]: 8,
+};
+
+export enum TripStage {
+    Sourcing = "Sourcing",
+    Quoting = "Quoting",
+    Diligence = "Diligence",
+    ClosedWon = "Closed Won",
+    ClosedLost = "Closed Lost",
+    ClosedCancelled = "Closed Cancelled",
+    Completed = "Completed",
+}
+
+export const StageOrder: Record<TripStage, number> = {
+    [TripStage.Sourcing]: 0,
+    [TripStage.Quoting]: 1,
+    [TripStage.Diligence]: 2,
+    [TripStage.ClosedWon]: 3,
+    [TripStage.ClosedLost]: 4,
+    [TripStage.ClosedCancelled]: 5,
+    [TripStage.Completed]: 6,
+};
+
 
 export interface Trip {
     id: number;
     name: string;
     description: string;
     departureDate: string;
-    stage: string;
-    status: string;
+    stage: TripStage;
+    status: TripStatus;
     rfqCount: number;
     rfqResolved: Number;
     departureAirport: Airport;
