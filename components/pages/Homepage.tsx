@@ -73,9 +73,9 @@ export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip
             {recentDocs && recentDocs.length > 0 && (
                 <View style={{marginTop: 15}}>
                     <Text style={[styles.title, {fontSize: 16, marginBottom: 10}]}>Recently shared with you</Text>
-                    {recentDocs.length && recentDocs.map(document => (
+                    {recentDocs.length && recentDocs.map((document, idx) => (
                         <ListItem
-                            borderBottom={recentDocs.length > 1}
+                            borderBottom={idx < recentDocs.length-1 && recentDocs.length > 1}
                             icon={<Ionicons name="document-text-outline" size={30} color={Colors.flygreenGreen}/>}
                             onPress={()  => router.push(`/trip/${document.tripId}`)}
                             key={document.id}
