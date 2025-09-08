@@ -152,7 +152,7 @@ export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
                                 {isRequested ? (
                                     <Ionicons name="checkmark-circle-outline" size={24} color={Colors.flygreenGreen} />
                                 ) : (
-                                    loading || true ? (
+                                    loading ? (
                                         <SpinnerLoading/>
                                     ) : (
                                         <ConfirmButton
