@@ -3,7 +3,6 @@ import {
     Text,
     StyleSheet,
     Pressable,
-    FlatList,
     ImageBackground,
 } from "react-native";
 import TripCard from "@/components/trips/TripCard";
@@ -15,14 +14,7 @@ import { useAuth } from "@/providers/AuthProvider";
 import {Trip} from "@/types/trips";
 import EmptyTripList from "@/components/ui/trips/EmptyTripList";
 import {RecentDocument} from "@/types/types";
-import RecentDocumentCard from "@/components/ui/RecentDocumentCard";
 import ListItem from "@/components/ui/parts/ListItem";
-
-
-const recentDocs = [
-    {id: '1', name: 'Quote 1'},
-    {id: '2', name: 'Quote 2'},
-]
 
 interface HomepageProps {
     recentDocs: RecentDocument[];
