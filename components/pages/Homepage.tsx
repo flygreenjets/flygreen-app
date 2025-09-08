@@ -16,6 +16,7 @@ import {Trip} from "@/types/trips";
 import EmptyTripList from "@/components/ui/trips/EmptyTripList";
 import {RecentDocument} from "@/types/types";
 import RecentDocumentCard from "@/components/ui/RecentDocumentCard";
+import ListItem from "@/components/ui/parts/ListItem";
 
 
 const recentDocs = [
@@ -79,20 +80,18 @@ export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip
             </View>
             {recentDocs && recentDocs.length > 0 && (
                 <View style={{marginTop: 15}}>
-                    <Text style={[styles.title, {fontSize: 16}]}>Recently shared with you</Text>
-                    <FlatList
-                        style={{marginTop: 5}}
-                        data={[
-                            ...recentDocs
-                        ]}
-                        renderItem={({item}: {item: RecentDocument }) => (
-                           <RecentDocumentCard document={item}/>
-                        )}
-                        keyExtractor={(item) => item.id}
-                        ListEmptyComponent={<Text>No recent documents found.</Text>}
-                        contentContainerStyle={{justifyContent: 'space-between', alignItems: 'center'}}
-                        horizontal={true}
-                    />
+                    <Text style={[styles.title, {fontSize: 16, marginBottom: 10}]}>Recently shared with you</Text>
+                    {recentDocs.length && recentDocs.map(document => (
+                        <ListItem
+                            borderBottom={recentDocs.length > 1}
+                            icon={<Ionicons name="document-text-outline" size={30} color={Colors.flygreenGreen}/>}
+                            onPress={()  => router.push(`/trip/${document.tripId}`)}
+                            key={document.id}
+                            title={document.type}
+                            description={document.description}
+                            date={document.orderDate}
+                        />
+                    ))}
                 </View>
             )}
         </>

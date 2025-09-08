@@ -1,23 +1,57 @@
-import {View, Text, StyleSheet} from 'react-native';
-import Ionicons from "@expo/vector-icons/Ionicons";
-import {formatDistanceStrict} from "date-fns";
+import {View, Text, StyleSheet, Pressable} from 'react-native';
 import {Colors} from "@/utils/Colors";
+import {formatDistanceStrict} from "date-fns";
 
 interface ListItemProps{
+    title?: string;
+    description?: string;
+    date?: string;
     icon: React.ReactNode;
-    children: React.ReactNode;
+    children?: React.ReactNode;
+    onPress?: () => void;
+    borderBottom?: boolean;
 }
 
-export default function ListItem({icon, children}: ListItemProps) {
+export default function ListItem({title, description, date, icon, children, onPress, borderBottom}: ListItemProps) {
     return (
-        <View style={styles.notificationContainer}>
-            <View>
-                {icon}
+        <Pressable onPress={onPress}>
+            <View style={[styles.notificationContainer, borderBottom && {
+                borderBottomColor: Colors.lightGray,
+                borderBottomWidth: 0.5,
+            }]}>
+                <View>
+                    {icon}
+                </View>
+                <View>
+                    {children ? (
+                        children
+                    ) : (
+                      <>
+                          <View style={styles.titleContainer}>
+                              {title && (
+                                  <Text>{title}</Text>
+                              )}
+                              {date && (
+                                  <>
+                                      <Text>•</Text>
+                                      <Text style={{color: "#888"}}>
+                                          {
+                                              formatDistanceStrict(new Date(date), new Date(), {
+                                                  addSuffix: true,
+                                              })
+                                          }
+                                      </Text>
+                                  </>
+                              )}
+                          </View>
+                          {description && (
+                              <Text>{description}</Text>
+                          )}
+                      </>
+                    )}
+                </View>
             </View>
-            <View>
-                {children}
-            </View>
-        </View>
+        </Pressable>
     );
 }
 
@@ -29,5 +63,9 @@ const styles = StyleSheet.create({
         gap: 10,
         backgroundColor: Colors.white,
         alignItems: "center",
+    },
+    titleContainer: {
+        flexDirection: "row",
+        gap: 5
     },
 })
