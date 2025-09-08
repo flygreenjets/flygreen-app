@@ -1,50 +1,38 @@
-import {View, Text, FlatList, Pressable, StyleSheet} from "react-native";
+import {View, Text, Pressable, StyleSheet, Linking} from "react-native";
 import {Colors} from "@/utils/Colors";
+import ListItem from "@/components/ui/parts/ListItem";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import {TripDocument} from "@/types/trips";
 
-const docs: Array<{key: string, name: string, type: string, link: string}> = [
-    {
-        key: "1",
-        name: "Invoice",
-        type: "invoice",
-        link: "https://example.com/doc1.pdf"
-    },
-    {
-        key: "2",
-        name: "Contract Agreement",
-        type: "Document",
-        link: "https://example.com/doc2.pdf"
-    },
-    {
-        key: "3",
-        name: "Misc",
-        type: "Document",
-        link: "https://example.com/doc3.pdf"
-    }
-];
+interface TripDocumentSectionProps {
+    docs: TripDocument[];
+}
 
-export default function TripDocumentSection() {
-
-
+export default function TripDocumentSection({docs}: TripDocumentSectionProps) {
     return (
         <View style={{padding: 16}}>
-            <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>Trip Documents</Text>
-            <FlatList
-                style={{marginTop: 5}}
-                data={[
-                    ...docs
-                ]}
-                renderItem={({item}) => (
-                    <Pressable onPress={() => console.log('Open document')}>
-                        <View style={styles.recentDocItem}>
-                            <Text>{item.name}</Text>
+            <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>Documents</Text>
+            {docs.map((doc) => (
+                <Pressable style={docs.length > 1 &&{
+                    borderBottomColor: Colors.lightGray,
+                    borderBottomWidth: 0.5,
+                }} onPress={() => {
+                    if (doc.url) {
+                        Linking.openURL(doc.url);
+                    }
+                }}>
+                    <ListItem key={doc.id} icon={
+                        <Ionicons name="document-text-outline" size={32} color={Colors.flygreenGreen} />
+                    }>
+                        <View>
+                            <View style={styles.docTitleContainer}>
+                                <Text style={styles.titleText}>{doc.name}</Text>
+                            </View>
+                            {doc.description !== null && <Text style={{color: '#666'}}>{doc.description}</Text>}
                         </View>
-                    </Pressable>
-                )}
-                keyExtractor={(item) => item.key}
-                ListEmptyComponent={<Text style={{color: '#666'}}>No documents available for this trip.</Text>}
-                contentContainerStyle={{justifyContent: 'space-between', alignItems: 'center'}}
-                horizontal={true}
-            />
+                    </ListItem>
+                </Pressable>
+            ))}
         </View>
     );
 }
@@ -65,5 +53,22 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         borderWidth: 0.5,
         padding: 10,
+    },
+    icon: {
+        padding: 10,
+        backgroundColor: Colors.flygreenGreen,
+        borderRadius: 50,
+    },
+    docTitleContainer: {
+        flexDirection: "row",
+        gap: 5
+    },
+    titleText: {
+        fontSize: 16,
+    },
+    date: {
+        color: "#888",
+        fontSize: 12,
+        padding: 2,
     }
 });

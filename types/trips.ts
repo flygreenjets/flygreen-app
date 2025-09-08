@@ -65,6 +65,7 @@ export interface Trip {
     tripReports: TripReport[];
     account: Account;
     primaryImageUrl: string;
+    documents: TripDocument[];
 }
 
 export interface Airport {
@@ -149,4 +150,13 @@ export interface Aircraft {
     yor: string,
     homebase: string,
     is_floating: boolean
+}
+
+export interface TripDocument {
+    id: number,
+    type: string,
+    name: string,
+    url: string,
+    created_at: string,
+    description?: string,
 }

@@ -47,8 +47,9 @@ export default function TripView({trip}: TripViewProps) {
                     {trip.tripReports && trip.tripReports.length > 0 && (<TripReportSection trip={trip} account={trip.account} tripReport={trip.tripReports[0]}/>)}
                 </>
             )}
-
-            <TripDocumentSection />
+            {trip.documents && trip.documents.length > 0 && (
+                <TripDocumentSection docs={trip.documents} />
+            )}
         </>
     );
 }
