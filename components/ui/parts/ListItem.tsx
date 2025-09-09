@@ -10,15 +10,16 @@ interface ListItemProps{
     children?: React.ReactNode;
     onPress?: () => void;
     borderBottom?: boolean;
+    style?: object | null;
 }
 
-export default function ListItem({title, description, date, icon, children, onPress, borderBottom}: ListItemProps) {
+export default function ListItem({title, description, date, icon, children, onPress, borderBottom, style}: ListItemProps) {
     return (
         <Pressable onPress={onPress}>
             <View style={[styles.notificationContainer, borderBottom && {
                 borderBottomColor: Colors.lightGray,
                 borderBottomWidth: 0.5,
-            }]}>
+            }, style]}>
                 <View>
                     {icon}
                 </View>

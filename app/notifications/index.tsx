@@ -44,27 +44,25 @@ export default function NotificationsPage() {
             <SafeAreaView style={{backgroundColor: "white"}}>
                 <ScrollView style={{height: "100%"}}>
                     {notifications.map((notification, key) => (
-                        <Pressable style={notifications.length > 1 &&{
-                            borderBottomColor: Colors.lightGray,
-                            borderBottomWidth: 0.5,
-                        }} key={key} onPress={() => {router.push(`/trip/${notification.tripId}`)}}>
-                           <ListItem
-                               icon={<FontAwesome6 style={styles.icon} name="bell" size={28} color="white" />
-                           }>
-                               <View style={styles.notifTitleContainer}>
-                                   <Text>{notification.title}</Text>
-                                   <Text>•</Text>
-                                   <Text style={{color: "#888"}}>
-                                       {
-                                           formatDistanceStrict(new Date(notification.date), new Date(), {
-                                               addSuffix: true,
-                                           })
-                                       }
-                                   </Text>
-                               </View>
-                               <Text>{notification.description}</Text>
-                           </ListItem>
-                        </Pressable>
+                       <ListItem
+                           borderBottom={key < notifications.length-1 && notifications.length > 1}
+                           key={key}
+                           onPress={() => {router.push(`/trip/${notification.tripId}`)}}
+                           icon={<FontAwesome6 style={styles.icon} name="bell" size={28} color="white" />
+                       }>
+                           <View style={styles.notifTitleContainer}>
+                               <Text>{notification.title}</Text>
+                               <Text>•</Text>
+                               <Text style={{color: "#888"}}>
+                                   {
+                                       formatDistanceStrict(new Date(notification.date), new Date(), {
+                                           addSuffix: true,
+                                       })
+                                   }
+                               </Text>
+                           </View>
+                           <Text>{notification.description}</Text>
+                       </ListItem>
                     ))}
                 </ScrollView>
             </SafeAreaView>
