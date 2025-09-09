@@ -2,6 +2,7 @@ import {createContext, useContext, useMemo, useState} from 'react';
 import {getApi} from "@/lib/api/ApiFactory";
 import {useSecureStorageState, useStorageState} from "@/hooks/storage";
 import {Account, User} from "@/types/types";
+import {usePushNotifications} from "@/hooks/notifications";
 
 interface AuthContextProps {
     token: string;
@@ -31,6 +32,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [{data: user}, setUser] = useStorageState<User>('user');
     const [{data: activeAccount}, setActiveAccount] = useStorageState<Account>('active-account');
+    const {expoPushToken} = usePushNotifications();
 
     const login = async (email: string, password: string) => {
         try {
@@ -41,7 +43,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
                 token: string;
                 user: User;
             } = await api.fetchData('/auth/login', 'POST', {
-                email, password
+                email, password, token: expoPushToken!.data
             });
             setToken(token); // Use actual token from response
             setUser(user); // Use actual user data from response
