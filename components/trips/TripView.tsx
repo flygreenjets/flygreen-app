@@ -44,7 +44,7 @@ export default function TripView({trip}: TripViewProps) {
 
             {trip.stage === TripStage.ClosedWon && (
                 <>
-                    {trip.tripReports.length === 0 && trip.tripSheets && trip.tripSheets.length > 0 && (<TripSheetSection tripSheet={trip.tripSheets[0]}/>)}
+                    {!trip.tripReports && trip.tripSheets && trip.tripSheets.length > 0 && (<TripSheetSection tripSheet={trip.tripSheets[0]}/>)}
                     {trip.tripReports && trip.tripReports.length > 0 && (<TripReportSection trip={trip} account={trip.account} tripReport={trip.tripReports[0]}/>)}
                 </>
             )}
