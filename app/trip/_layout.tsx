@@ -3,8 +3,6 @@ import {Colors} from "@/utils/Colors";
 import {Pressable} from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {StatusBar} from "expo-status-bar";
-import {AntDesign} from "@expo/vector-icons";
-import useToggle from "@/hooks/toggle";
 import ContactMenu from "@/components/ui/ContactMenu";
 
 export default function TripPageLayout() {
@@ -21,7 +19,7 @@ export default function TripPageLayout() {
                     },
                     headerLeft: () => (
                         <Pressable
-                            onPress={() => router.back()}
+                            onPress={() => router.canGoBack() ? router.back() : router.push('/')}
                         >
                             <Ionicons name="arrow-back" size={24} color={Colors.white} />
                         </Pressable>
