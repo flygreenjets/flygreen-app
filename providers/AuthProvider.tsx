@@ -34,6 +34,12 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     const [{data: activeAccount}, setActiveAccount] = useStorageState<Account>('active-account');
     const {expoPushToken} = usePushNotifications();
 
+    if (token && (!user || !activeAccount)) {
+        setToken('');
+        setUser('');
+        setIsAuthenticated(false);
+    }
+
     const login = async (email: string, password: string) => {
         try {
             setUser('');

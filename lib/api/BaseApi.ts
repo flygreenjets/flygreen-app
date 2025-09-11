@@ -6,5 +6,4 @@ export default abstract class BaseApi {
     }
 
     abstract fetchData(endpoint: string): Promise<any>;
-    abstract saveData(endpoint: string, data: any): Promise<void>;
 }

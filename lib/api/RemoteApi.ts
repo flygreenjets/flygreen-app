@@ -37,8 +37,4 @@ export default class RemoteApi extends BaseApi {
             }
         }
     }
-
-    async saveData(endpoint: string, data: any) {
-        await this.axiosInstance.post(endpoint, data);
-    }
 }
