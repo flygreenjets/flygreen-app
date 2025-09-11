@@ -13,26 +13,24 @@ export default function TripDocumentSection({docs}: TripDocumentSectionProps) {
         <View style={{padding: 16}}>
             <Text style={{fontSize: 18, fontWeight: 'bold', marginBottom: 8}}>Documents</Text>
             {docs.map((doc, key) => (
-                <Pressable >
-                    <ListItem
-                        key={doc.id}
-                        onPress={() => {
-                            if (doc.url) {
-                                Linking.openURL(doc.url);
-                            }
-                        }}
-                        borderBottom={key < docs.length-1 && docs.length > 1}
-                        icon={
-                        <Ionicons name="document-text-outline" size={32} color={Colors.flygreenGreen} />
-                    }>
-                        <View>
-                            <View style={styles.docTitleContainer}>
-                                <Text style={styles.titleText}>{doc.name}</Text>
-                            </View>
-                            {doc.description !== null && <Text style={{color: '#666'}}>{doc.description}</Text>}
+                <ListItem
+                    key={doc.id}
+                    onPress={() => {
+                        if (doc.url) {
+                            Linking.openURL(doc.url);
+                        }
+                    }}
+                    borderBottom={key < docs.length-1 && docs.length > 1}
+                    icon={
+                    <Ionicons name="document-text-outline" size={32} color={Colors.flygreenGreen} />
+                }>
+                    <View>
+                        <View style={styles.docTitleContainer}>
+                            <Text style={styles.titleText}>{doc.name}</Text>
                         </View>
-                    </ListItem>
-                </Pressable>
+                        {doc.description !== null && <Text style={{color: '#666'}}>{doc.description}</Text>}
+                    </View>
+                </ListItem>
             ))}
         </View>
     );
