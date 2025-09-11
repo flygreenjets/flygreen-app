@@ -1,6 +1,6 @@
 import axios from 'axios';
 import BaseApi from "@/lib/api/BaseApi";
-import LocalApi from "@/lib/api/LocalApi";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class RemoteApi extends BaseApi {
     private axiosInstance = axios.create({
@@ -23,6 +23,7 @@ export default class RemoteApi extends BaseApi {
                 method: method,
                 ...(method === 'POST' && { data })
             });
+            await AsyncStorage.setItem(endpoint, JSON.stringify(response.data));
             return response.data;
         } catch (error: any) {
             if (error.response) {

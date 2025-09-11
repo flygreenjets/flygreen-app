@@ -3,7 +3,7 @@ import RemoteApi from "@/lib/api/RemoteApi";
 import LocalApi from "@/lib/api/LocalApi";
 
 
-async function isConnected(): Promise<boolean> {
+export async function isConnected(): Promise<boolean> {
     const status = await Network.getNetworkStateAsync();
     return status.isConnected ? status.isInternetReachable === true : false;
 }

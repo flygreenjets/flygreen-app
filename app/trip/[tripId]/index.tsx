@@ -4,7 +4,7 @@ import TripView from "@/components/trips/TripView";
 import {useEffect} from "react";
 import {GestureHandlerRootView} from "react-native-gesture-handler";
 import useQuery from "@/hooks/query";
-import {Alert, RefreshControl, ScrollView, View} from "react-native";
+import {Alert, RefreshControl, ScrollView} from "react-native";
 
 export default function TripPage({}) {
     const {tripId} = useLocalSearchParams();
@@ -33,7 +33,6 @@ export default function TripPage({}) {
                     >
                         <TripView trip={data?.data} />
                     </ScrollView>
-
                 </SafeAreaView>
             </SafeAreaProvider>
         </GestureHandlerRootView>
