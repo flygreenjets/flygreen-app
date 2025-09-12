@@ -23,6 +23,7 @@ export default function Home() {
                         nextTrip={data?.nextConfirmedTrip}
                         nextRequestedTrip={data?.nextRequestedTrip}
                         recentDocs={data?.recentlySharedDocs ?? []}
+                        notificationCount={data?.notificationCount ?? 0}
                     />
                 </ScrollView>
             </SafeAreaView>

@@ -1,5 +1,5 @@
 import {Trip} from "@/types/trips";
-import {RecentDocument} from "@/types/types";
+import {RecentDocument, Notification} from "@/types/types";
 
 export interface AccountTripsResponse {
     requested: Trip[];
@@ -11,4 +11,5 @@ export interface HomepageResponse {
     nextConfirmedTrip: Trip;
     nextRequestedTrip: Trip;
     recentlySharedDocs: RecentDocument[];
+    notificationCount: number;
 }

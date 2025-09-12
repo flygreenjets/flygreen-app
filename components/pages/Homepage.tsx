@@ -20,9 +20,10 @@ interface HomepageProps {
     recentDocs: RecentDocument[];
     nextTrip?: Trip | null;
     nextRequestedTrip?: Trip | null;
+    notificationCount?: number;
 }
 
-export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip = null}: HomepageProps) {
+export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip = null, notificationCount = 0}: HomepageProps) {
     const {activeAccount} = useAuth();
 
     return (
@@ -33,7 +34,9 @@ export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip
                     <Pressable onPress={() => router.push('/notifications')}>
                         <View>
                             <Ionicons name="notifications-outline" size={30} color="black" />
-                            <Text style={styles.notificationBadge}>1</Text>
+                            {notificationCount > 0 && (
+                                <Text style={styles.notificationBadge}>{notificationCount}</Text>
+                            )}
                         </View>
                     </Pressable>
                 </View>
@@ -115,12 +118,12 @@ const styles = StyleSheet.create({
     notificationBadge: {
         backgroundColor: Colors.red,
         position: 'absolute',
-        top: -2,
-        right: -2,
+        top: -3,
+        right: -3,
         elevation: 1,
         borderRadius: 50,
         paddingHorizontal: 5,
-        paddingVertical: 1,
+        paddingVertical: 2,
         color: Colors.white,
         fontWeight: 'bold',
         fontSize: 12,

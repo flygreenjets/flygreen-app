@@ -39,3 +39,18 @@ export interface RecentDocument {
     itinerary: string;
     description: string;
 }
+
+export interface Notification {
+    id: string;
+    data: {
+        title: string;
+        body: string;
+        data: {
+            id: string;
+            type: string;
+            accountId: number;
+        }
+    }
+    createdAt: string;
+    readAt: string;
+}

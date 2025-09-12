@@ -8,6 +8,7 @@ import {router} from "expo-router";
 import ShareButton from "@/components/ui/buttons/ShareButton";
 import {Trip, TripReport, TripSheet} from "@/types/trips";
 import {Account} from "@/types/types";
+import {useAuth} from "@/providers/AuthProvider";
 
 const {width} = Dimensions.get('screen');
 
@@ -20,11 +21,12 @@ interface TripReportCardProps {
 export default function TripSheetCard({tripReport, account, trip}: TripReportCardProps) {
     const hours = Math.floor(tripReport.totalBlockMinutes / 60);
     const minutes = tripReport.totalBlockMinutes - (hours * 60);
+    const {activeAccount} = useAuth();
 
     return (
         <Card style={styles.mainContainer}>
             <ImageBackground
-                source={{uri: 'https://flygreen.s3.us-east-2.amazonaws.com/pdf-assets/rewards/gold.jpg'}}
+                source={{uri: activeAccount.loyalty?.imageUrl ?? ""}}
                 imageStyle={{borderTopRightRadius: 10, borderTopLeftRadius: 10}}
                 resizeMode={'cover'}
             >
