@@ -6,7 +6,7 @@ export let Colors = {
     white: '#FFFFFF',
     gray: '#808080',
     separatorColor: "#E5E7EB",
-    black: 'rgba(0,0,0)',
+    black: '#000000',
     blackTransparent: 'rgba(0,0,0,0.35)',
     lightGray: '#CCC',
     red: 'red'

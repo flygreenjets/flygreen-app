@@ -1,4 +1,4 @@
-import {createContext, useContext, useMemo, useState} from 'react';
+import {createContext, useContext, useEffect, useMemo, useState} from 'react';
 import {getApi} from "@/lib/api/ApiFactory";
 import {useSecureStorageState, useStorageState} from "@/hooks/storage";
 import {Account, User} from "@/types/types";
@@ -12,6 +12,7 @@ interface AuthContextProps {
     loading: boolean;
     login: (username: string, password: string) => Promise<boolean>;
     logout: () => void;
+    register: (username: string, password: string) => Promise<boolean>;
     setActiveAccount: (account: Account) => void;
 }
 
@@ -24,6 +25,7 @@ const AuthContext = createContext<AuthContextProps>({
     loading: false,
     login: () => {return Promise.resolve(false);},
     logout: () => {},
+    register: () => Promise.resolve(false),
     setActiveAccount: () => {}
 });
 
@@ -49,7 +51,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
                 token: string;
                 user: User;
             } = await api.fetchData('/auth/login', 'POST', {
-                email, password, token: expoPushToken!.data
+                email, password, token: expoPushToken?.data ?? ''
             });
             setToken(token); // Use actual token from response
             setUser(user); // Use actual user data from response
@@ -60,6 +62,10 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
             console.error("Login failed", error.message);
             return false;
         }
+    }
+
+    const register = async (email: string, password: string) => {
+        return false;
     }
 
     const logout = () => {
@@ -75,8 +81,9 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         loading,
         login,
         logout,
+        register,
         setActiveAccount
-    }), [token, user, isAuthenticated, loading, login, logout, activeAccount, setActiveAccount]);
+    }), [token, user, isAuthenticated, loading, login, logout, register, activeAccount, setActiveAccount]);
 
     return (
         <AuthContext.Provider value={contextValue}>

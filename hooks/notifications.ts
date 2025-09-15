@@ -46,7 +46,7 @@ export const usePushNotifications = (): PushNotificationState => {
                 finalStatus = status;
             }
             if (finalStatus !== "granted") {
-                alert("Failed to get push token for push notification");
+                alert("Please enable Notifications to be always up to date.");
                 return;
             }
             token = await Notifications.getExpoPushTokenAsync({
