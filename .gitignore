@@ -45,3 +45,4 @@ app-example
 /ios
 
 google-services.json
+.env.local

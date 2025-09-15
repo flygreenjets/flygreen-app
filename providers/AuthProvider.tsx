@@ -59,6 +59,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
             setIsAuthenticated(true); // Set authentication status
             return true;
         } catch (error: any) {
+            alert(error.message);
             console.error("Login failed", error.message);
             return false;
         }
