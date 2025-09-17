@@ -5,10 +5,17 @@ import useQuery from "@/hooks/query";
 import {useAuth} from "@/providers/AuthProvider";
 import {useEffect} from "react";
 import {HomepageResponse} from "@/types/responses";
+import {setBadgeCountAsync} from "expo-notifications";
 
 export default function Home() {
     const {activeAccount} = useAuth();
     const {data, loading, error, refetch} = useQuery<HomepageResponse>(`/homepage/${activeAccount.id}`);
+
+    useEffect(() => {
+        if (!loading && data) {
+            setBadgeCountAsync(data.notificationCount)
+        }
+    }, [data]);
 
     return (
         <SafeAreaProvider>

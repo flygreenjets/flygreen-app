@@ -35,6 +35,8 @@ export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
 
     const [requestBooking, {data, loading, error}] = useMutation('/trips/quotes/request-booking', 'POST');
 
+    console.log(quote)
+
     return (
         <Pressable key={quote.id}>
             <Card style={{padding: 0}}>
@@ -71,7 +73,7 @@ export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
                 <View style={{borderRadius: 10, padding: 20}}>
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", marginBottom: 5}}>
-                            <Text style={{fontSize: 16}}>{quote.aircraft.model}</Text>
+                            <Text style={{fontSize: 16}}>{quote.aircraft.model !== "" ? quote.aircraft.model : quote.aircraft.category}</Text>
                             {quote.aircraft.cabinHeight && quote.aircraft.cabinHeight !== "" && (
                                 <View style={{flexDirection: "row", gap: 5, alignItems: "center"}}>
                                     <MaterialCommunityIcons name="human-male-height-variant" size={16} color="black" />
@@ -81,10 +83,14 @@ export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
                         </View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between"}}>
                             <Text style={{color: 'gray', fontSize: 12}}>{quote.aircraft.category}</Text>
-                            <Text style={{color: 'gray', fontSize: 14}}>{quote.aircraft.seats} seats</Text>
+                            {Number(quote.aircraft.seats) > 0 && (
+                                <Text style={{color: 'gray', fontSize: 14}}>{quote.aircraft.seats} seat{Number(quote.aircraft.seats) > 1 && "s"}</Text>
+                            )}
                         </View>
                     </View>
-                    <Separator/>
+                    {(quote.aircraft.homebase !== "" || quote.aircraft.is_floating || quote.aircraft.yom !== "" )&& (
+                        <Separator/>
+                    )}
                     <View style={{
                         flexDirection: 'row',
                         justifyContent: 'space-between',
@@ -107,28 +113,28 @@ export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
                                 )
                             )}
                         </View>
-                        <View style={[styles.flightInfo, {justifyContent: 'flex-end'}]}>
-                            <Text>{quote.aircraft.yor !== "" ? "YOR" : "YOM"}:</Text>
-                            <Pressable
-                                onPress={() => setYomInfoIsVisible(true)}
-                            >
-                                <View style={styles.rating}>
-                                    <Text>{quote.aircraft.yor !== "" ? quote.aircraft.yor : quote.aircraft.yom}</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
-                                </View>
-                            </Pressable>
-                        </View>
-                    </View>
-                    <View>
-                        <Separator/>
-                        {quote.notes && (
-                            <>
-                                <Text>{quote.notes}</Text>
-                                <Separator/>
-                            </>
+                        {quote.aircraft.yom !== "" && (
+                            <View style={[styles.flightInfo, {justifyContent: 'flex-end'}]}>
+                                <Text>{quote.aircraft.yor !== "" ? "YOR" : "YOM"}:</Text>
+                                <Pressable
+                                    onPress={() => setYomInfoIsVisible(true)}
+                                >
+                                    <View style={styles.rating}>
+                                        <Text>{quote.aircraft.yor !== "" ? quote.aircraft.yor : quote.aircraft.yom}</Text><MaterialIcons name={"info-outline"} size={18} color="black" />
+                                    </View>
+                                </Pressable>
+                            </View>
                         )}
                     </View>
+                    {quote.notes && (
+                        <View>
+                            <Separator/>
+                            <Text>{quote.notes}</Text>
+                        </View>
+                    )}
                     {quote.aircraft.aircraftDiagram && quote.aircraft.aircraftDiagram !== "" && (
                         <>
+                            <Separator/>
                             <Animated.View>
                                 <Pressable onPress={() => {
                                     setFloorPlanModalVisible(true)
@@ -141,9 +147,9 @@ export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
                                     />
                                 </Pressable>
                             </Animated.View>
-                            <Separator/>
                         </>
                     )}
+                    <Separator/>
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", alignItems: "center"}}>
                             <Text style={styles.priceText}>$ {quote.price.toLocaleString()}</Text>
