@@ -35,8 +35,6 @@ export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
 
     const [requestBooking, {data, loading, error}] = useMutation('/trips/quotes/request-booking', 'POST');
 
-    console.log(quote)
-
     return (
         <Pressable key={quote.id}>
             <Card style={{padding: 0}}>

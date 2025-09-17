@@ -2,11 +2,16 @@ import {StyleSheet, Text, View} from "react-native";
 import ContactMenu from "@/components/ui/ContactMenu";
 import {Colors} from "@/utils/Colors";
 
-export default function EmptyTripList() {
+interface EmptyTripListProps {
+    firstLine?: string;
+    secondLine?: string;
+}
+
+export default function EmptyTripList({firstLine = "", secondLine = ""}: EmptyTripListProps) {
     return (
         <View style={styles.emptyContainer}>
-            <Text>You don’t have any upcoming trips right now.</Text>
-            <Text>Contact your broker to start planning.</Text>
+            <Text>{firstLine !== "" ? firstLine : `You don’t have any upcoming trips right now.`}</Text>
+            <Text>{secondLine !== "" ? secondLine : `Contact your broker to start planning.`}</Text>
             <ContactMenu button={(
                 <Text style={{
                     marginTop: 20,
