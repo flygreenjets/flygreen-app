@@ -18,15 +18,17 @@ import {Image} from "expo-image";
 import {useState} from "react";
 import SpinnerLoading from "@/components/animations/SpinnerLoading";
 import * as Yup from 'yup';
+import {useNotifications} from "@/providers/NotificationsProvider";
 
 export default function LoginPage() {
     const {login} = useAuth();
     const [loading, setLoading] = useState(false);
     const [authError, setAuthError] = useState(false);
+    const {expoPushToken} = useNotifications();
     async function submit(values: {email: string, password: string}) {
         setLoading(true);
         setAuthError(false);
-        const success = await login(values.email, values.password)
+        const success = await login(values.email, values.password, expoPushToken)
         setLoading(false);
         if (!success) {
             setAuthError(true);

@@ -2,12 +2,11 @@ import {Stack} from "expo-router";
 import { StatusBar } from 'expo-status-bar';
 import {AuthProvider, useAuth} from "@/providers/AuthProvider";
 import Splash from "@/components/pages/Splash";
-import {SafeAreaView} from "react-native-safe-area-context";
-import OfflineBanner from "@/components/ui/OfflineBanner";
 import {Colors} from "@/utils/Colors";
 import {useEffect, useState} from "react";
 import {isConnected} from "@/lib/api/ApiFactory";
 import * as Sentry from '@sentry/react-native';
+import {NotificationsProvider} from "@/providers/NotificationsProvider";
 
 Sentry.init({
   dsn: 'https://2b28e77adcc0ec2a0f408add6ffec00e@o4505370587299840.ingest.us.sentry.io/4510024505229312',
@@ -28,9 +27,11 @@ Sentry.init({
 export default Sentry.wrap(function RootLayout() {
     return (
         <AuthProvider>
-            <StatusBar style="dark" />
-            <Splash />
-            <RootNavigator />
+            <NotificationsProvider>
+                <StatusBar style="dark" />
+                <Splash />
+                <RootNavigator />
+            </NotificationsProvider>
         </AuthProvider>
     )
 });

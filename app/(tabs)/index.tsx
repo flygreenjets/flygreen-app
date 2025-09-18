@@ -3,17 +3,18 @@ import {SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Homepage from "@/components/pages/Homepage";
 import useQuery from "@/hooks/query";
 import {useAuth} from "@/providers/AuthProvider";
-import {useEffect} from "react";
 import {HomepageResponse} from "@/types/responses";
-import {setBadgeCountAsync} from "expo-notifications";
+import {useNotifications} from "@/providers/NotificationsProvider";
+import {useEffect} from "react";
 
 export default function Home() {
     const {activeAccount} = useAuth();
-    const {data, loading, error, refetch} = useQuery<HomepageResponse>(`/homepage/${activeAccount.id}`);
+    const {data, loading, refetch} = useQuery<HomepageResponse>(`/homepage/${activeAccount.id}`);
+    const {setBadgeCount} = useNotifications();
 
     useEffect(() => {
-        if (!loading && data) {
-            setBadgeCountAsync(data.notificationCount)
+        if (!loading) {
+            setBadgeCount(data?.notificationCount ?? 0);
         }
     }, [data]);
 
@@ -30,7 +31,6 @@ export default function Home() {
                         nextTrip={data?.nextConfirmedTrip}
                         nextRequestedTrip={data?.nextRequestedTrip}
                         recentDocs={data?.recentlySharedDocs ?? []}
-                        notificationCount={data?.notificationCount ?? 0}
                     />
                 </ScrollView>
             </SafeAreaView>

@@ -1,8 +1,9 @@
-import {createContext, useContext, useEffect, useMemo, useState} from 'react';
+import {createContext, useContext, useMemo, useState} from 'react';
 import {getApi} from "@/lib/api/ApiFactory";
 import {useSecureStorageState, useStorageState} from "@/hooks/storage";
 import {Account, User} from "@/types/types";
-import {usePushNotifications} from "@/hooks/notifications";
+import {useNotifications} from "@/providers/NotificationsProvider";
+import {ExpoPushToken} from "expo-notifications";
 
 interface AuthContextProps {
     token: string;
@@ -10,7 +11,7 @@ interface AuthContextProps {
     user: User,
     isAuthenticated: boolean;
     loading: boolean;
-    login: (username: string, password: string) => Promise<boolean>;
+    login: (username: string, password: string, expoPushToken: ExpoPushToken | undefined) => Promise<boolean>;
     logout: () => void;
     register: (username: string, password: string) => Promise<boolean>;
     setActiveAccount: (account: Account) => void;
@@ -34,7 +35,6 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [{data: user}, setUser] = useStorageState<User>('user');
     const [{data: activeAccount}, setActiveAccount] = useStorageState<Account>('active-account');
-    const {expoPushToken} = usePushNotifications();
 
     if (token && (!user || !activeAccount)) {
         setToken('');
@@ -42,7 +42,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         setIsAuthenticated(false);
     }
 
-    const login = async (email: string, password: string) => {
+    const login = async (email: string, password: string, expoPushToken: ExpoPushToken | undefined) => {
         try {
             setUser('');
             setToken('');
@@ -69,7 +69,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         return false;
     }
 
-    const logout = () => {
+    const logout = async () => {
         setToken('');
         setIsAuthenticated(false);
     }

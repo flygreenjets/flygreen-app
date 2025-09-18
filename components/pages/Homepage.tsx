@@ -15,16 +15,17 @@ import {Trip} from "@/types/trips";
 import EmptyTripList from "@/components/ui/trips/EmptyTripList";
 import {RecentDocument} from "@/types/types";
 import ListItem from "@/components/ui/parts/ListItem";
+import {useNotifications} from "@/providers/NotificationsProvider";
 
 interface HomepageProps {
     recentDocs: RecentDocument[];
     nextTrip?: Trip | null;
     nextRequestedTrip?: Trip | null;
-    notificationCount?: number;
 }
 
-export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip = null, notificationCount = 0}: HomepageProps) {
+export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip = null}: HomepageProps) {
     const {activeAccount} = useAuth();
+    const {badgeCount: notificationCount} = useNotifications();
 
     return (
         <>
