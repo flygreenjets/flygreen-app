@@ -19,7 +19,7 @@ export default function TripPageLayout() {
                     },
                     headerLeft: () => (
                         <Pressable
-                            onPress={() => router.canGoBack() ? router.back() : router.push('/')}
+                            onPress={() => router.canGoBack() ? router.back() : router.replace('/(tabs)')}
                         >
                             <Ionicons name="arrow-back" size={24} color={Colors.white} />
                         </Pressable>
