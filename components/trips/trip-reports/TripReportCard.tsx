@@ -26,7 +26,7 @@ export default function TripSheetCard({tripReport, account, trip}: TripReportCar
     return (
         <Card style={styles.mainContainer}>
             <ImageBackground
-                source={{uri: activeAccount.loyalty?.imageUrl ?? ""}}
+                source={{uri: tripReport.loyaltyBg ?? activeAccount.loyalty?.imageUrl}}
                 imageStyle={{borderTopRightRadius: 10, borderTopLeftRadius: 10}}
                 resizeMode={'cover'}
             >

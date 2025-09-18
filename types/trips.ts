@@ -133,6 +133,7 @@ export interface TripReport {
     flightDistance: number,
     totalBlockMinutes: number,
     maxAltitude: number,
+    loyaltyBg: string
 }
 
 export interface Passenger {
