@@ -57,6 +57,13 @@ export default function NotificationsPage() {
                 <ScrollView
                     refreshControl={<RefreshControl refreshing={loading} onRefresh={refetch} />}
                     style={{height: "100%"}}>
+                    {notifications.length === 0 && !loading && (
+                        <View style={styles.emptyContainer}>
+                            <Text
+                                style={styles.emptyText}
+                            >You have no notifications.</Text>
+                        </View>
+                    )}
                     {notifications && notifications.map((notification, key) => {
                         const thisAccount = user.accounts.length > 1 ? user.accounts.find(account => account.id === notification.data.data.accountId) : null;
                         return (
@@ -103,5 +110,17 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         backgroundColor: Colors.flygreenGreen,
         borderRadius: 50,
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 50,
+    },
+    emptyText: {
+        fontSize: 18,
+        color: "#888",
+        textAlign: "center",
+        maxWidth: width * 0.8,
     }
 })
