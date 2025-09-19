@@ -13,10 +13,9 @@ interface AuthContextProps {
     loading: boolean;
     login: (username: string, password: string, expoPushToken: ExpoPushToken | undefined) => Promise<boolean>;
     logout: () => void;
-    register: (username: string, password: string) => Promise<boolean>;
+    register: (name: string, email: string, phone: string, password: string) => Promise<boolean>;
     setActiveAccount: (account: Account) => void;
 }
-
 
 const AuthContext = createContext<AuthContextProps>({
     token: "",
@@ -65,7 +64,16 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         }
     }
 
-    const register = async (email: string, password: string) => {
+    const register = async (name: string, email: string, phone: string, password: string) => {
+        try {
+            const api = await getApi();
+            const data = await api.fetchData('/auth/register', 'POST', {
+                name, email, phone, password
+            });
+            return true;
+        } catch (error: any) {
+
+        }
         return false;
     }
 
