@@ -26,7 +26,7 @@ export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
         <Card style={styles.mainContainer}>
             <View style={styles.bottomBar}>
                 <View>
-                    <Text style={[styles.crewTitle, {color: Colors.white}]}>Next Departure</Text>
+                    <Text style={[styles.crewTitle, {color: Colors.white}]}>Departure</Text>
                     <Text style={styles.departureDate}>{tripSheet.departureDate}</Text>
                 </View>
                 <View>
