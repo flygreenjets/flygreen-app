@@ -18,7 +18,7 @@ interface TripReportCardProps {
     trip: Trip;
 }
 
-export default function TripSheetCard({tripReport, account, trip}: TripReportCardProps) {
+export default function TripReportCard({tripReport, account, trip}: TripReportCardProps) {
     const hours = Math.floor(tripReport.totalBlockMinutes / 60);
     const minutes = tripReport.totalBlockMinutes - (hours * 60);
     const {activeAccount} = useAuth();
@@ -69,10 +69,12 @@ export default function TripSheetCard({tripReport, account, trip}: TripReportCar
                             <Text style={styles.tripInfoValue}>{account.loyaltyPoints.toLocaleString()}</Text>
                             <Text style={styles.tripInfoLabel}>Tier Points</Text>
                         </View>
-                        <View style={{alignItems: 'flex-end'}}>
-                            <Text style={styles.tripInfoValue}>{(Number(account.nextLoyaltyTierThreshold) - Number(account.loyaltyPoints)).toLocaleString()}</Text>
-                            <Text style={styles.tripInfoLabel}>Points To Access Elite Tier</Text>
-                        </View>
+                        {account.nextLoyaltyTier && (
+                            <View style={{alignItems: 'flex-end'}}>
+                                <Text style={styles.tripInfoValue}>{(Number(account.nextLoyaltyTier.threshold) - Number(account.loyaltyPoints)).toLocaleString()}</Text>
+                                <Text style={styles.tripInfoLabel}>Points To Access {account.nextLoyaltyTier.name} Tier</Text>
+                            </View>
+                        )}
                     </View>
                     <View style={styles.tripInfoGrid}>
                         <View>
@@ -89,7 +91,7 @@ export default function TripSheetCard({tripReport, account, trip}: TripReportCar
                     <Pressable
                         style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5}}
                         onPress={() => {
-                            Linking.openURL(process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/trip-report/${tripReport.id}`);
+                            router.push(`/web-viewer/${encodeURIComponent("https://www.flygreen.co/api/agent/pdfs/jet-card-quote/200300418?hide_yom=0&version=&contact_info=customer&cc_form=1&notes_appendix=0&show_dollar_value=1")}`)
                         }}
                     >
                         <Text style={{color: Colors.flygreenGreen}}>See details</Text>

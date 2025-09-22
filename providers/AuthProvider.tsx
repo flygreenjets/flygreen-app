@@ -19,7 +19,7 @@ interface AuthContextProps {
 
 const AuthContext = createContext<AuthContextProps>({
     token: "",
-    activeAccount: {id: 0, name: '', loyaltyPoints: 0, cashbackBalance: 0, agent: {id: 0, name: '', shortName: '', phone: '', email: ''}, nextLoyaltyTierThreshold: 1, loyalty: {id: 0, name: '', threshold: 0, imageUrl: ""}, isMainAccount: false},
+    activeAccount: {id: 0, name: '', loyaltyPoints: 0, cashbackBalance: 0, agent: {id: 0, name: '', shortName: '', phone: '', email: ''}, nextLoyaltyTier: {id: 0, name: '', threshold: 0, imageUrl: ""}, loyalty: {id: 0, name: '', threshold: 0, imageUrl: ""}, isMainAccount: false},
     user: {id: 0, name: '', email: '', accounts: []},
     isAuthenticated: false,
     loading: false,
@@ -58,7 +58,6 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
             setIsAuthenticated(true); // Set authentication status
             return true;
         } catch (error: any) {
-            alert(error.message);
             console.error("Login failed", error.message);
             return false;
         }
