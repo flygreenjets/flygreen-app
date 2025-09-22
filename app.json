@@ -13,7 +13,8 @@
       "supportsTablet": false,
       "bundleIdentifier": "com.flygreen.flygreen",
       "infoPlist": {
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "LSApplicationQueriesSchemes": ["whatsapp"]
       }
     },
     "android": {

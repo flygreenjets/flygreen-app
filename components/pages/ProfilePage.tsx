@@ -6,6 +6,7 @@ import Card from "@/components/ui/Card";
 import React from "react";
 import {useAuth} from "@/providers/AuthProvider";
 import ConfirmButton from "@/components/ui/buttons/ConfirmButton";
+import {router} from "expo-router";
 
 export default function profilePage() {
     const {logout, user, activeAccount} = useAuth();
@@ -31,15 +32,25 @@ export default function profilePage() {
                         Points
                     </Text>
                     <Text style={[styles.loyaltyInfo]}>
-                        <Text style={{fontWeight: "bold"}}>{((activeAccount.loyaltyPoints / activeAccount.nextLoyaltyTierThreshold)*100).toFixed(0)}%</Text>
-                        {"\n"}
-                        to next tier
+                        {activeAccount.nextLoyaltyTier ? (
+                            <>
+                                <Text style={{fontWeight: "bold"}}>{((activeAccount.loyaltyPoints / activeAccount.nextLoyaltyTier.threshold)*100).toFixed(0)}%</Text>
+                                {"\n"}
+                                to next tier
+                            </>
+                        ) : (
+                            <>
+                                <Text style={{fontWeight: "bold"}}>N/A</Text>
+                                {"\n"}
+                                at top tier
+                            </>
+                        )}
                     </Text>
                 </View>
                 <Pressable
                     style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5}}
                     onPress={() => {
-                        Linking.openURL(process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/loyalty-points/${activeAccount.id}`);
+                        router.push(`/web-viewer/${encodeURIComponent(process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/loyalty-points/${activeAccount.id}`)}`);
                     }}
                 >
                     <Text style={{color: Colors.flygreenGreen}}>View Rewards History</Text>
@@ -102,9 +113,9 @@ export default function profilePage() {
                         </Pressable>
                         <Pressable
                             onPress={() => {
-                                Linking.canOpenURL(`whatsapp://send?phone=+${activeAccount.agent.phone}`).then((url) => {
+                                Linking.canOpenURL(`whatsapp://send?phone=${activeAccount.agent.phone}`).then((url) => {
                                     if (url) {
-                                        Linking.openURL(`whatsapp://send?phone=+${activeAccount.agent.phone}`);
+                                        Linking.openURL(`whatsapp://send?phone=${activeAccount.agent.phone}`);
                                     } else {
                                         Alert.alert("We've encountered an issue", "An error occurred while trying to open WhatsApp.");
                                     }
