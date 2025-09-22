@@ -98,7 +98,7 @@ export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
                     <Pressable
                         style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5}}
                         onPress={() => {
-                            router.push(`/trip-sheet/${tripSheet.id}`);
+                            router.push(`/web-viewer/${encodeURIComponent(process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/trip-sheet/${tripSheet.id}`)}`)
                         }}
                     >
                         <Text style={{color: Colors.flygreenGreen}}>See details</Text>

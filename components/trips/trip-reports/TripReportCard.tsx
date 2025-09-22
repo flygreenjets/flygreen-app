@@ -91,7 +91,7 @@ export default function TripReportCard({tripReport, account, trip}: TripReportCa
                     <Pressable
                         style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end', gap: 5}}
                         onPress={() => {
-                            router.push(`/web-viewer/${encodeURIComponent("https://www.flygreen.co/api/agent/pdfs/jet-card-quote/200300418?hide_yom=0&version=&contact_info=customer&cc_form=1&notes_appendix=0&show_dollar_value=1")}`)
+                            router.push(`/web-viewer/${encodeURIComponent(process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/trip-report/${tripReport.id}`)}`)
                         }}
                     >
                         <Text style={{color: Colors.flygreenGreen}}>See details</Text>
