@@ -92,7 +92,7 @@ export default function TripSheetCard({tripReport, account, trip}: TripReportCar
                             Linking.openURL(process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/trip-report/${tripReport.id}`);
                         }}
                     >
-                        <Text style={{color: Colors.flygreenGreen}}>View More</Text>
+                        <Text style={{color: Colors.flygreenGreen}}>See details</Text>
                         <MaterialCommunityIcons name="file-document-outline" size={20} color={Colors.flygreenGreen} />
                     </Pressable>
                     <ShareButton shareUrl="http://www.flygreen.test/trip-sheet/1" dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />

@@ -10,7 +10,8 @@ import DotPagination from "@/components/ui/DotPagination";
 import {router} from "expo-router";
 import ShareButton from "@/components/ui/buttons/ShareButton";
 import * as Linking from "expo-linking";
-import {TripSheet} from "@/types/trips";
+import {Airport, Fbo, Segment, TripSheet} from "@/types/trips";
+import {FontAwesome} from "@expo/vector-icons";
 
 const {width} = Dimensions.get('screen');
 
@@ -46,105 +47,42 @@ export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
                 <View style={styles.itineraryContainer}>
                     <View style={styles.segment}>
                     <FlatList
-                            data={tripSheet.segments}
-                            horizontal={true}
-                            pagingEnabled={true}
-                            showsHorizontalScrollIndicator={false}
-                            onViewableItemsChanged={({changed, viewableItems}) => {
-                                if (changed.length > 0) {
-                                    setPagination(viewableItems[0].index || 0);
-                                }
-                            }}
-                            renderItem={({item: segment, index}) =>
-                                <View style={{
-                                    width: width - 50,
-                                    paddingHorizontal: 5
-                                }}>
-                                    <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
-                                        <Text>Leg {index+1}</Text>
-                                        <Text>{segment.departureDate}</Text>
-                                    </View>
-                                    <View key={index} style={{
-                                        flexDirection: 'row',
-                                    }}>
-                                        <View style={styles.airportInfo}>
-                                            <Text style={styles.airportCode}>{segment.departureAirport?.code}</Text>
-                                            {segment.departureFbo ? (
-                                                <>
-                                                    <Text style={styles.airportName}>{segment.departureFbo?.name}</Text>
-                                                    <Pressable
-                                                        onPress={() => {
-                                                            showLocation({
-                                                                address: segment.departureFbo.address,
-                                                            });
-                                                        }}
-                                                    >
-                                                        <Text>{segment.departureFbo.address}</Text>
-                                                    </Pressable>
-                                                    <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.departureFbo.phone}`);}}>
-                                                        <Text>{segment.departureFbo.phone}</Text>
-                                                    </Pressable>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Text style={styles.airportName}>{segment.departureAirport?.name}</Text>
-                                                    <Pressable
-                                                        onPress={() => {
-                                                            showLocation({
-                                                                address: segment.departureAirport.location,
-                                                            });
-                                                        }}
-                                                    >
-                                                        <Text>{segment.departureAirport?.location}</Text>
-                                                    </Pressable>
-                                                    <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.departureAirport.phone}`);}}>
-                                                        <Text>{segment.departureAirport.phone}</Text>
-                                                    </Pressable>
-                                                </>
-                                            )}
-                                        </View>
-                                        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
-                                            <Ionicons name="airplane" size={26} color="#205046" />
-                                        </View>
-                                        <View style={{...styles.airportInfo, alignItems: 'flex-end'}}>
-                                            <Text style={styles.airportCode}>{segment.destinationAirport?.code}</Text>
-                                            {segment.destinationFbo ? (
-                                                <>
-                                                    <Text style={styles.airportName}>{segment.destinationFbo?.name}</Text>
-                                                    <Pressable
-                                                        onPress={() => {
-                                                            showLocation({
-                                                                address: segment.destinationFbo.address,
-                                                            });
-                                                        }}
-                                                    >
-                                                        <Text style={styles.right}>{segment.destinationFbo.address}</Text>
-                                                    </Pressable>
-                                                    <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.destinationFbo.phone}`);}}>
-                                                        <Text>{segment.destinationFbo.phone}</Text>
-                                                    </Pressable>
-                                                </>
-                                            ) : (
-                                                <>
-                                                    <Text style={[styles.right, styles.airportName]}>{segment.destinationAirport?.name}</Text>
-                                                    <Pressable
-                                                        onPress={() => {
-                                                            showLocation({
-                                                                address: segment.destinationAirport.location,
-                                                            });
-                                                        }}
-                                                    >
-                                                        <Text style={styles.right}>{segment.destinationAirport?.name}</Text>
-                                                    </Pressable>
-                                                    <Pressable onPress={() => {Linking.openURL(`telprompt:${segment.destinationAirport.phone}`);}}>
-                                                        <Text>{segment.destinationAirport.phone}</Text>
-                                                    </Pressable>
-                                                </>
-                                            )}
-                                        </View>
-                                    </View>
-                                </View>
+                        data={tripSheet.segments}
+                        horizontal={true}
+                        pagingEnabled={true}
+                        showsHorizontalScrollIndicator={false}
+                        onViewableItemsChanged={({changed, viewableItems}) => {
+                            if (changed.length > 0) {
+                                setPagination(viewableItems[0].index || 0);
                             }
+                        }}
+                        renderItem={({item: segment, index}) =>
+                            <View style={{
+                                width: width - 50,
+                                paddingHorizontal: 5
+                            }}>
+                                <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <Text>Leg {index+1}</Text>
+                                    <Text>{segment.departureDate}</Text>
+                                </View>
+                                <View key={index} style={{
+                                    flexDirection: 'row',
+                                }}>
+                                    <LegAirportInfo
+                                        airport={segment.departureAirport!}
+                                        fbo={segment.departureFbo!}
+                                    />
+                                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+                                        <Ionicons name="airplane" size={26} color="#205046" />
+                                    </View>
+                                    <LegAirportInfo
+                                        airport={segment.destinationAirport!}
+                                        fbo={segment.destinationFbo!}
+                                        isArrival={true}
+                                    />
+                                </View>
+                            </View>
+                        }
                         />
                         <View style={{flex: 1, marginTop: 20}}>
                             <DotPagination
@@ -163,13 +101,73 @@ export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
                             router.push(`/trip-sheet/${tripSheet.id}`);
                         }}
                     >
-                        <Text style={{color: Colors.flygreenGreen}}>View More</Text>
+                        <Text style={{color: Colors.flygreenGreen}}>See details</Text>
                         <MaterialCommunityIcons name="file-document-outline" size={20} color={Colors.flygreenGreen} />
                     </Pressable>
                     <ShareButton shareUrl="http://www.flygreen.test/trip-sheet/1" dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />
                 </View>
             </View>
         </Card>
+    );
+}
+
+interface LegAirportInfoProps {
+    airport: Airport;
+    isArrival?: boolean;
+    fbo?: Fbo;
+}
+
+function LegAirportInfo({airport, isArrival = false, fbo}: LegAirportInfoProps) {
+    return (
+        <View style={[styles.airportInfo, isArrival && {alignItems: 'flex-end'}]}>
+            <Text style={styles.airportCode}>{airport?.code}</Text>
+            {fbo ? (
+                <>
+                    <Text style={[styles.airportName, isArrival && styles.right]}>{fbo?.name}</Text>
+                    <Pressable
+                        onPress={() => {
+                            showLocation({
+                                address: fbo.address,
+                            });
+                        }}
+                    >
+                        <Text style={[isArrival && styles.right]}><FontAwesome name="map-marker" size={20} color="black" /> {fbo.address}</Text>
+                    </Pressable>
+                    {fbo.phone && (
+                        <Pressable onPress={() => {Linking.openURL(`telprompt:${fbo.phone}`);}}>
+                            <View style={styles.iconText}>
+                                <FontAwesome name="phone" size={18} color="black" />
+                                <Text style={[isArrival && styles.right]}>{fbo.phone}</Text>
+                            </View>
+                        </Pressable>
+                    )}
+                </>
+            ) : (
+                <>
+                    <Text style={[styles.airportName, isArrival && styles.right]}>{airport?.name}</Text>
+                    <Pressable
+                        onPress={() => {
+                            showLocation({
+                                address: airport.location,
+                            });
+                        }}
+                    >
+                        <View style={styles.iconText}>
+                            <FontAwesome name="map-marker" size={20} color="black" />
+                            <Text style={[isArrival && styles.right]}>{airport?.location}</Text>
+                        </View>
+                    </Pressable>
+                    {airport.phone && (
+                        <Pressable onPress={() => {Linking.openURL(`telprompt:${airport.phone}`);}}>
+                            <View style={styles.iconText}>
+                                <FontAwesome name="phone" size={18} color="black" />
+                                <Text style={[isArrival && styles.right]}>{airport.phone}</Text>
+                            </View>
+                        </Pressable>
+                    )}
+                </>
+            )}
+        </View>
     );
 }
 
@@ -183,7 +181,7 @@ const styles = StyleSheet.create({
     },
     airportInfo: {
         flex: 2,
-        gap: 5
+        gap: 8
     },
     airportCode: {
         fontSize: 30,
@@ -260,5 +258,10 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+    },
+    iconText: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 5
     }
 });

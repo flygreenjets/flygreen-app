@@ -30,6 +30,14 @@ export default function TripView({trip}: TripViewProps) {
             }}>
                 <TripCard trip={trip} showAsCard={false}/>
             </View>
+
+            {trip.stage === TripStage.ClosedWon && (
+                <>
+                    {trip.tripReports && <TripReportSection trip={trip} account={trip.account} tripReport={trip.tripReports[0]}/>}
+                    {trip.tripSheets && <TripSheetSection tripSheet={trip.tripSheets[0] ?? null}/>}
+                </>
+            )}
+
             {stageIsBefore(trip.stage, TripStage.ClosedWon) ?
                 trip.quotes && trip.quotes.length > 0 ? (
                     <QuoteSection tripId={trip.id} quotes={trip.quotes} />
@@ -42,12 +50,6 @@ export default function TripView({trip}: TripViewProps) {
                 ) : null
             }
 
-            {trip.stage === TripStage.ClosedWon && (
-                <>
-                    {!trip.tripReports && trip.tripSheets && <TripSheetSection tripSheet={trip.tripSheets[0] ?? null}/>}
-                    {trip.tripReports && trip.tripReports.length > 0 && (<TripReportSection trip={trip} account={trip.account} tripReport={trip.tripReports[0]}/>)}
-                </>
-            )}
             {trip.documents && trip.documents.length > 0 && (
                 <TripDocumentSection docs={trip.documents} />
             )}

@@ -13,7 +13,7 @@ export default function TripTabs({tab, setTab}: TripTabsProps) {
         <View style={styles.container}>
             <View style={styles.buttonContainer}>
                 <Pressable onPress={() => {setTab(1)}}>
-                    <Text style={StyleSheet.compose(styles.buttonText, (tab === 1 ? styles.selectedButtonText : ""))}>Requested</Text>
+                    <Text style={StyleSheet.compose(styles.buttonText, (tab === 1 ? styles.selectedButtonText : ""))}>Quoting</Text>
                 </Pressable>
             </View>
             <View style={styles.buttonContainer}>
