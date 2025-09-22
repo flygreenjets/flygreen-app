@@ -13,7 +13,7 @@ export interface Account {
     agent: Agent;
     loyalty: Loyalty;
     isMainAccount: boolean;
-    nextLoyaltyTierThreshold: number
+    nextLoyaltyTier: Loyalty;
 }
 
 export interface Agent {

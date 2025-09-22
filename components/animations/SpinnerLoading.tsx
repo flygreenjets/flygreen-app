@@ -1,6 +1,6 @@
 import { Colors } from "@/utils/Colors";
 import React, { useRef, useEffect } from "react";
-import { Animated, View, StyleSheet, Easing } from "react-native";
+import {Animated, View, StyleSheet, Easing, ActivityIndicator} from "react-native";
 
 export default function SpinnerLoading() {
     const spinAnim = useRef(new Animated.Value(0)).current;
@@ -23,7 +23,7 @@ export default function SpinnerLoading() {
 
     return (
         <View style={styles.container}>
-            <Animated.View style={[styles.spinner, { transform: [{ rotate: spin }] }]} />
+            <ActivityIndicator size="large" color={Colors.flygreenGreen} />
         </View>
     );
 }

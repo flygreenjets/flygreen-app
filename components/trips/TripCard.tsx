@@ -48,14 +48,14 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
             }}>
                 <View style={styles.airportInfo}>
                     <Text style={styles.airportCode}>{trip.departureAirport.code}</Text>
-                    <Text style={styles.airportName}>{trip.departureAirport.name}</Text>
+                    <Text style={styles.airportName}>{trip.departureAirport.location}</Text>
                 </View>
                 <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                     <Ionicons name="airplane" size={26} color="#205046" />
                 </View>
                 <View style={{...styles.airportInfo, alignItems: 'flex-end'}}>
                     <Text style={styles.airportCode}>{trip.destinationAirport.code}</Text>
-                    <Text style={{...styles.airportName, textAlign: "right"}}>{trip.destinationAirport.name}</Text>
+                    <Text style={{...styles.airportName, textAlign: "right"}}>{trip.destinationAirport.location}</Text>
                 </View>
             </View>
             {statusIsAtLeast(trip.status, TripStatus.Confirmed) && (

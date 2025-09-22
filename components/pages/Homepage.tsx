@@ -10,23 +10,23 @@ import {router} from "expo-router";
 import {Colors} from "@/utils/Colors";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import AccountPicker from "@/components/ui/AccountPicker";
-import { useAuth } from "@/providers/AuthProvider";
 import {Trip} from "@/types/trips";
 import EmptyTripList from "@/components/ui/trips/EmptyTripList";
-import {RecentDocument} from "@/types/types";
+import {Account, RecentDocument} from "@/types/types";
 import ListItem from "@/components/ui/parts/ListItem";
 import {useNotifications} from "@/providers/NotificationsProvider";
+import ProgressBar from "@/components/ui/ProgressBar";
+import LoyaltyProgressBar from "@/components/ui/LoyaltyProgressBar";
 
 interface HomepageProps {
+    activeAccount: Account | null;
     recentDocs: RecentDocument[];
     nextTrip?: Trip | null;
     nextRequestedTrip?: Trip | null;
 }
 
-export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip = null}: HomepageProps) {
-    const {activeAccount} = useAuth();
+export default function Homepage({recentDocs, activeAccount = null, nextTrip = null, nextRequestedTrip = null}: HomepageProps) {
     const {badgeCount: notificationCount} = useNotifications();
-
     return (
         <>
             <View>
@@ -41,17 +41,37 @@ export default function Homepage({recentDocs, nextTrip = null, nextRequestedTrip
                         </View>
                     </Pressable>
                 </View>
-                <ImageBackground
-                    source={{uri: activeAccount.loyalty?.imageUrl ?? ""}}
-                    style={styles.rewardsContainer}
-                    imageStyle={{
-                        borderRadius: 10,
-                        height: 205
-                    }}
-                    resizeMode={'stretch'}
-                >
-                    <Text style={{color: 'white', fontWeight: "bold", fontSize: 18}}>{(activeAccount.loyaltyPoints ?? 0).toLocaleString()} Points</Text>
-                </ImageBackground>
+                {activeAccount && activeAccount.loyalty && (
+                    <Pressable onPress={() => {
+                        router.push(`/web-viewer/${encodeURIComponent('https://flygreen.s3.us-east-2.amazonaws.com/FLYGREEN-REWARDS.pdf')}`)
+                    }}>
+                        <ImageBackground
+                            source={{uri: activeAccount.loyalty?.imageUrl ?? ""}}
+                            style={styles.rewardsContainer}
+                            imageStyle={{
+                                borderRadius: 10,
+                                height: '220%',
+                            }}
+                            resizeMode={'stretch'}
+                        >
+                            <View style={{
+                                flex: 1,
+                                width: '100%',
+                            }}>
+                                {activeAccount.nextLoyaltyTier !== null ? (
+                                    <LoyaltyProgressBar
+                                        loyaltyTier={activeAccount.loyalty}
+                                        nextLoyaltyTier={activeAccount.nextLoyaltyTier}
+                                        progress={(activeAccount.loyaltyPoints / activeAccount.nextLoyaltyTier.threshold) * 100}
+                                    />
+                                ) : (
+                                    <Text style={{color: "white", fontWeight: 'bold', textAlign: "center"}}>You are at the highest tier!</Text>
+                                )}
+                                <Text style={{color: "white", fontWeight: 'bold',textAlign: "right", marginTop: 10}}>See benefits</Text>
+                            </View>
+                        </ImageBackground>
+                    </Pressable>
+                )}
                 {!nextTrip && !nextRequestedTrip && (
                     <View style={{marginBottom: 30}}>
                         <EmptyTripList/>
@@ -100,11 +120,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     rewardsContainer: {
+        aspectRatio: 16/6,
         flexDirection: 'row',
+        paddingTop: 20,
         padding: 22,
-        paddingBottom: 20,
+        paddingBottom: 12,
         borderRadius: 10,
-        height: 105,
         alignItems: 'flex-end',
         shadowColor: '#000',
         shadowOffset: {

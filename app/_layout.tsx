@@ -83,6 +83,10 @@ function RootNavigator() {
                         name="trip-sheet"
                         options={{headerShown: !connected}}
                     />
+                    <Stack.Screen
+                        name="web-viewer"
+                        options={{headerShown: !connected}}
+                    />
                 </Stack.Protected>
                 <Stack.Protected guard={!Boolean(token)}>
                     <Stack.Screen

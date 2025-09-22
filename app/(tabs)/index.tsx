@@ -28,6 +28,7 @@ export default function Home() {
                     }
                 >
                     <Homepage
+                        activeAccount={data?.activeAccount ?? null}
                         nextTrip={data?.nextConfirmedTrip}
                         nextRequestedTrip={data?.nextRequestedTrip}
                         recentDocs={data?.recentlySharedDocs ?? []}
