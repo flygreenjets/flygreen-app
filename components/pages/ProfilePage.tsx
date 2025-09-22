@@ -7,6 +7,7 @@ import React from "react";
 import {useAuth} from "@/providers/AuthProvider";
 import ConfirmButton from "@/components/ui/buttons/ConfirmButton";
 import {router} from "expo-router";
+import {formatForWhatsApp} from "@/utils/helpers";
 
 export default function profilePage() {
     const {logout, user, activeAccount} = useAuth();
@@ -113,9 +114,9 @@ export default function profilePage() {
                         </Pressable>
                         <Pressable
                             onPress={() => {
-                                Linking.canOpenURL(`whatsapp://send?phone=${activeAccount.agent.phone}`).then((url) => {
+                                Linking.canOpenURL(`whatsapp://send?phone=${formatForWhatsApp(activeAccount.agent.phone, "1")}`).then((url) => {
                                     if (url) {
-                                        Linking.openURL(`whatsapp://send?phone=${activeAccount.agent.phone}`);
+                                        Linking.openURL(`whatsapp://send?phone=${formatForWhatsApp(activeAccount.agent.phone, "1")}`);
                                     } else {
                                         Alert.alert("We've encountered an issue", "An error occurred while trying to open WhatsApp.");
                                     }
