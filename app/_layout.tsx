@@ -7,8 +7,10 @@ import {useEffect, useState} from "react";
 import {isConnected} from "@/lib/api/ApiFactory";
 import * as Sentry from '@sentry/react-native';
 import {NotificationsProvider} from "@/providers/NotificationsProvider";
+import NetInfo from '@react-native-community/netinfo';
 
 Sentry.init({
+  enabled: !__DEV__,
   dsn: 'https://2b28e77adcc0ec2a0f408add6ffec00e@o4505370587299840.ingest.us.sentry.io/4510024505229312',
 
   // Adds more context data to events (IP address, cookies, user, etc.)
@@ -38,14 +40,14 @@ export default Sentry.wrap(function RootLayout() {
 
 function RootNavigator() {
     const {token} = useAuth();
-    const [connected, setConnected] = useState(false);
+    const [connected, setConnected] = useState(true);
 
     useEffect(() => {
-        const init = async () => {
-            const status = await isConnected();
-            setConnected(status);
-        }
-        init();
+        const unsubscribe = NetInfo.addEventListener((state) => {
+            setConnected(state.isConnected as boolean);
+        });
+
+        return () => unsubscribe();
     }, []);
 
     return (

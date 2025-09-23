@@ -15,7 +15,6 @@ import EmptyTripList from "@/components/ui/trips/EmptyTripList";
 import {Account, RecentDocument} from "@/types/types";
 import ListItem from "@/components/ui/parts/ListItem";
 import {useNotifications} from "@/providers/NotificationsProvider";
-import ProgressBar from "@/components/ui/ProgressBar";
 import LoyaltyProgressBar from "@/components/ui/LoyaltyProgressBar";
 
 interface HomepageProps {
