@@ -2,7 +2,6 @@ import {createContext, useContext, useMemo, useState} from 'react';
 import {getApi} from "@/lib/api/ApiFactory";
 import {useSecureStorageState, useStorageState} from "@/hooks/storage";
 import {Account, User} from "@/types/types";
-import {useNotifications} from "@/providers/NotificationsProvider";
 import {ExpoPushToken} from "expo-notifications";
 
 interface AuthContextProps {

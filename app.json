@@ -2,7 +2,7 @@
   "expo": {
     "name": "Flygreen",
     "slug": "flygreen-app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icons/ios/AppIcon@3x.png",
     "scheme": "flygreen",
@@ -14,7 +14,10 @@
       "bundleIdentifier": "com.flygreen.flygreen",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
-        "LSApplicationQueriesSchemes": ["whatsapp"]
+        "LSApplicationQueriesSchemes": [
+          "whatsapp",
+          "whatsapp"
+        ]
       },
       "entitlements": {
         "com.apple.developer.networking.wifi-info": true
@@ -75,6 +78,12 @@
         "projectId": "6c7b7790-57e6-4c6a-85b2-0af558c4214d"
       }
     },
-    "owner": "flygreen"
+    "owner": "flygreen",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/6c7b7790-57e6-4c6a-85b2-0af558c4214d"
+    }
   }
 }
