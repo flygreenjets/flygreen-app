@@ -12,6 +12,8 @@ import ShareButton from "@/components/ui/buttons/ShareButton";
 import * as Linking from "expo-linking";
 import {Airport, Fbo, Segment, TripSheet} from "@/types/trips";
 import {FontAwesome} from "@expo/vector-icons";
+import ImageCarousel from "@/components/images/ImageCarousel";
+import Modal from "@/components/ui/modal/Modal";
 
 const {width} = Dimensions.get('screen');
 
@@ -22,6 +24,7 @@ interface TripSheetCardProps {
 
 export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
     const [pagination, setPagination] = useState(0);
+    const [imageCarouselVisible, setImageCarouselVisible] = useState(false);
 
     return (
         <Card style={styles.mainContainer}>
@@ -35,14 +38,14 @@ export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
                     <Text style={styles.tailNumber}>{tripSheet.tailNumber}</Text>
                 </View>
             </View>
-            <View>
+            <Pressable onPress={() => setImageCarouselVisible(true)}>
                 <Image
                     style={[styles.image]}
                     source={tripSheet.primaryImage ?? ""}
                     contentFit="cover"
                     transition={1000}
                 />
-            </View>
+            </Pressable>
             <View style={{padding: 15}}>
                 <View style={styles.itineraryContainer}>
                     <View style={styles.segment}>
@@ -107,6 +110,13 @@ export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
                     <ShareButton shareUrl="http://www.flygreen.test/trip-sheet/1" dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />
                 </View>
             </View>
+            <Modal
+                modalVisible={imageCarouselVisible}
+                onClose={() => setImageCarouselVisible(false)}
+                animationType="fade"
+            >
+                <ImageCarousel data={[{image: tripSheet.primaryImage}]}/>
+            </Modal>
         </Card>
     );
 }

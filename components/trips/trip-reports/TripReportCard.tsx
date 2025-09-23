@@ -3,12 +3,14 @@ import Card from "@/components/ui/Card";
 import {Colors} from "@/utils/Colors";
 import {Image} from "expo-image";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import React from "react";
+import React, {useState} from "react";
 import {router} from "expo-router";
 import ShareButton from "@/components/ui/buttons/ShareButton";
 import {Trip, TripReport, TripSheet} from "@/types/trips";
 import {Account} from "@/types/types";
 import {useAuth} from "@/providers/AuthProvider";
+import Modal from "@/components/ui/modal/Modal";
+import ImageCarousel from "@/components/images/ImageCarousel";
 
 const {width} = Dimensions.get('screen');
 
@@ -22,6 +24,7 @@ export default function TripReportCard({tripReport, account, trip}: TripReportCa
     const hours = Math.floor(tripReport.totalBlockMinutes / 60);
     const minutes = tripReport.totalBlockMinutes - (hours * 60);
     const {activeAccount} = useAuth();
+    const [imageCarouselVisible, setImageCarouselVisible] = useState(false);
 
     return (
         <Card style={styles.mainContainer}>
@@ -56,11 +59,14 @@ export default function TripReportCard({tripReport, account, trip}: TripReportCa
                 </View>
             </ImageBackground>
             <View>
-                <Image
-                    style={[styles.image]}
-                    source={trip.primaryImageUrl}
-                    contentFit="cover"
-                />
+                <Pressable onPress={() => setImageCarouselVisible(true)}>
+                    <Image
+                        style={[styles.image]}
+                        source={trip.primaryImageUrl}
+                        contentFit="cover"
+                        transition={1000}
+                    />
+                </Pressable>
             </View>
             <View style={{padding: 15}}>
                 <View style={styles.itineraryContainer}>
@@ -100,6 +106,13 @@ export default function TripReportCard({tripReport, account, trip}: TripReportCa
                     <ShareButton shareUrl="http://www.flygreen.test/trip-sheet/1" dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />
                 </View>
             </View>
+            <Modal
+                modalVisible={imageCarouselVisible}
+                onClose={() => setImageCarouselVisible(false)}
+                animationType="fade"
+            >
+                <ImageCarousel data={[{image: trip.primaryImageUrl}]}/>
+            </Modal>
         </Card>
     );
 }
