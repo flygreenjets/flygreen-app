@@ -7,7 +7,7 @@ import {
     KeyboardAvoidingView,
     Platform,
     Keyboard,
-    TouchableWithoutFeedback
+    TouchableWithoutFeedback, ScrollView
 } from "react-native";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {router} from "expo-router";
@@ -37,11 +37,9 @@ export default function LoginPage() {
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={{backgroundColor: Colors.white, flex: 1}}>
-                <TouchableWithoutFeedback
-                    onPress={Keyboard.dismiss}
-                >
-                    <View style={styles.container}>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
+                <SafeAreaView style={{backgroundColor: Colors.white, flex: 1}}>
+                    <ScrollView style={styles.container}>
                         <Image
                             style={{width: "100%", height: 125, alignSelf: 'center', marginVertical: 50}}
                             source={"https://cdn.flygreen.co/app-resources/logo-flygreen-full.png"}
@@ -109,9 +107,9 @@ export default function LoginPage() {
                                 </KeyboardAvoidingView>
                             )}
                         </Formik>
-                    </View>
-                </TouchableWithoutFeedback>
-            </SafeAreaView>
+                    </ScrollView>
+                </SafeAreaView>
+            </KeyboardAvoidingView>
         </SafeAreaProvider>
     );
 }

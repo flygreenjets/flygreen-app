@@ -6,7 +6,7 @@ import {
     TextInput,
     TouchableWithoutFeedback,
     Keyboard,
-    KeyboardAvoidingView, Platform
+    KeyboardAvoidingView, Platform, ScrollView
 } from "react-native";
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {router} from "expo-router";
@@ -17,6 +17,7 @@ import {useState} from "react";
 import SpinnerLoading from "@/components/animations/SpinnerLoading";
 import {useAuth} from "@/providers/AuthProvider";
 import * as Yup from "yup";
+import {isValidNumber, PhoneInput} from "react-native-phone-entry";
 
 interface RegisterFormValues {
     name: string;
@@ -31,6 +32,7 @@ export default function Register() {
     const [loading, setLoading] = useState(false);
     const [authError, setAuthError] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [countryCode, setCountryCode] = useState('');
 
     async function submit(values: RegisterFormValues) {
         setLoading(true);
@@ -46,11 +48,9 @@ export default function Register() {
 
     return (
         <SafeAreaProvider>
-            <SafeAreaView style={{backgroundColor: Colors.white, flex: 1}}>
-                <TouchableWithoutFeedback
-                    onPress={Keyboard.dismiss}
-                >
-                    <View style={styles.container}>
+            <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
+                <SafeAreaView style={{backgroundColor: Colors.white}}>
+                    <ScrollView style={styles.container}>
                         <Image
                             style={{width: "100%", height: 125, alignSelf: 'center', marginVertical: 50}}
                             source={"https://cdn.flygreen.co/app-resources/logo-flygreen-full.png"}
@@ -72,16 +72,16 @@ export default function Register() {
                                 validationSchema={Yup.object().shape({
                                     name: Yup.string().required('Name is required'),
                                     email: Yup.string().email('Invalid email').required('Email is required'),
-                                    phone: Yup.string(),
+                                    phone: Yup.string().required('Phone number is required')
+                                        .test('phone', 'Invalid phone number', function(value) {
+                                            return isValidNumber(value, countryCode);
+                                        }),
                                     password: Yup.string().required('Password is required'),
                                     passwordConfirm: Yup.string().oneOf([Yup.ref('password')], 'Passwords must match').required('Please confirm your password'),
                                 })}
                             >
-                                {({handleChange, handleBlur, handleSubmit, values, errors, submitCount}) => (
-                                    <KeyboardAvoidingView
-                                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                                    >
-                                        <Text style={styles.title}>Registration Form</Text>
+                                {({handleChange, handleBlur, handleSubmit, values, errors, submitCount, setFieldValue}) => (
+                                    <View>
                                         {authError && (
                                             <View style={{marginBottom: 10}}>
                                                 <Text style={{color: 'red'}}>Email already in use.</Text>
@@ -111,15 +111,21 @@ export default function Register() {
                                             autoCapitalize="none"
                                             autoCorrect={false}
                                         />
-                                        <TextInput
-                                            placeholderTextColor={Colors.lightGray}
-                                            editable={!loading}
-                                            style={styles.input}
-                                            placeholder="Phone Number"
+                                        <PhoneInput
+                                            defaultValues={{
+                                                countryCode: 'US',
+                                                callingCode: '+1',
+                                                phoneNumber: '+1',
+                                            }}
                                             onChangeText={handleChange('phone')}
-                                            onBlur={handleBlur('phone')}
                                             value={values.phone}
-                                            keyboardType="phone-pad"
+                                            theme={{
+                                                containerStyle: styles.input
+                                            }}
+                                            onChangeCountry={(country) => {
+                                                setFieldValue('phone', country.callingCode);
+                                                setCountryCode(country.cca2);
+                                            }}
                                         />
                                         <TextInput
                                             placeholderTextColor={Colors.lightGray}
@@ -146,12 +152,13 @@ export default function Register() {
                                         {loading ? (
                                             <SpinnerLoading/>
                                         ) : (
-                                            <>
+                                            <View style={{paddingBottom: 50}}>
                                                 {errors && submitCount > 0 && (
                                                     <View style={{marginBottom: 10}}>
                                                         {errors.email && <Text style={{color: 'red'}}>{errors.email}</Text>}
                                                         {errors.password && <Text style={{color: 'red'}}>{errors.password}</Text>}
                                                         {errors.passwordConfirm && <Text style={{color: 'red'}}>{errors.passwordConfirm}</Text>}
+                                                        {errors.phone && <Text style={{color: 'red'}}>{errors.phone}</Text>}
                                                     </View>
                                                 )}
                                                 <Pressable onPress={() => {handleSubmit()}}>
@@ -160,15 +167,15 @@ export default function Register() {
                                                 <Pressable onPress={() => {router.back()}}>
                                                     <Text style={styles.goBackLink}>Back to Login</Text>
                                                 </Pressable>
-                                            </>
+                                            </View>
                                         )}
-                                    </KeyboardAvoidingView>
+                                    </View>
                                 )}
                             </Formik>
                         )}
-                    </View>
-                </TouchableWithoutFeedback>
-            </SafeAreaView>
+                    </ScrollView>
+                </SafeAreaView>
+            </KeyboardAvoidingView>
         </SafeAreaProvider>
     );
 }
@@ -178,6 +185,7 @@ const styles = StyleSheet.create({
         height: "100%",
         backgroundColor: Colors.white,
         padding: 20,
+        paddingBottom: 100
     },
     title: {
         textAlign: "center",
