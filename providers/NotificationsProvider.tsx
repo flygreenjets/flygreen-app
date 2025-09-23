@@ -29,6 +29,7 @@ const NotificationsContext = createContext<NotificationsContextProps>({
 export function NotificationsProvider({children}: {children: React.ReactNode}) {
     const router = useRouter();
     const [badgeCount, setBadgeStateCount] = useState(0);
+    const {refreshUser} = useAuth();
 
     const [expoPushToken, setExpoPushToken] = useState<Notifications.ExpoPushToken | undefined>();
     const [notification, setNotification] = useState<Notifications.Notification | undefined>();
@@ -114,6 +115,10 @@ export function NotificationsProvider({children}: {children: React.ReactNode}) {
                 if (data.type === 'trip') {
                     markAsRead(response.notification.request.identifier);
                     router.replace(`/trip/${data.id}`);
+                } else if (data.type === 'account') {
+                    refreshUser(data.id as string).then(() => {
+                        router.replace(`/(tabs)`);
+                    });
                 }
             });
 

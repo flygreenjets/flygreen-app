@@ -14,6 +14,7 @@ interface AuthContextProps {
     logout: () => Promise<boolean>;
     register: (name: string, email: string, phone: string, password: string) => Promise<boolean>;
     setActiveAccount: (account: Account) => void;
+    refreshUser: (accountId: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -25,7 +26,8 @@ const AuthContext = createContext<AuthContextProps>({
     login: () => {return Promise.resolve(false);},
     logout: () => {return Promise.resolve(false);},
     register: () => Promise.resolve(false),
-    setActiveAccount: () => {}
+    setActiveAccount: () => {},
+    refreshUser: () => Promise.resolve()
 });
 
 export function AuthProvider({children}: {children: React.ReactNode}) {
@@ -74,6 +76,15 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         }
     }
 
+    const refreshUser = async (accountId: string) => {
+        const api = await getApi(token);
+        const {data: newUser}: {data: User} = await api.fetchData('/user', 'GET');
+        setUser(newUser); // Use actual user data from response
+        if (accountId) {
+            setActiveAccount(newUser.accounts.find(acc => acc.id === Number(accountId)) || activeAccount);
+        }
+    }
+
     const logout = async () => {
         try {
             const api = await getApi(token);
@@ -95,8 +106,9 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         login,
         logout,
         register,
-        setActiveAccount
-    }), [token, user, isAuthenticated, loading, login, logout, register, activeAccount, setActiveAccount]);
+        setActiveAccount,
+        refreshUser
+    }), [token, user, isAuthenticated, loading, login, logout, register, activeAccount, setActiveAccount, refreshUser]);
 
     return (
         <AuthContext.Provider value={contextValue}>
