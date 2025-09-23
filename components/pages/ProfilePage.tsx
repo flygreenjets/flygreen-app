@@ -3,13 +3,15 @@ import * as Linking from "expo-linking";
 import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import Card from "@/components/ui/Card";
-import React from "react";
+import React, {useState} from "react";
 import {useAuth} from "@/providers/AuthProvider";
 import ConfirmButton from "@/components/ui/buttons/ConfirmButton";
 import {router} from "expo-router";
 import {formatForWhatsApp} from "@/utils/helpers";
+import SpinnerLoading from "@/components/animations/SpinnerLoading";
 
 export default function profilePage() {
+    const [loggingOut, setLoggingOut] = useState(false);
     const {logout, user, activeAccount} = useAuth();
     return (
         <View style={{paddingHorizontal: 10}}>
@@ -132,13 +134,22 @@ export default function profilePage() {
                     </View>
                 </Card>
             )}
-            <ConfirmButton
-                buttonStyle={styles.logoutButton}
-                confirmAction={logout}
-                buttonText={"Logout"}
-                confirmTitle="Logout"
-                confirmText="Are you sure you want to logout?"
-            />
+            {loggingOut ? (
+                <SpinnerLoading/>
+            ) : (
+                <ConfirmButton
+                    buttonStyle={styles.logoutButton}
+                    confirmAction={() => {
+                        setLoggingOut(true);
+                        logout().then(() => {
+                            setLoggingOut(false);
+                        });
+                    }}
+                    buttonText={"Logout"}
+                    confirmTitle="Logout"
+                    confirmText="Are you sure you want to logout?"
+                />
+            )}
         </View>
     );
 }

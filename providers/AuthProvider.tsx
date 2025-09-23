@@ -12,7 +12,7 @@ interface AuthContextProps {
     isAuthenticated: boolean;
     loading: boolean;
     login: (username: string, password: string, expoPushToken: ExpoPushToken | undefined) => Promise<boolean>;
-    logout: () => void;
+    logout: () => Promise<boolean>;
     register: (name: string, email: string, phone: string, password: string) => Promise<boolean>;
     setActiveAccount: (account: Account) => void;
 }
@@ -24,7 +24,7 @@ const AuthContext = createContext<AuthContextProps>({
     isAuthenticated: false,
     loading: false,
     login: () => {return Promise.resolve(false);},
-    logout: () => {},
+    logout: () => {return Promise.resolve(false);},
     register: () => Promise.resolve(false),
     setActiveAccount: () => {}
 });
@@ -71,14 +71,20 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
             });
             return true;
         } catch (error: any) {
-
+            return false;
         }
-        return false;
     }
 
     const logout = async () => {
-        setToken('');
-        setIsAuthenticated(false);
+        try {
+            const api = await getApi(token);
+            await api.fetchData('/auth/logout', 'GET');
+            setToken('');
+            setIsAuthenticated(false);
+            return true;
+        } catch (error: any) {
+            return false;
+        }
     }
 
     const contextValue = useMemo(() => ({
