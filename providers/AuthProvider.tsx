@@ -14,7 +14,7 @@ interface AuthContextProps {
     logout: () => Promise<boolean>;
     register: (name: string, email: string, phone: string, password: string) => Promise<boolean>;
     setActiveAccount: (account: Account) => void;
-    refreshUser: (accountId: string) => Promise<void>;
+    refreshUser: (accountId?: string) => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextProps>({
@@ -76,7 +76,7 @@ export function AuthProvider({children}: {children: React.ReactNode}) {
         }
     }
 
-    const refreshUser = async (accountId: string) => {
+    const refreshUser = async (accountId?: string) => {
         const api = await getApi(token);
         const {data: newUser}: {data: User} = await api.fetchData('/user', 'GET');
         setUser(newUser); // Use actual user data from response
