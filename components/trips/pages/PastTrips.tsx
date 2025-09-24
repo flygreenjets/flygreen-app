@@ -21,7 +21,9 @@ export default function PastTrips({trips: trips}: PastTripsProps) {
                     <TripCard trip={trip} key={trip.id} />
                 </Pressable>
             )) : (
-                <EmptyTripList/>
+                <EmptyTripList
+                    firstLine="You don’t have any past trips."
+                />
             )}
         </>
     );

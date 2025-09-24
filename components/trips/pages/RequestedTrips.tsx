@@ -16,7 +16,9 @@ export default function RequestedTrips({trips}: RequestedTripsProps) {
                     <TripCard trip={trip} key={trip.id} />
                 </Pressable>
             )) : (
-                <EmptyTripList/>
+                <EmptyTripList
+                    firstLine="You don’t have any requested trips."
+                />
             )}
         </>
     );
