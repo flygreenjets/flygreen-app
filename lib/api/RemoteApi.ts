@@ -28,13 +28,17 @@ export default class RemoteApi extends BaseApi {
         } catch (error: any) {
             if (error.response) {
                 // Server responded with a status other than 2xx
-                throw new Error(`API Error: ${error.response.status} - ${error.response.data.message || error.response.statusText}`);
+                if (error.response.status === 401) {
+                    throw new Error(error.response.data.message);
+                } else {
+                    throw new Error(`We're experiencing some technical issues. Please try again later.`);
+                }
             } else if (error.request) {
                 // Request was made but no response received
                 throw new Error('API Error: No response from server.');
             } else {
                 // Something else happened
-                throw new Error(`API Error: ${error.message}`);
+                throw new Error(`We're experiencing some technical issues. Please try again later.`);
             }
         }
     }

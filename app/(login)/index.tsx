@@ -23,15 +23,19 @@ import {useNotifications} from "@/providers/NotificationsProvider";
 export default function LoginPage() {
     const {login} = useAuth();
     const [loading, setLoading] = useState(false);
-    const [authError, setAuthError] = useState(false);
+    const [authError, setAuthError] = useState("");
     const {expoPushToken} = useNotifications();
     async function submit(values: {email: string, password: string}) {
         setLoading(true);
-        setAuthError(false);
-        const success = await login(values.email, values.password, expoPushToken)
-        setLoading(false);
-        if (!success) {
-            setAuthError(true);
+        setAuthError("");
+        try {
+            await login(values.email, values.password, expoPushToken)
+            setLoading(false);
+        } catch (e: {message: string} | any) {
+            console.log("error", e);
+            console.log(e);
+            setLoading(false);
+            setAuthError(e.message);
         }
     }
 
@@ -58,9 +62,9 @@ export default function LoginPage() {
                                 <KeyboardAvoidingView
                                     behavior={Platform.OS === 'ios' ? 'padding' : undefined}
                                 >
-                                    {authError && (
+                                    {authError !== "" && (
                                         <View style={{marginBottom: 10}}>
-                                            <Text style={{color: 'red'}}>Invalid email or password</Text>
+                                            <Text style={{color: 'red'}}>{authError}</Text>
                                         </View>
                                     )}
                                     <TextInput
