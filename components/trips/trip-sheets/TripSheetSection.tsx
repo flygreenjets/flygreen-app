@@ -18,10 +18,14 @@ export default function TripSheetSection({tripSheet}: TripSheetSectionProps) {
             {tripSheet ? (
                 <TripSheetCard tripSheet={tripSheet}/>
             ) : (
-                <EmptyTripList
-                    firstLine={`${activeAccount.agent.shortName} is currently preparing the trip sheet for this trip.`}
-                    secondLine={`Please check back later.`}
-                />
+                <View style={{
+                    paddingBottom: 35
+                }}>
+                    <EmptyTripList
+                        firstLine={`${activeAccount.agent.shortName} is currently preparing the trip sheet for this trip.`}
+                        secondLine={`Please check back later.`}
+                    />
+                </View>
             )}
         </View>
     );

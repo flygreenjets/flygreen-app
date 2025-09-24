@@ -60,7 +60,7 @@ export default function Register() {
                         {showConfirmation ? (
                             <View>
                                 <Text style={{textAlign: 'center', marginBottom: 10, fontSize: 20}}>Thank you for registering!</Text>
-                                <Text style={{textAlign: 'center', marginBottom: 20, fontSize: 16}}>Please verify your email address, and a member of our team will be in touch with you shortly afterwards.</Text>
+                                <Text style={{textAlign: 'center', marginBottom: 20, fontSize: 16}}>You will need to verify your email address before being able to log in.</Text>
                                 <Pressable onPress={() => {router.back()}}>
                                     <Text style={styles.goBackLink}>Back to Login</Text>
                                 </Pressable>
