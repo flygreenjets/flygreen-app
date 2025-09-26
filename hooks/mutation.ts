@@ -12,7 +12,7 @@ type MutateFn<T, V = any> = (variables?: V) => Promise<T | null>;
 
 export default function useMutation<T = any, V = any>(
     endpoint: string,
-    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE" = "POST"
+    method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE"
 ): [MutateFn<T, V>, UseApiMutationResult<T>] {
     const [data, setData] = useState<T | null>(null);
     const [loading, setLoading] = useState(false);

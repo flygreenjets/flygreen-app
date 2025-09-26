@@ -11,6 +11,8 @@ interface ConfirmButtonProps {
     cancelText?: string,
     confirmAction?: () => void
     danger?: boolean,
+    confirmStyle?: string,
+    extraText?: string
 }
 
 export default function ConfirmButton({
@@ -20,6 +22,8 @@ export default function ConfirmButton({
     buttonStyle = {},
     confirmText = "Are you sure you want to proceed?",
     cancelText = "Cancel",
+    confirmStyle = {backgroundColor: Colors.flygreenGreen},
+    extraText = ""
 }) {
     const {
         value: isOpen,
@@ -42,6 +46,7 @@ export default function ConfirmButton({
                 <View style={styles.body}>
                     <Text style={styles.title}>{confirmTitle}</Text>
                     <Text style={styles.confirmText}>{confirmText}</Text>
+                    {extraText !== "" && <Text style={styles.confirmText}>{extraText}</Text>}
                     <View style={styles.buttonContainer}>
                         <Pressable
                             onPress={() => close()}
@@ -54,7 +59,7 @@ export default function ConfirmButton({
                                 close();
                                 confirmAction();
                             }}
-                            style={[styles.button, {backgroundColor: Colors.lightGreen}]}
+                            style={[styles.button, confirmStyle]}
                         >
                             <Text style={{color: "white", textAlign: "center"}}>{buttonText}</Text>
                         </Pressable>

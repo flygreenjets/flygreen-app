@@ -9,10 +9,14 @@ import ConfirmButton from "@/components/ui/buttons/ConfirmButton";
 import {router} from "expo-router";
 import {formatForWhatsApp} from "@/utils/helpers";
 import SpinnerLoading from "@/components/animations/SpinnerLoading";
+import useMutation from "@/hooks/mutation";
 
 export default function profilePage() {
     const [loggingOut, setLoggingOut] = useState(false);
+    const [deleting, setDeleting] = useState(false);
     const {logout, user, activeAccount} = useAuth();
+    const [deleteUser, {loading}] = useMutation('/user', 'DELETE');
+
     return (
         <View style={{paddingHorizontal: 10}}>
             <View style={{marginBottom: 15}}>
@@ -137,18 +141,35 @@ export default function profilePage() {
             {loggingOut ? (
                 <SpinnerLoading/>
             ) : (
-                <ConfirmButton
-                    buttonStyle={styles.logoutButton}
-                    confirmAction={() => {
-                        setLoggingOut(true);
-                        logout().then(() => {
+                <>
+                    <ConfirmButton
+                        buttonStyle={styles.logoutButton}
+                        confirmAction={async () => {
+                            setLoggingOut(true);
+                            await logout();
                             setLoggingOut(false);
-                        });
-                    }}
-                    buttonText={"Logout"}
-                    confirmTitle="Logout"
-                    confirmText="Are you sure you want to logout?"
-                />
+                        }}
+                        buttonText={"Logout"}
+                        confirmTitle="Logout"
+                        confirmText="Are you sure you want to logout?"
+                    />
+                    <ConfirmButton
+                        buttonStyle={styles.deleteButton}
+                        confirmAction={async () => {
+                            setLoggingOut(true);
+                            await deleteUser();
+                            await logout();
+                            setLoggingOut(false);
+                        }}
+                        buttonText={"Delete Account"}
+                        confirmTitle="Delete Account"
+                        confirmText="Are you sure you want to delete your account?"
+                        extraText="This action is irreversible, will remove all your data from our system and may take up to 72 hours to process."
+                        confirmStyle={{
+                            backgroundColor: 'red'
+                        }}
+                    />
+                </>
             )}
         </View>
     );
@@ -229,6 +250,17 @@ const styles = StyleSheet.create({
         borderColor: Colors.flygreenGreen,
         borderWidth: 1,
         color: Colors.flygreenGreen ,
+        padding: 15,
+        textAlign: "center",
+        borderRadius: 50,
+    },
+    deleteButton: {
+        marginTop: 15,
+        fontWeight: "bold",
+        backgroundColor: 'red',
+        borderColor: "red",
+        borderWidth: 1,
+        color: "white",
         padding: 15,
         textAlign: "center",
         borderRadius: 50,
