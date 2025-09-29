@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Pressable, Alert} from "react-native";
+import {View, Text, StyleSheet, Pressable, Alert, ScrollView} from "react-native";
 import * as Linking from "expo-linking";
 import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -18,7 +18,7 @@ export default function profilePage() {
     const [deleteUser, {loading}] = useMutation('/user', 'DELETE');
 
     return (
-        <View style={{paddingHorizontal: 10}}>
+        <ScrollView style={{paddingHorizontal: 10, flex: 1, paddingBottom: 35}}>
             <View style={{marginBottom: 15}}>
                 <Text style={styles.accountName}>{user.name}</Text>
                 <View style={styles.contactInfo}>
@@ -171,7 +171,7 @@ export default function profilePage() {
                     />
                 </>
             )}
-        </View>
+        </ScrollView>
     );
 }
 
@@ -264,5 +264,6 @@ const styles = StyleSheet.create({
         padding: 15,
         textAlign: "center",
         borderRadius: 50,
+        marginBottom: 50
     }
 });
