@@ -1,43 +1,48 @@
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 import { Tabs } from 'expo-router';
-import { HomeIcon, UserIcon } from "react-native-heroicons/micro";
+import {Colors} from "@/utils/Colors";
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import {StatusBar} from "expo-status-bar";
 
 export default function TabLayout() {
-    const getIconColor = (focused: boolean) => {
-        return focused ? '#ffbf00' : 'white';
-    }
-
     return (
-        <Tabs screenOptions={{
-            tabBarActiveTintColor: 'blue',
-            tabBarShowLabel: false,
-            headerShown: false,
-            tabBarStyle: {
-                paddingTop: 12,
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                elevation: 0,
-                backgroundColor: '#205046',
-                borderTopWidth: 0,
-                height: 80,
-            },
-        }}>
-            <Tabs.Screen
-                name="index"
-                options={{
-                    title: "Home",
-                    tabBarIcon: ({ focused }) => <HomeIcon size={32} color={getIconColor(focused)} />,
+        <>
+            <StatusBar style="dark" />
+            <Tabs
+                initialRouteName="index"
+                screenOptions={{
+                    tabBarActiveTintColor: Colors.gold,
+                    tabBarInactiveTintColor: Colors.white,
+                    tabBarShowLabel: false,
+                    headerShown: false,
+                    tabBarStyle: {
+                        backgroundColor: Colors.flygreenGreen,
+                        paddingTop: 18,
+                        height: 80,
+                    }
                 }}
-            />
-            <Tabs.Screen
-                name="profile"
-                options={{
-                    title: "Profile",
-                    tabBarIcon: ({ focused }) => <UserIcon size={32} color={getIconColor(focused)} />,
-                }}
-            />
-        </Tabs>
+            >
+                <Tabs.Screen
+                    name="index"
+                    options={{
+                        title: "Home",
+                        tabBarIcon: ({ color }) => <MaterialCommunityIcons name="home" size={32} color={color} />,
+                    }}
+                />
+                <Tabs.Screen
+                    name="trips"
+                    options={{
+                        title: "Trips",
+                        tabBarIcon: ({ color }) => <MaterialCommunityIcons name="airplane" size={32} color={color} />,
+                    }}
+                />
+                <Tabs.Screen
+                    name="profile"
+                    options={{
+                        title: "Profile",
+                        tabBarIcon: ({ color }) => <MaterialCommunityIcons name="account" size={32} color={color} />,
+                    }}
+                />
+            </Tabs>
+        </>
     );
 }
