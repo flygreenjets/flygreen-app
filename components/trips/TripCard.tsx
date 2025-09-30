@@ -78,7 +78,7 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
                         <MaterialIcons name="location-pin" size={16} color="#205046" />
                         <Text>
                             {trip.numStops && trip.numStops > 0 ?
-                                `${trip.numStops} stop${trip.numStops && trip.numStops > 1 ? 's' : null}`
+                                `${trip.numStops} stop${trip.numStops && trip.numStops > 1 ? 's' : ""}`
                             : "Non-stop"}
 
                         </Text>
@@ -87,10 +87,26 @@ export default function TripCard({trip, showAsCard = true}: TripCardProps) {
             )}
             {statusIsBefore(trip.status, TripStatus.Confirmed) && (
                 <View style={styles.progressView}>
-                    <View style={{flexDirection: "row", justifyContent: "space-between"}}>
-                        <Text style={styles.progressText}>Confirming aircraft availability and pricing</Text>
-                    </View>
-                    <ProgressBar progress={showProgress()} />
+                    {trip.isDoneSourcing ? (
+                        <>
+                            <View style={{flexDirection: "row", alignItems: "center", gap: 10, width: "100%"}}>
+                                <Text style={[styles.progressText, {flex: 1}]}>Aircraft options are available for review.</Text>
+                            </View>
+                            <View style={{flexDirection: "row", alignItems: "center", gap: 10, width: "100%"}}>
+                                <View style={{flex: 1}}>
+                                    <ProgressBar done={true} progress={100} />
+                                </View>
+                                <Ionicons name="checkmark-circle-outline" size={24} color={"green"} />
+                            </View>
+                        </>
+                    ) : (
+                        <>
+                            <View style={{flexDirection: "row", justifyContent: "space-between"}}>
+                                <Text style={styles.progressText}>Confirming aircraft availability and pricing</Text>
+                            </View>
+                            <ProgressBar progress={showProgress()} />
+                        </>
+                    )}
                 </View>
             )}
         </>

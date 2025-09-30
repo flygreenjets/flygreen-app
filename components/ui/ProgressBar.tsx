@@ -4,7 +4,13 @@ import { Colors } from "@/utils/Colors";
 import { useEffect, useRef } from "react";
 import {profile} from "@expo/fingerprint/build/utils/Profile";
 
-export default function ProgressBar({ progress }: { progress: number }) {
+interface ProgressBarProps {
+    progress: number; // Progress percentage (0 to 100)
+    done?: boolean;
+    doneColor?: string;
+}
+
+export default function ProgressBar({ progress, done = false, doneColor = "green" }: ProgressBarProps){
     const shimmerAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
@@ -25,20 +31,22 @@ export default function ProgressBar({ progress }: { progress: number }) {
 
     return (
         <View style={styles.container}>
-            <View style={[styles.progressFill, { width: `${progress}%`, backgroundColor: Colors.lightGreen }]}>
-                <Animated.View
-                    style={[
-                        styles.shimmerWrapper,
-                        { transform: [{ translateX }] },
-                    ]}
-                >
-                    <LinearGradient
-                        colors={['transparent', 'rgba(255,255,255,0.4)', 'transparent']}
-                        start={{ x: 0, y: 0 }}
-                        end={{ x: 1, y: 0 }}
-                        style={styles.shimmer}
-                    />
-                </Animated.View>
+            <View style={[styles.progressFill, { width: `${progress}%`, backgroundColor: done ? doneColor : Colors.lightGreen }]}>
+                {!done && (
+                    <Animated.View
+                        style={[
+                            styles.shimmerWrapper,
+                            { transform: [{ translateX }] },
+                        ]}
+                    >
+                        <LinearGradient
+                            colors={['transparent', 'rgba(255,255,255,0.4)', 'transparent']}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 1, y: 0 }}
+                            style={styles.shimmer}
+                        />
+                    </Animated.View>
+                )}
             </View>
         </View>
     );

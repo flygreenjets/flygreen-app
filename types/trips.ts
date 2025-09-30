@@ -66,6 +66,7 @@ export interface Trip {
     account: Account;
     primaryImageUrl: string;
     documents: TripDocument[];
+    isDoneSourcing: boolean;
 }
 
 export interface Airport {
