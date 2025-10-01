@@ -103,7 +103,7 @@ export default function TripReportCard({tripReport, account, trip}: TripReportCa
                         <Text style={{color: Colors.flygreenGreen}}>See details</Text>
                         <MaterialCommunityIcons name="file-document-outline" size={20} color={Colors.flygreenGreen} />
                     </Pressable>
-                    <ShareButton shareUrl="http://www.flygreen.test/trip-sheet/1" dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />
+                    <ShareButton shareUrl={process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/trip-report/${tripReport.id}`} dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />
                 </View>
             </View>
             <Modal

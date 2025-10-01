@@ -5,6 +5,7 @@ import {AntDesign} from "@expo/vector-icons";
 import useToggle from "@/hooks/toggle";
 import {useAuth} from "@/providers/AuthProvider";
 import {ReactNode} from "react";
+import {formatForWhatsApp} from "@/utils/helpers";
 
 interface ContactMenuProps {
     button?: ReactNode;
@@ -71,19 +72,21 @@ export default function ContactMenu({button}: ContactMenuProps) {
                     >
                         <Text style={styles.menuItem}>Email</Text>
                     </Pressable>
-                    <Pressable
-                        onPress={() => {
-                            Linking.canOpenURL(`whatsapp://send?phone=+${activeAccount.agent.phone}`).then((url) => {
-                                if (url) {
-                                    Linking.openURL(`whatsapp://send?phone=+${activeAccount.agent.phone}`);
-                                } else {
-                                    Alert.alert("We've encountered an issue", "An error occurred while trying to open WhatsApp.");
-                                }
-                            });
-                        }}
-                    >
-                        <Text style={styles.menuItem}>WhatsApp</Text>
-                    </Pressable>
+                    {activeAccount.agent.whatsapp && (
+                        <Pressable
+                            onPress={() => {
+                                Linking.canOpenURL(`whatsapp://send?phone=${formatForWhatsApp(activeAccount.agent.whatsapp, "1")}`).then((url) => {
+                                    if (url) {
+                                        Linking.openURL(`whatsapp://send?phone=${formatForWhatsApp(activeAccount.agent.whatsapp, "1")}`);
+                                    } else {
+                                        Alert.alert("We've encountered an issue", "An error occurred while trying to open WhatsApp.");
+                                    }
+                                });
+                            }}
+                        >
+                            <Text style={styles.menuItem}>WhatsApp</Text>
+                        </Pressable>
+                    )}
                 </View>
             </SlidingModal>
         </>

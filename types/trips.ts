@@ -87,6 +87,7 @@ export interface Fbo {
 
 export interface Segment {
     departureDate: string;
+    departureTime: string;
     departureAirport: Airport;
     departureFbo: Fbo;
     destinationAirport: Airport;
@@ -113,6 +114,7 @@ export interface Quote {
         color: string,
     },
     price: number,
+    currency: string,
     clientHasRequestedBooking: boolean,
 }
 

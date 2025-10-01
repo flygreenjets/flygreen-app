@@ -150,7 +150,10 @@ export default function QuoteCard({quote, flag, tripId}: QuoteCardProps) {
                     <Separator/>
                     <View>
                         <View style={{flexDirection: "row", width: "100%", justifyContent: "space-between", alignItems: "center"}}>
-                            <Text style={styles.priceText}>$ {quote.price.toLocaleString()}</Text>
+                            <View style={{flexDirection: "row", alignItems: "flex-end", gap: 5}}>
+                                <Text style={styles.priceText}>$ {quote.price.toLocaleString()}</Text>
+                                <Text style={{fontSize:12}}>{quote.currency}</Text>
+                            </View>
                             <View style={{flexDirection: "row", gap: 10, alignItems: "center"}}>
                                 <ShareButton shareUrl={process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/quote/${quote.id}`}/>
                                 {isRequested ? (

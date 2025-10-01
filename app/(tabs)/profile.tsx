@@ -2,8 +2,15 @@ import ProfilePage from '@/components/pages/ProfilePage';
 import { StyleSheet } from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from "react-native-safe-area-context";
 import {Colors} from "@/utils/Colors";
+import {useAuth} from "@/providers/AuthProvider";
+import {useEffect} from "react";
 
 export default function Tab() {
+    const {refreshUser, activeAccount} = useAuth();
+    useEffect(() => {
+        refreshUser(activeAccount?.id?.toLocaleString());
+    }, []);
+
     return (
         <SafeAreaProvider>
             <SafeAreaView style={styles.container}>

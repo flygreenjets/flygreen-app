@@ -66,7 +66,7 @@ export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
                             }}>
                                 <View style={{flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center'}}>
                                     <Text>Leg {index+1}</Text>
-                                    <Text>{segment.departureDate}</Text>
+                                    <Text>{segment.departureDate} - {segment.departureTime}</Text>
                                 </View>
                                 <View key={index} style={{
                                     flexDirection: 'row',
@@ -107,7 +107,7 @@ export default function TripSheetCard({tripSheet}: TripSheetCardProps) {
                         <Text style={{color: Colors.flygreenGreen}}>See details</Text>
                         <MaterialCommunityIcons name="file-document-outline" size={20} color={Colors.flygreenGreen} />
                     </Pressable>
-                    <ShareButton shareUrl="http://www.flygreen.test/trip-sheet/1" dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />
+                    <ShareButton shareUrl={process.env.EXPO_PUBLIC_API_URL + `/agent/pdfs/trip-sheet/${tripSheet.id}`} dialogTitle="Share Trip Sheet" buttonText="Share" mimeType="text/plain" />
                 </View>
             </View>
             <Modal

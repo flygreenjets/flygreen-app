@@ -21,6 +21,7 @@ export interface Agent {
     name: string;
     shortName: string;
     phone: string;
+    whatsapp: string;
     email: string;
 }
 

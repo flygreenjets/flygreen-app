@@ -61,7 +61,7 @@ function RootNavigator() {
                     headerTitleStyle: {
                         fontWeight: 'bold',
                     },
-                    title: "Offline. Data might be outdated.",
+                    title: "Offline mode.",
                     headerBackVisible: false
                 }}
 
