@@ -3,6 +3,7 @@ import {Colors} from "@/utils/Colors";
 import ListItem from "@/components/ui/parts/ListItem";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import {TripDocument} from "@/types/trips";
+import {router} from "expo-router";
 
 interface TripDocumentSectionProps {
     docs: TripDocument[];
@@ -16,9 +17,7 @@ export default function TripDocumentSection({docs}: TripDocumentSectionProps) {
                 <ListItem
                     key={doc.id}
                     onPress={() => {
-                        if (doc.url) {
-                            Linking.openURL(doc.url);
-                        }
+                        router.push(`/web-viewer/${encodeURIComponent(doc.url)}`)
                     }}
                     borderBottom={key < docs.length-1 && docs.length > 1}
                     icon={

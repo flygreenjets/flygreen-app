@@ -1,4 +1,4 @@
-import {View, Text, StyleSheet, Pressable, Alert, ScrollView} from "react-native";
+import {View, Text, StyleSheet, Pressable, Alert, ScrollView, RefreshControl} from "react-native";
 import * as Linking from "expo-linking";
 import {Colors} from "@/utils/Colors";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -13,12 +13,23 @@ import useMutation from "@/hooks/mutation";
 
 export default function profilePage() {
     const [loggingOut, setLoggingOut] = useState(false);
-    const [deleting, setDeleting] = useState(false);
-    const {logout, user, activeAccount} = useAuth();
-    const [deleteUser, {loading}] = useMutation('/user', 'DELETE');
+    const {logout, user, activeAccount, refreshUser} = useAuth();
+    const [deleteUser] = useMutation('/user', 'DELETE');
+    const [refreshing, setRefreshing] = useState(false);
+
+    const onRefresh = async () => {
+        setRefreshing(true);
+        await refreshUser(activeAccount?.id?.toString());
+        setRefreshing(false);
+    }
 
     return (
-        <ScrollView style={{paddingHorizontal: 10, flex: 1, paddingBottom: 35}}>
+        <ScrollView
+            refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={() => onRefresh()} />
+            }
+            style={{paddingHorizontal: 20, flex: 1}}
+        >
             <View style={{marginBottom: 15}}>
                 <Text style={styles.accountName}>{user.name}</Text>
                 <View style={styles.contactInfo}>
@@ -118,23 +129,25 @@ export default function profilePage() {
                                 Text
                             </Text>
                         </Pressable>
-                        <Pressable
-                            onPress={() => {
-                                Linking.canOpenURL(`whatsapp://send?phone=${formatForWhatsApp(activeAccount.agent.phone, "1")}`).then((url) => {
-                                    if (url) {
-                                        Linking.openURL(`whatsapp://send?phone=${formatForWhatsApp(activeAccount.agent.phone, "1")}`);
-                                    } else {
-                                        Alert.alert("We've encountered an issue", "An error occurred while trying to open WhatsApp.");
-                                    }
-                                });
-                            }}
-                            style={styles.yourBrokerContactButtons}
-                        >
-                            <MaterialCommunityIcons name="whatsapp" size={30} color={Colors.white} />
-                            <Text style={styles.yourBrokerContactButtonText}>
-                                WhatsApp
-                            </Text>
-                        </Pressable>
+                        {activeAccount.agent.whatsapp && (
+                            <Pressable
+                                onPress={() => {
+                                    Linking.canOpenURL(`whatsapp://send?phone=${formatForWhatsApp(activeAccount.agent.whatsapp, "1")}`).then((url) => {
+                                        if (url) {
+                                            Linking.openURL(`whatsapp://send?phone=${formatForWhatsApp(activeAccount.agent.whatsapp, "1")}`);
+                                        } else {
+                                            Alert.alert("We've encountered an issue", "An error occurred while trying to open WhatsApp.");
+                                        }
+                                    });
+                                }}
+                                style={styles.yourBrokerContactButtons}
+                            >
+                                <MaterialCommunityIcons name="whatsapp" size={30} color={Colors.white} />
+                                <Text style={styles.yourBrokerContactButtonText}>
+                                    WhatsApp
+                                </Text>
+                            </Pressable>
+                        )}
                     </View>
                 </Card>
             )}

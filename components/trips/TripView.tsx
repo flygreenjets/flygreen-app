@@ -8,7 +8,6 @@ import TripReportSection from "@/components/trips/trip-reports/TripReportSection
 import TripDocumentSection from "./trip-documents/TripDocumentSection";
 import {stageIsBefore} from "@/lib/helpers";
 import {useAuth} from "@/providers/AuthProvider";
-import useMutation from "@/hooks/mutation";
 
 interface TripViewProps {
     trip: Trip
@@ -33,7 +32,7 @@ export default function TripView({trip}: TripViewProps) {
 
             {trip.stage === TripStage.ClosedWon && (
                 <>
-                    {trip.tripReports ? <TripReportSection trip={trip} account={trip.account} tripReport={trip.tripReports[0]}/> : null}
+                    {trip.tripReports && trip.tripReports.length > 0 ? <TripReportSection trip={trip} account={trip.account} tripReport={trip.tripReports[0]}/> : null}
                     {trip.tripSheets ? <TripSheetSection tripSheet={trip.tripSheets[0] ?? null}/> : null}
                 </>
             )}
